@@ -1,14 +1,22 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
 import "./Login.css";
 import Skillogo from "./assets/logoskils.png";
 
-const Login = ({ onSwitchToSignup }) => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate(); // ✅ initialize navigation
 
   const handleLogin = (e) => {
     e.preventDefault();
     alert(`Logging in with Email: ${email}`);
+    // Add real auth logic here
+  };
+
+  const goToSignup = () => {
+    navigate("/signup"); // ✅ navigate to signup page
   };
 
   return (
@@ -39,7 +47,7 @@ const Login = ({ onSwitchToSignup }) => {
         </form>
         <p className="toggle-form">
           New user?{" "}
-          <button className="toggle-button" onClick={onSwitchToSignup}>
+          <button className="toggle-button" onClick={goToSignup}>
             Sign up here
           </button>
         </p>

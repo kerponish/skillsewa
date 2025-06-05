@@ -1,14 +1,18 @@
-import { useState } from "react";
-import "./App.css";
-import LandingPage from "./Landpage";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./Login";
 import Signup from "./Signup";
+import LandingPage from "./Landpage";
 
 function App() {
   return (
-    <>
-      <Signup />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
 import "./Login.css";
 import Skillogo from "./assets/logoskils.png";
 
@@ -8,6 +9,8 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  const navigate = useNavigate(); // ✅ initialize navigate
+
   const handleSignup = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -16,6 +19,10 @@ const Signup = () => {
     }
     // TODO: Add your signup logic
     alert(`Signing up user: ${name} with Email: ${email}`);
+  };
+
+  const goToLogin = () => {
+    navigate("/login"); // ✅ navigate to login page
   };
 
   return (
@@ -57,9 +64,9 @@ const Signup = () => {
         </form>
         <p className="toggle-form">
           Already have an account?{" "}
-          <a href="/login" className="toggle-button">
+          <button className="toggle-button" onClick={goToLogin}>
             Login here
-          </a>
+          </button>
         </p>
       </div>
     </div>
