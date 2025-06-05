@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import "./Login.css";
 import Skillogo from "./assets/logoskils.png";
 
-const Login = () => {
+const Login = ({ onSwitchToSignup }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // TODO: Add your login logic (API, Firebase, etc.)
     alert(`Logging in with Email: ${email}`);
   };
 
@@ -38,6 +37,12 @@ const Login = () => {
           </a>
           <button type="submit">Login</button>
         </form>
+        <p className="toggle-form">
+          New user?{" "}
+          <button className="toggle-button" onClick={onSwitchToSignup}>
+            Sign up here
+          </button>
+        </p>
       </div>
     </div>
   );

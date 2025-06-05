@@ -68,3 +68,6 @@ button:hover {
   color: #165baa;
   text-decoration: none;
 }
+.login-card.signup {
+  padding: 2.5rem;
+}
