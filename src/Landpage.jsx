@@ -5,38 +5,79 @@ import logo from "./assets/teamwork.png";
 import "./LandingPage.css";
 
 export default function LandingPage() {
-  const navigate = useNavigate(); // initialize it
+  const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate("/login"); // navigate to login page
+    navigate("/login");
   };
 
   return (
-    <div className="landing-container">
-      {/* Left Side */}
-      <div className="">
-        <div className="landing-title">
-          <img src={Skillogo} alt="Skills Sewa Logo" className="skills-logo" />
-          <h1 className="">Skills Sewa</h1>
+    <div className="landing-wrapper">
+      {/* Hero Section */}
+      <section className="hero-section">
+        <div className="hero-text">
+          <div className="branding">
+            <img
+              src={Skillogo}
+              alt="Skills Sewa Logo"
+              className="skills-logo"
+            />
+            <h1>Skills Sewa</h1>
+          </div>
+          <h2>
+            Start your <br /> journey with us
+          </h2>
+          <p className="tagline">तपाईंको सीप आवश्यक हातमा</p>
+          <button className="cta-button" onClick={handleClick}>
+            LET’S GO
+          </button>
         </div>
-        <h2 className="">
-          Start your <br /> journey with us
-        </h2>
-        <p className="text-lg mb-6">तपाईंको सीप आवश्यक हातमा</p>
-        <button className="" onClick={handleClick}>
-          LET’S GO
-        </button>
-      </div>
 
-      {/* Right Side */}
-      <div className="image-container">
-        <img
-          src={logo}
-          alt="Illustration of plumber and electrician working together"
-          className="teamwork-image"
-          loading="lazy"
-        />
-      </div>
+        <div className="hero-image">
+          <img
+            src={logo}
+            alt="Illustration of plumber and electrician working together"
+            className="teamwork-image"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      {/* Info Section */}
+      <section className="info-section">
+        <h3>🔧 Skill Sewa – Connecting You to Local Experts in Nepal</h3>
+        <p>
+          Whether it's plumbing, electrical work, appliance repair, or home
+          renovation – Skill Sewa is your go-to platform for skilled technical
+          services across Nepal.
+        </p>
+      </section>
+
+      {/* Services Section */}
+      <section className="services-section">
+        <h2>Popular Services</h2>
+        <ul className="service-list">
+          <li>🛠 Plumbing & Sanitation</li>
+          <li>💡 Electrical Installation & Repair</li>
+          <li>🪚 Carpentry & Furniture Works</li>
+          <li>🎨 Painting & Home Renovation</li>
+          <li>❄️ Appliance Maintenance</li>
+          <li>🖥️ Computer & Mobile Repair</li>
+          <li>⚙️ Welding & Metal Works</li>
+        </ul>
+      </section>
+
+      {/* Footer Call to Action */}
+      <section className="footer-cta">
+        <h2>Support Local Skills, Empower Communities</h2>
+        <p>
+          Join Skill Sewa and become part of a growing network of skilled
+          workers and happy clients across Nepal.
+        </p>
+        <button className="cta-button" onClick={handleClick}>
+          Get Started
+        </button>
+      </section>
     </div>
   );
 }
