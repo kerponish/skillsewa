@@ -1,22 +1,27 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ import useNavigate
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Skillogo from "./assets/logoskils.png";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const navigate = useNavigate(); // ✅ initialize navigation
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
     alert(`Logging in with Email: ${email}`);
-    // Add real auth logic here
+    
+    // ✅ Simulated login logic
+    if (email && password) {
+      navigate("/dashboard");
+    } else {
+      alert("Please fill in all fields.");
+    }
   };
 
   const goToSignup = () => {
-    navigate("/signup"); // ✅ navigate to signup page
+    navigate("/signup");
   };
 
   return (

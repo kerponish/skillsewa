@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Skillogo from "./assets/logoskils.png";
 import logo from "./assets/teamwork.png";
+import sk from "./assets/plumber.png";
 import "./LandingPage.css";
 
 export default function LandingPage() {
@@ -35,7 +36,7 @@ export default function LandingPage() {
 
         <div className="hero-image">
           <img
-            src={logo}
+            src={sk}
             alt="Illustration of plumber and electrician working together"
             className="teamwork-image"
             loading="lazy"
