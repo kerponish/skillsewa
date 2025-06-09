@@ -71,3 +71,8 @@ button:hover {
 .login-card.signup {
   padding: 2.5rem;
 }
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}

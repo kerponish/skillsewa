@@ -1,23 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Skillogo from "./assets/logoskils.png";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    alert(`Logging in with Email: ${email}`);
-    
-    // ✅ Simulated login logic
-    if (email && password) {
-      navigate("/dashboard");
-    } else {
-      alert("Please fill in all fields.");
-    }
+  const onSubmit = (data) => {
+    alert(`Logging in with Email: ${data.email}`);
+    navigate("/dashboard");
   };
 
   const goToSignup = () => {
@@ -30,26 +23,25 @@ const Login = () => {
         <img src={Skillogo} alt="Skills Sewa Logo" className="logo" />
         <h2>SKILLS SEWA</h2>
         <h3>Login</h3>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="email"
             placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            {...register("email", { required: "Email is required" })}
           />
+          {errors.email && <span className="error">{errors.email.message}</span>}
+
           <input
             type="password"
             placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            {...register("password", { required: "Password is required" })}
           />
-          <a href="#" className="forgot-link">
-            Forgot password?
-          </a>
+          {errors.password && <span className="error">{errors.password.message}</span>}
+
+          <a href="#" className="forgot-link">Forgot password?</a>
           <button type="submit">Login</button>
         </form>
+
         <p className="toggle-form">
           New user?{" "}
           <button className="toggle-button" onClick={goToSignup}>
