@@ -5,12 +5,30 @@ import "./Login.css";
 import Skillogo from "./assets/logoskils.png";
 
 const Login = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
-    alert(`Logging in with Email: ${data.email}`);
-    navigate("/dashboard");
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // 🔐 Check if email/password match
+    const matchedUser = users.find(
+      (user) =>
+        user.email === data.email && user.password === data.password
+    );
+
+    if (matchedUser) {
+      alert(`Welcome back, ${matchedUser.name}!`);
+      localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+      navigate("/dashboard");
+    } else {
+      alert("Invalid email or password!");
+    }
   };
 
   const goToSignup = () => {
@@ -23,6 +41,7 @@ const Login = () => {
         <img src={Skillogo} alt="Skills Sewa Logo" className="logo" />
         <h2>SKILLS SEWA</h2>
         <h3>Login</h3>
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="email"
@@ -36,9 +55,13 @@ const Login = () => {
             placeholder="Password"
             {...register("password", { required: "Password is required" })}
           />
-          {errors.password && <span className="error">{errors.password.message}</span>}
+          {errors.password && (
+            <span className="error">{errors.password.message}</span>
+          )}
 
-          <a href="#" className="forgot-link">Forgot password?</a>
+          <a href="#" className="forgot-link">
+            Forgot password?
+          </a>
           <button type="submit">Login</button>
         </form>
 
