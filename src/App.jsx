@@ -1,21 +1,19 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from "./Login";
+import LandingPage from "./LandingPage";
 import Signup from "./Signup";
-import LandingPage from "./Landpage";
+import Login from "./Login";
 import Dashboard from "./Dashboard";
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
 }
-
-export default App;

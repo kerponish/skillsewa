@@ -1,11 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Dashboard.css";
 
-export default function TaskForm() {
+export default function Dashboard() {
   const [task, setTask] = useState("");
   const [category, setCategory] = useState("");
   const [submittedTasks, setSubmittedTasks] = useState([]);
+  const navigate = useNavigate();
 
-  // 🧑‍🔧 Hardcoded worker database
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) navigate("/login");
+  }, [navigate]);
+
   const workers = {
     Electrician: ["Ram Sharma", "Sita Electric Works", "Bikash Power Pro"],
     Plumber: ["Kiran Pipes & Co.", "Laxmi Plumbing", "Nabin FixIt"],
@@ -14,22 +21,29 @@ export default function TaskForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newTask = { task, category };
-    setSubmittedTasks([...submittedTasks, newTask]);
+    setSubmittedTasks([...submittedTasks, { task, category }]);
     setTask("");
     setCategory("");
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    localStorage.removeItem("isLoggedIn");
+    navigate("/");
+  };
+
   return (
-    <div>
-      <form className="task-form" onSubmit={handleSubmit}>
+    <div className="dashboard-container">
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
+
+      <form onSubmit={handleSubmit} className="task-form">
         <label htmlFor="task">Task Description</label>
         <input
-          type="text"
           id="task"
-          value={task}
+          type="text"
           placeholder="e.g., Fix wiring in kitchen"
-          onChange={(e) => setTask(e.target.value)}
+          value={task}
+          onChange={e => setTask(e.target.value)}
           required
         />
 
@@ -37,26 +51,25 @@ export default function TaskForm() {
         <select
           id="category"
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={e => setCategory(e.target.value)}
           required
         >
-          <option value="">--Choose--</option>
+          <option value="">-- Choose --</option>
           <option value="Electrician">Electrician</option>
           <option value="Plumber">Plumber</option>
           <option value="Carpenter">Carpenter</option>
         </select>
 
-        <button type="submit">Request</button>
+        <button type="submit" className="submit-button">Request</button>
       </form>
 
       <h3>Submitted Tasks:</h3>
-      <ul>
-        {submittedTasks.map((t, index) => (
-          <li key={index}>
+      <ul className="tasks-list">
+        {submittedTasks.map((t, idx) => (
+          <li key={idx} className="task-item">
             <strong>{t.task}</strong> ({t.category})
-            <br />
-            <em>Recommended Workers:</em>
-            <ul>
+            <div><em>Recommended Workers:</em></div>
+            <ul className="worker-list">
               {workers[t.category]?.map((worker, i) => (
                 <li key={i}>{worker}</li>
               ))}

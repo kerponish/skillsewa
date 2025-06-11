@@ -1,8 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Skillogo from "./assets/logoskils.png";
-import logo from "./assets/teamwork.png";
 import sk from "./assets/plumber.png";
+import tk from "./assets/image.png"
 import "./LandingPage.css";
 
 export default function LandingPage() {
@@ -18,11 +18,7 @@ export default function LandingPage() {
       <section className="hero-section">
         <div className="hero-text">
           <div className="branding">
-            <img
-              src={Skillogo}
-              alt="Skills Sewa Logo"
-              className="skills-logo"
-            />
+            <img src={Skillogo} alt="Skills Sewa Logo" className="skills-logo" />
             <h1>Skills Sewa</h1>
           </div>
           <h2>
@@ -36,8 +32,14 @@ export default function LandingPage() {
 
         <div className="hero-image">
           <img
-            src={sk}
+            src={sk}  /* Replace with your first image URL */
             alt="Illustration of plumber and electrician working together"
+            className="teamwork-image"
+            loading="lazy"
+          />
+          <img
+            src={tk}
+            alt="Another skilled worker"
             className="teamwork-image"
             loading="lazy"
           />
@@ -48,9 +50,8 @@ export default function LandingPage() {
       <section className="info-section">
         <h3>🔧 Skill Sewa – Connecting You to Local Experts in Nepal</h3>
         <p>
-          Whether it's plumbing, electrical work, appliance repair, or home
-          renovation – Skill Sewa is your go-to platform for skilled technical
-          services across Nepal.
+          Whether it's plumbing, electrical work, appliance repair, or home renovation –
+          Skill Sewa is your go-to platform for skilled technical services across Nepal.
         </p>
       </section>
 
@@ -72,8 +73,7 @@ export default function LandingPage() {
       <section className="footer-cta">
         <h2>Support Local Skills, Empower Communities</h2>
         <p>
-          Join Skill Sewa and become part of a growing network of skilled
-          workers and happy clients across Nepal.
+          Join Skill Sewa and become part of a growing network of skilled workers and happy clients across Nepal.
         </p>
         <button className="cta-button" onClick={handleClick}>
           Get Started
