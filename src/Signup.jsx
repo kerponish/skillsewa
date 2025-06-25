@@ -9,18 +9,31 @@ const Signup = () => {
   const navigate = useNavigate();
   const password = watch("password");
 
-  const onSubmit = (data) => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          password: data.password
+        })
+      });
 
-    if (users.some(user => user.email === data.email)) {
-      alert("Email already registered!");
-      return;
+      const resData = await response.json();
+
+      if (!response.ok) {
+        alert(resData.error || "Signup failed!");
+        return;
+      }
+
+      alert("Signup successful!");
+      navigate("/login");
+    } catch (err) {
+      alert("An error occurred. Please try again.");
+      console.error(err);
     }
-
-    users.push({ name: data.name, email: data.email, password: data.password });
-    localStorage.setItem("users", JSON.stringify(users));
-    alert("Signup successful!");
-    navigate("/login");
   };
 
   return (

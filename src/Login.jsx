@@ -8,17 +8,34 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const matchedUser = users.find(user => user.email === data.email && user.password === data.password);
+  const onSubmit = async (data) => {
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: data.email,
+          password: data.password
+        })
+      });
 
-    if (matchedUser) {
-      alert(`Welcome back, ${matchedUser.name}!`);
-      localStorage.setItem("loggedInUser", JSON.stringify(matchedUser));
+      const resData = await response.json();
+
+      if (!response.ok) {
+        alert(resData.error || "Login failed!");
+        return;
+      }
+
+      // Save token and user info
+      localStorage.setItem("token", resData.token);
+      localStorage.setItem("user", JSON.stringify(resData.user));
       localStorage.setItem("isLoggedIn", "true");
+
+      alert(`Welcome back, ${resData.user.name}!`);
       navigate("/dashboard");
-    } else {
-      alert("Invalid email or password!");
+    } catch (err) {
+      console.error(err);
+      alert("Something went wrong during login.");
     }
   };
 
