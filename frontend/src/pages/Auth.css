@@ -1,0 +1,233 @@
+/* General Body and Container Styling */
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif; /* Or your preferred font */
+  background-color: #f0f2f5; /* Light grey background similar to the image */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.auth-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full viewport height */
+  width: 700px; 
+  padding: 20px;
+  box-sizing: border-box; /* Ensures padding doesn't add to the width */
+}
+
+.auth-card {
+  background-color: #c9ded1; /* Updated background color to your new choice */
+  border-radius: 20px; /* More rounded corners */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 40px;
+  width: 100%; /* Card takes full width within its container */
+  max-width: 400px; /* Set a specific max-width for the card, adjust as needed. 500px was too wide for the image design, 380-400px is more typical for these designs. */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* Space between sections */
+}
+
+/* Header Styling */
+.auth-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px; /* Space between logo, title, subtitle */
+  margin-bottom: 20px;
+}
+
+.auth-logo {
+  width: 80px; /* Adjust size as per your logo dimensions */
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.auth-title {
+  color: #004d99; /* Dark blue from the logo */
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.auth-subtitle {
+  color: #333;
+  font-size: 28px; /* Larger for "Login" text */
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Form Styling */
+.auth-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Space between form groups */
+}
+
+.form-group {
+  position: relative; /* For positioning error messages or icons */
+  width: 100%;
+  margin-bottom: 10px; /* Adjust spacing between input fields */
+}
+
+.auth-input {
+  width: calc(100% - 20px); /* Account for padding */
+  padding: 15px 10px;
+  border: 1px solid #e0e0e0; /* Lighter border */
+  border-radius: 10px; /* More rounded input fields */
+  font-size: 16px;
+  outline: none; /* Remove default outline */
+  transition: border-color 0.3s ease;
+}
+
+.auth-input::placeholder {
+  color: #a0a0a0;
+}
+
+.auth-input:focus {
+  border-color: #007bff; /* Highlight on focus */
+}
+
+.password-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  /* You can use a background image for an eye icon or an SVG directly here */
+  /* For example: background-image: url('path/to/eye-icon.svg'); width: 20px; height: 20px; */
+}
+
+.error-message {
+  color: #ff3333;
+  font-size: 13px;
+  margin-top: 5px;
+  text-align: left;
+  padding-left: 5px; /* Align with input */
+}
+
+.sr-only { /* For accessibility */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Forgot password link */
+.forgot-password-link {
+  text-align: right; /* Align to the right */
+  width: 100%;
+  font-size: 14px;
+  margin-bottom: 20px; /* Space before the button */
+}
+
+.forgot-password-link span {
+  color: #007bff; /* Blue link color */
+  cursor: pointer;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+
+.forgot-password-link span:hover {
+  text-decoration: underline;
+}
+
+/* Button Styling */
+.auth-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff; /* Main button blue */
+  color: white;
+  border: none;
+  border-radius: 10px; /* Rounded button corners */
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Footer text */
+.auth-footer-text {
+  font-size: 15px;
+  color: #555;
+  margin-top: 20px;
+}
+
+.auth-link {
+  color: #007bff; /* Blue link color */
+  cursor: pointer;
+  font-weight: 500;
+  text-decoration: none;
+  transition: text-decoration 0.2s ease;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
+
+/* For placing First Name and Last Name on the same line */
+.name-group {
+  display: flex;
+  gap: 15px; /* Space between the two input fields */
+  width: 100%;
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  margin-bottom: 10px; /* Space below this group, consistent with other form-groups */
+}
+
+.name-input-wrapper {
+  flex: 1; /* Allows both inputs to take equal available space */
+  min-width: calc(50% - 10px); /* Ensures they don't get too small before wrapping */
+  margin-bottom: 0; /* Remove default margin-bottom from form-group for these specific instances */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 30px 20px;
+    max-width: 90%; /* Allow the card to be a bit wider on small screens */
+  }
+
+  .auth-title {
+    font-size: 22px;
+  }
+
+  .auth-subtitle {
+    font-size: 24px;
+  }
+
+  .auth-input, .auth-button {
+    font-size: 15px;
+    padding: 12px 10px;
+  }
+
+  .name-group {
+    flex-direction: column; /* Stack them vertically on very small screens */
+    gap: 10px; /* Adjust gap when stacked */
+  }
+
+  .name-input-wrapper {
+      min-width: 100%; /* Take full width when stacked */
+  }
+}
