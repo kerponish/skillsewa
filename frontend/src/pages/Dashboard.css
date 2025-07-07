@@ -1,96 +1,480 @@
-.dashboard-container {
-    max-width: 600px;
-    margin: 40px auto;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    padding: 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    position: relative;
+/* Universal Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif; /* A common, clean font */
+}
+
+/* Root variables for consistent theming */
+:root {
+  --sidebar-bg: #2b313d; /* Darker grey for sidebar */
+  --sidebar-hover: #007bff; /* Blue for hover/active */
+  --header-start-gradient: #007bff; /* Bright blue */
+  --header-end-gradient: #004d99; /* Darker blue */
+  --text-color-light: #f4f7f6; /* Off-white for text on dark bg */
+  --text-color-dark: #333; /* Dark grey for text on light bg */
+  --card-bg: #ffffff; /* White for cards */
+  --border-color: #e0e0e0; /* Light grey for borders */
+  --rating-color: #007bff; /* Blue for ratings */
+  --search-bg: #e9ecef; /* Light grey for search input */
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f0f2f5; /* Light grey background for the whole page */
+}
+
+/* Sidebar Styling */
+.sidebar {
+  background: var(--sidebar-bg);
+  color: var(--text-color-light);
+  width: 300px; /* Wider sidebar for more spacious menu items */
+  padding: 30px 0; /* More vertical padding for the sidebar itself */
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; /* Prevents sidebar from shrinking */
+}
+
+.sidebar .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center logo */
+  margin-bottom: 40px; /* More space below logo */
+  padding: 0 20px;
+}
+
+.sidebar .logo img {
+  width: 50px; /* Larger logo */
+  height: 50px;
+  margin-right: 15px; /* More space for logo */
+  border-radius: 5px;
+}
+
+.sidebar .logo span {
+  font-size: 1.6em; /* Larger text */
+  font-weight: bold;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0 25px; /* Increased horizontal padding for menu items to give them more width */
+}
+
+.sidebar-menu li {
+  display: flex;
+  align-items: center;
+  padding: 16px 25px; /* More padding for click area, making them taller and wider */
+  margin-bottom: 15px; /* More space between items */
+  cursor: pointer;
+  border-radius: 8px; /* Rounded corners for menu items */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  font-size: 1.05em; /* Slightly larger text within menu items */
+}
+
+.sidebar-menu li .icon {
+  margin-right: 18px; /* More space between icon and text */
+  font-size: 1.3em; /* Larger icons */
+  transition: transform 0.2s ease; /* Icon transform transition */
+}
+
+.sidebar-menu li.active,
+.sidebar-menu li:hover {
+  background: var(--sidebar-hover);
+  color: white; /* Text color changes on hover/active */
+  transform: translateX(5px); /* Subtle slide effect on hover */
+}
+
+.sidebar-menu li:hover .icon {
+  transform: scale(1.1); /* Slightly enlarge icon on hover */
+}
+
+.sidebar-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.2); /* Lighter divider, slightly thicker, more opaque */
+  margin: 25px 0; /* More vertical space around dividers */
+}
+
+/* Content Area */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styling */
+.header {
+  background: linear-gradient(90deg, var(--header-start-gradient) 0%, var(--header-end-gradient) 100%);
+  color: white;
+  padding: 30px 40px; /* Increased padding for a larger header */
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Header shadow */
+}
+
+.header .header-text h2 {
+  font-size: 2.2em; /* Significantly larger welcome text */
+  margin-bottom: 8px; /* Slightly more space below the main heading */
+}
+
+.header .header-text h2 span {
+  font-weight: normal; /* "Kripan Sapkota" not bold */
+}
+
+.header .header-text p {
+  font-size: 1.1em; /* Larger tagline */
+  opacity: 0.9;
+}
+
+.search-user-section {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Space between search bar and user profile */
+}
+
+.search-bar {
+  display: flex;
+  background-color: white; /* White background for search bar */
+  border-radius: 25px; /* Pill shape */
+  overflow: hidden; /* Hide overflow of input/button */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input {
+  border: none;
+  padding: 10px 15px;
+  background-color: transparent;
+  outline: none; /* Remove outline on focus */
+  font-size: 1em;
+  color: var(--text-color-dark);
+  width: 250px; /* Fixed width for search input */
+}
+
+.search-bar input::placeholder {
+  color: #888;
+}
+
+.search-bar button {
+  background-color: var(--header-start-gradient); /* Blue button */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.search-bar button:hover {
+  background-color: var(--header-end-gradient);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.15); /* Slightly transparent white background */
+  padding: 8px 15px;
+  border-radius: 25px; /* Pill shape */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-profile:hover {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.user-profile .user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Align text to the right */
+  margin-right: 10px;
+}
+
+.user-profile .user-info span {
+  font-weight: bold;
+  font-size: 1em;
+}
+
+.user-profile .user-info small {
+  font-size: 0.8em;
+  opacity: 0.8;
+}
+
+.user-profile .avatar {
+  width: 40px; /* Larger avatar */
+  height: 40px;
+  background: #fff; /* White background for avatar */
+  border-radius: 50%;
+  border: 2px solid white; /* White border */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Body Content */
+.main-body {
+  flex: 1;
+  display: grid; /* Use CSS Grid for layout */
+  grid-template-columns: 1fr 2fr; /* One column for service, two for workers */
+  gap: 30px; /* More space between sections */
+  padding: 30px;
+  overflow-y: auto; /* Enable scrolling if content overflows */
+}
+
+.section-title {
+  font-size: 1.4em;
+  color: var(--text-color-dark);
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.service-request-section,
+.recommended-workers-section {
+  background: var(--card-bg);
+  padding: 25px;
+  border-radius: 12px; /* More rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Stronger, softer shadow */
+}
+
+/* Add Service Card */
+.add-service-card {
+  background: linear-gradient(135deg, var(--header-start-gradient) 0%, var(--header-end-gradient) 100%);
+  color: white;
+  padding: 60px 20px; /* More vertical padding */
+  text-align: center;
+  border-radius: 12px;
+  margin-bottom: 25px; /* Space below card */
+  font-size: 1.8em; /* Larger text */
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Space between icon and text */
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-service-card:hover {
+  transform: translateY(-5px); /* Lift effect on hover */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.add-service-card .add-icon {
+  font-size: 3em; /* Large icon */
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* User Details Card (Dashboard-specific, not Profile) */
+.user-details-card {
+  border: 1px solid var(--border-color);
+  background-color: #fdfdfd; /* Slightly different background */
+  padding: 20px;
+  border-radius: 12px;
+  line-height: 1.6; /* Better line spacing */
+}
+
+.user-details-card .card-title {
+    font-weight: bold;
+    color: var(--text-color-dark);
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.user-details-card p {
+  color: var(--text-color-dark);
+  font-size: 0.95em;
+}
+
+/* Recommended Workers Table */
+.table-container {
+  overflow-x: auto; /* Enable horizontal scrolling for small screens */
+}
+
+table {
+  width: 100%;
+  border-collapse: separate; /* Use separate for rounded corners on cells if desired */
+  border-spacing: 0;
+}
+
+table th, table td {
+  padding: 12px 15px; /* More padding for table cells */
+  text-align: left;
+  border-bottom: 1px solid var(--border-color); /* Light border */
+  color: var(--text-color-dark);
+}
+
+table th {
+  background-color: #f8f8f8; /* Light grey background for headers */
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9em;
+  color: #666;
+}
+
+table tbody tr:last-child td {
+  border-bottom: none; /* No border on the last row */
+}
+
+table tbody tr:hover {
+  background-color: #f5f5f5; /* Subtle hover effect on rows */
+}
+
+.rating {
+  color: var(--rating-color);
+  font-weight: bold;
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 250px; /* Adjust sidebar width for medium screens */
+    padding: 20px 0;
   }
-  
-  .logout-button {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
+
+  .sidebar .logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
   }
-  
-  .logout-button:hover {
-    background: #c0392b;
+  .sidebar .logo span {
+    font-size: 1.4em;
   }
-  
-  .task-form {
-    display: flex;
+
+  .sidebar-menu {
+    padding: 0 20px;
+  }
+  .sidebar-menu li {
+    padding: 14px 20px; /* Adjust padding */
+    margin-bottom: 12px;
+    font-size: 1em;
+  }
+
+  .sidebar-menu li .icon {
+    margin-right: 15px;
+    font-size: 1.2em;
+  }
+
+  .main-body {
+    grid-template-columns: 1fr; /* Stack columns on medium screens */
+    gap: 25px;
+  }
+
+  .header .header-text h2 {
+    font-size: 1.8em; /* Scale down on smaller screens */
+  }
+
+  .header .header-text p {
+    font-size: 1em; /* Scale down on smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard {
     flex-direction: column;
-    gap: 15px;
-    margin-bottom: 30px;
   }
-  
-  .task-form label {
-    font-weight: 600;
-    color: #34495e;
+
+  .sidebar {
+    width: 100%;
+    height: auto; /* Auto height for mobile */
+    padding: 15px 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
-  
-  .task-form input,
-  .task-form select {
-    padding: 10px 15px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.3s ease;
-  }
-  
-  .task-form input:focus,
-  .task-form select:focus {
-    border-color: #3498db;
-    outline: none;
-  }
-  
-  .submit-button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 12px 0;
-    font-weight: 600;
-    font-size: 1.1rem;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .submit-button:hover {
-    background-color: #2874a6;
-  }
-  
-  .tasks-list {
-    list-style: none;
-    padding: 0;
-    color: #2c3e50;
-  }
-  
-  .task-item {
-    background: #f9f9f9;
-    border-radius: 10px;
-    padding: 15px 20px;
+
+  .sidebar .logo {
+    justify-content: flex-start; /* Align logo to left on mobile */
     margin-bottom: 20px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    padding: 0 20px;
   }
-  
-  .worker-list {
-    margin-top: 5px;
-    padding-left: 20px;
-    list-style-type: circle;
+
+  .sidebar-menu {
+    display: flex; /* Horizontal scrollable menu */
+    overflow-x: auto;
+    padding: 0 10px;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
   }
-  
-  .worker-list li {
-    margin-bottom: 4px;
+
+  .sidebar-menu li {
+    flex-shrink: 0; /* Prevent items from shrinking */
+    padding: 10px 15px;
+    margin: 0 5px; /* Space between horizontal items */
+    white-space: nowrap; /* Prevent text wrapping */
   }
-  
+
+  .sidebar-divider {
+    display: none; /* Hide dividers on mobile horizontal menu */
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  .header .header-text {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .search-user-section {
+    flex-direction: column; /* Stack search and user profile */
+    width: 100%;
+    align-items: stretch; /* Stretch to full width */
+    gap: 15px;
+  }
+
+  .search-bar {
+    width: 100%;
+  }
+
+  .search-bar input {
+    flex: 1; /* Input takes remaining space */
+    width: auto; /* Remove fixed width */
+  }
+
+  .user-profile {
+    width: 100%; /* Full width for user profile */
+    justify-content: flex-end; /* Align user info to the right */
+    padding: 10px 20px;
+  }
+
+  .main-body {
+    padding: 20px;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar .logo span {
+    font-size: 1.2em;
+  }
+
+  .sidebar .logo img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .header .header-text h2 {
+    font-size: 1.5em;
+  }
+
+  .header .header-text p {
+    font-size: 0.9em;
+  }
+
+  .add-service-card {
+    padding: 40px 15px;
+    font-size: 1.5em;
+  }
+
+  .add-service-card .add-icon {
+    font-size: 2.5em;
+  }
+
+  table th, table td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+}
