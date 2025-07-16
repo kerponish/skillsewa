@@ -1,177 +1,389 @@
-.landing-wrapper {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+/*
+ * LandingPage.css
+ *
+ * Full CSS code for a reactive, scrollable, and attractive landing page
+ * with a Lavender and Grayish gradient background.
+ */
+
+/*
+ * 1. Base HTML & Body Styles (CRITICAL for Scrolling)
+ * - Ensure `html` and `body` occupy full height.
+ * - Prevent horizontal overflow.
+ * - Apply the Lavender and Grayish gradient background.
+ */
+ html {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Ensures html takes full height of the viewport */
+  overflow-x: hidden; /* Prevents horizontal scroll on the entire page */
+  scroll-behavior: smooth; /* Optional: smooth scrolling for anchor links */
 }
 
-/* Hero Section: Text left (50%), Images right (50%) */
+body {
+  margin: 0;
+  padding: 0; /* Remove default body padding/margin */
+  min-height: 100vh; /* Ensures body is at least the height of the viewport. If content exceeds, it will scroll. */
+  width: 100%; /* Ensures body takes full width */
+  overflow-x: hidden; /* Redundant if on html, but safe to keep here too */
+
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  /* Lavender and Grayish Gradient */
+  background: linear-gradient(
+    45deg, /* Angle of the gradient */
+    #E6E6FA, /* Soft Lavender */
+    #D3D3D3  /* Light Grayish */
+  );
+  background-attachment: fixed; /* Makes the background fixed during scroll */
+}
+
+/*
+ * 2. Main Wrapper for Content
+ * - Centers content and provides internal spacing.
+ * - Uses flexbox to manage layout of main sections.
+ */
+.landing-wrapper {
+  max-width: 1200px;
+  margin: 0 auto; /* Centers the wrapper horizontally */
+  padding: 2rem;
+  box-sizing: border-box; /* Includes padding in the total width/height */
+  display: flex; /* Enables flexbox layout for its direct children (sections) */
+  flex-direction: column; /* Stacks children vertically */
+  gap: 4rem; /* Adds consistent vertical space between each major section */
+}
+
+/*
+ * 3. Reusable Styles for Main Sections
+ * - Apply common styling for visual consistency (background, shadow, border-radius).
+ * - Apply entry animation.
+ */
+.hero-section,
+.info-section,
+.services-section,
+.footer-cta {
+    padding: 2.5rem; /* Consistent internal padding for all main sections */
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08); /* Soft shadow for depth */
+    background: rgba(255, 255, 255, 0.85); /* Semi-transparent white background */
+    /* animation: fadeInUp 1s ease-out forwards;  REMOVE direct animation here */
+
+    /* Initial state for scroll animations */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Class applied when element is in view */
+.animated-section.in-view {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* Override specific colors for the footer CTA */
+.footer-cta {
+    background-color: #27ae60; /* Green background for footer CTA */
+    color: white; /* White text for footer CTA */
+    box-shadow: 0 10px 30px rgba(39, 174, 96, 0.5); /* Stronger, colored shadow */
+    padding: 3rem 1.5rem; /* Slightly more padding for footer */
+}
+
+
+/*
+ * 4. Hero Section Specific Styles
+ * - Layout for text and images side-by-side.
+ * - Branding, headings, tagline, and CTA button.
+ */
 .hero-section {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
+  gap: 3rem; /* Space between text and image columns */
+  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  padding-top: 2rem; /* Additional padding at the very top of the hero section */
+  /* Animation is applied via common section styles */
 }
 
 .hero-text {
-  flex: 1 1 50%;
-  min-width: 300px;
+  flex: 1 1 50%; /* Takes at least 50% width, can grow/shrink */
+  min-width: 320px; /* Minimum width before wrapping */
   text-align: center;
+  /* Background/padding/shadow moved to common section style */
 }
 
 .branding {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
   justify-content: center;
 }
 
 .skills-logo {
-  height: 50px;
+  height: 60px; /* Larger logo */
   width: auto;
 }
 
 .hero-text h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin: 0;
   color: #2c3e50;
+  letter-spacing: 1px;
 }
 
 .hero-text h2 {
-  font-size: 2.5rem;
-  margin: 1rem 0;
-  line-height: 1.2;
+  font-size: 3.2rem; /* Large, impactful heading */
+  margin: 1.5rem 0;
+  line-height: 1.1;
   color: #34495e;
+  font-weight: 700;
 }
 
 .tagline {
   font-style: italic;
-  color: #7f8c8d;
-  margin-bottom: 1.5rem;
+  color: #555;
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
 }
 
 .cta-button {
-  background-color: #27ae60;
+  background-color: #27ae60; /* Green call to action button */
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 30px;
+  padding: 1rem 2rem; /* Generous padding */
+  font-size: 1.2rem;
+  border-radius: 40px; /* Very rounded pill shape */
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease; /* Smooth transitions for hover effects */
+  box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4); /* Soft shadow */
 }
 
 .cta-button:hover {
-  background-color: #219150;
+  background-color: #219150; /* Darker green on hover */
+  transform: translateY(-3px); /* Subtle lift effect */
+  box-shadow: 0 8px 20px rgba(39, 174, 96, 0.6); /* More prominent shadow on hover */
 }
 
 .hero-image {
-  flex: 1 1 50%;
-  min-width: 300px;
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
+  flex: 1 1 50%; /* Takes at least 50% width, can grow/shrink */
+  min-width: 320px;
+  display: flex; /* Enables flexbox for images within this container */
+  gap: 1.5rem; /* Space between the two images */
+  justify-content: center; /* Center images if space allows */
+  position: relative;
 }
 
 .teamwork-image {
-  width: 48%;
+  width: 48%; /* Each image takes about half of the hero-image container */
   height: auto;
-  border-radius: 15px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  object-fit: cover; /* Ensures images cover their area without distortion */
+  transition: transform 0.3s ease;
 }
 
-/* Info Section */
+.teamwork-image:hover {
+  transform: translateY(-5px) scale(1.02); /* Slight lift and subtle scale on hover */
+}
+
+/*
+ * 5. Info Section Specific Styles
+ */
 .info-section {
   text-align: center;
-  margin-bottom: 3rem;
+  /* Margins/padding/background/shadow/animation handled by common section styles and wrapper gap */
 }
 
 .info-section h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #16a085;
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  color: #16a085; /* Teal color */
+  font-weight: 600;
 }
 
 .info-section p {
-  font-size: 1.1rem;
-  max-width: 700px;
+  font-size: 1.2rem;
+  max-width: 800px;
   margin: 0 auto;
-  color: #555;
+  color: #444;
+  line-height: 1.6;
 }
 
-/* Services Section */
+/*
+ * 6. Services Section Specific Styles
+ */
 .services-section {
-  margin-bottom: 3rem;
   text-align: center;
+  /* Margins/padding/background/shadow/animation handled by common section styles and wrapper gap */
 }
 
 .services-section h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-  color: #2980b9;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #2980b9; /* Blue color */
+  font-weight: 700;
 }
 
 .service-list {
   list-style: none;
   padding: 0;
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
+  flex-wrap: wrap; /* Allows items to wrap to next line */
+  justify-content: center; /* Centers items in the list */
+  gap: 1.8rem; /* Space between service list items */
 }
 
 .service-list li {
-  background: #ecf0f1;
-  border-radius: 15px;
-  padding: 1rem 1.5rem;
-  font-size: 1.1rem;
-  min-width: 180px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+  background: #ecf0f1; /* Light grey background */
+  border-radius: 25px; /* Rounded corners */
+  padding: 1.2rem 2rem;
+  font-size: 1.2rem;
+  min-width: 200px; /* Minimum width for each service item */
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.2s ease;
+  flex-grow: 1; /* Allows items to grow and fill available space */
+  max-width: 30%; /* Limits width, allowing 3-4 items per row on large screens */
+
+  /* Initial state for individual list item animations */
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
 }
 
-/* Footer CTA */
+/* Class applied when individual list item is in view */
+.service-list.in-view li {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Add a delay for staggered effect */
+.service-list.in-view li:nth-child(1) { transition-delay: 0.1s; }
+.service-list.in-view li:nth-child(2) { transition-delay: 0.2s; }
+.service-list.in-view li:nth-child(3) { transition-delay: 0.3s; }
+.service-list.in-view li:nth-child(4) { transition-delay: 0.4s; }
+.service-list.in-view li:nth-child(5) { transition-delay: 0.5s; }
+.service-list.in-view li:nth-child(6) { transition-delay: 0.6s; }
+.service-list.in-view li:nth-child(7) { transition-delay: 0.7s; }
+
+
+.service-list li:hover {
+  background: #dce4e6; /* Slightly darker on hover */
+  transform: translateY(-3px) scale(1.03); /* Lift and scale effect on hover */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
+}
+
+/*
+ * 7. Footer Call to Action Specific Styles
+ */
 .footer-cta {
   text-align: center;
-  margin-top: 4rem;
-  padding: 2rem 1rem;
-  background-color: #27ae60;
-  color: white;
-  border-radius: 15px;
+  /* Margins/padding/background/color/shadow/animation handled by common section styles and wrapper gap */
 }
 
 .footer-cta h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 .footer-cta p {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/*
+ * 8. Responsive Design (Media Queries)
+ * - Adjusts layout for different screen sizes.
+ */
+@media (max-width: 992px) {
   .hero-section {
-    flex-direction: column;
+    flex-direction: column; /* Stack hero content vertically */
+    text-align: center;
   }
   .hero-text, .hero-image {
-    flex: 1 1 100%;
+    flex: 1 1 100%; /* Take full width */
+    min-width: unset; /* Remove min-width constraint */
   }
   .hero-image {
-    justify-content: center;
-  }
-  .teamwork-image {
-    width: 80%;
-    margin-bottom: 1rem;
-  }
-  .service-list {
-    flex-direction: column;
+    flex-direction: column; /* Stack images vertically */
     align-items: center;
   }
+  .teamwork-image {
+    width: 60%; /* Adjust image width for stacked layout */
+    margin-bottom: 1.5rem;
+  }
+  .hero-text {
+    padding: 2rem;
+  }
+  .hero-text h2 {
+    font-size: 2.8rem;
+  }
+  .service-list li {
+    max-width: 45%; /* Two items per row on medium screens */
+  }
 }
+
+@media (max-width: 768px) {
+  .landing-wrapper {
+    padding: 1.5rem; /* Less padding on smaller screens */
+  }
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+  .hero-text h2 {
+    font-size: 2.2rem;
+  }
+  .cta-button {
+    padding: 0.8rem 1.8rem;
+    font-size: 1.1rem;
+  }
+  .teamwork-image {
+    width: 80%; /* Larger image width for single column on small screens */
+  }
+  .info-section h3 {
+    font-size: 1.3rem;
+  }
+  .info-section p, .services-section p {
+    font-size: 1rem;
+  }
+  .services-section h2, .footer-cta h2 {
+    font-size: 2rem;
+  }
+  .service-list li {
+    max-width: 100%; /* Single item per row on small screens */
+    min-width: unset;
+  }
+  .footer-cta p {
+    font-size: 1.1rem;
+  }
+}
+/* REMOVE these keyframes - we will use direct transitions and in-view classes */
+/*
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+*/

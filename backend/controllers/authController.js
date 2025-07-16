@@ -1,12 +1,14 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const { createUser, findUserByEmail } = require("../models/userModel");
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import User from "../models/userModel.js";
 
-const signup = async (req, res) => {
-    try {
-      const { firstName, lastName, email, password, confirmPassword, dob } = req.body;
+export const signup = async (req, res) => {
+  console.log(req.body);
   
-      if (!firstName || !lastName || !email || !password || !confirmPassword || !dob) {
+    try {
+      const { username,firstname, secondname, email, password, confirmPassword, dob } = req.body;
+  
+      if (!firstname || !secondname || !email || !password || !confirmPassword || !dob) {
         return res.status(400).json({ error: "All fields are required" });
       }
   
@@ -14,14 +16,18 @@ const signup = async (req, res) => {
         return res.status(400).json({ error: "Passwords do not match" });
       }
   
-      const existingUser = await findUserByEmail(email);
+      const existingUser = await User.findOne({ where: { email } });
       if (existingUser) return res.status(400).json({ error: "User already exists" });
   
       const hashedPassword = await bcrypt.hash(password, 10);
-      const fullName = `${firstName} ${lastName}`;
-  
-      await initializeUserTable(); // Create table if it doesn't exist
-      const user = await createUser(fullName, email, hashedPassword, dob);
+      const user = await User.create({
+        username,
+        firstname: firstname,
+        secondname: secondname,
+        email,
+        dob,
+        password: hashedPassword,
+      });
   
       res.status(201).json({ message: "User created", user });
     } catch (err) {
@@ -29,10 +35,10 @@ const signup = async (req, res) => {
     }
   };
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await findUserByEmail(email);
+    const user = await User.findOne({ where: { email } });
     if (!user) return res.status(400).json({ error: "Invalid credentials" });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -46,4 +52,3 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { signup, login };

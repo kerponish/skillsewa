@@ -42,24 +42,35 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
 
+          {/* Username Field */}
+          <div className="form-group">
+            <input
+              type="text"
+              {...register("username", { required: "Username is required" })}
+              placeholder="Username"
+              className="auth-input"
+            />
+            {errors.username && <p className="error-message">{errors.username.message}</p>}
+          </div>
+
           {/* First Name and Last Name on the same line */}
           <div className="name-group">
             <div className="form-group name-input-wrapper">
               <input
-                {...register("firstName", { required: "First name is required" })}
+                {...register("firstname", { required: "First name is required" })}
                 placeholder="First Name"
                 className="auth-input"
               />
-              {errors.firstName && <p className="error-message">{errors.firstName.message}</p>}
+              {errors.firstname && <p className="error-message">{errors.firstname.message}</p>}
             </div>
 
             <div className="form-group name-input-wrapper">
               <input
-                {...register("lastName", { required: "Last name is required" })}
+                {...register("secondname", { required: "Last name is required" })}
                 placeholder="Last Name"
                 className="auth-input"
               />
-              {errors.lastName && <p className="error-message">{errors.lastName.message}</p>}
+              {errors.secondname && <p className="error-message">{errors.secondname.message}</p>}
             </div>
           </div>
 
@@ -79,10 +90,10 @@ const Signup = () => {
             {errors.email && <p className="error-message">{errors.email.message}</p>}
           </div>
 
-          {/* NEW: Password and Confirm Password on the same line */}
-          <div className="name-group"> {/* Reusing 'name-group' for flex layout */}
-            <div className="form-group name-input-wrapper"> {/* Reusing 'name-input-wrapper' */}
-              <div className="password-input-container"> {/* Keeps eye icon positioning */}
+          {/* Password and Confirm Password on the same line */}
+          <div className="name-group">
+            <div className="form-group name-input-wrapper">
+              <div className="password-input-container">
                 <input
                   type="password"
                   {...register("password", {
@@ -97,7 +108,7 @@ const Signup = () => {
               {errors.password && <p className="error-message">{errors.password.message}</p>}
             </div>
 
-            <div className="form-group name-input-wrapper"> {/* Reusing 'name-input-wrapper' */}
+            <div className="form-group name-input-wrapper">
               <input
                 type="password"
                 {...register("confirmPassword", {
@@ -110,18 +121,17 @@ const Signup = () => {
               {errors.confirmPassword && <p className="error-message">{errors.confirmPassword.message}</p>}
             </div>
           </div>
-          {/* END NEW */}
 
           <div className="form-group">
-            <label htmlFor="dateOfBirth" className="sr-only">Date of Birth</label>
+            <label htmlFor="dob" className="sr-only">Date of Birth</label>
             <input
               type="date"
-              id="dateOfBirth"
-              {...register("dateOfBirth", { required: "Date of birth is required" })}
+              id="dob"
+              {...register("dob", { required: "Date of birth is required" })}
               className="auth-input"
               title="Date of Birth"
             />
-            {errors.dateOfBirth && <p className="error-message">{errors.dateOfBirth.message}</p>}
+            {errors.dob && <p className="error-message">{errors.dob.message}</p>}
           </div>
 
           <button type="submit" className="auth-button">Register</button>

@@ -1,12 +1,13 @@
 /* General Body and Container Styling */
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif; /* Or your preferred font */
-  background-color: #f0f2f5; /* Light grey background similar to the image */
+  font-family: 'Inter', sans-serif; /* Using Inter for a modern look */
+  background: linear-gradient(135deg, #F8F9FA 0%, #E0E7EB 100%); /* Subtle gradient background */
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  overflow: hidden; /* Prevent scrollbars if content is slightly larger than viewport */
 }
 
 .auth-wrapper {
@@ -14,23 +15,24 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh; /* Full viewport height */
-  width: 700px; 
+  width: 100%; /* Take full width to center content */
   padding: 20px;
-  box-sizing: border-box; /* Ensures padding doesn't add to the width */
+  box-sizing: border-box;
 }
 
 .auth-card {
-  background-color: #c9ded1; /* Updated background color to your new choice */
-  border-radius: 20px; /* More rounded corners */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  background-color: #FFFFFF; /* Clean white background for the card */
+  border-radius: 20px; /* Generous rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* More pronounced, softer shadow */
   padding: 40px;
-  width: 100%; /* Card takes full width within its container */
-  max-width: 400px; /* Set a specific max-width for the card, adjust as needed. 500px was too wide for the image design, 380-400px is more typical for these designs. */
+  width: 100%;
+  max-width: 420px; /* Slightly adjusted max-width for a balanced look */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px; /* Space between sections */
+  gap: 25px; /* Increased space between sections */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for potential hover effects */
 }
 
 /* Header Styling */
@@ -38,28 +40,28 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px; /* Space between logo, title, subtitle */
-  margin-bottom: 20px;
+  gap: 12px; /* Space between logo, title, subtitle */
+  margin-bottom: 15px; /* Slightly less margin as gap handles spacing */
 }
 
 .auth-logo {
-  width: 80px; /* Adjust size as per your logo dimensions */
+  width: 90px; /* Slightly larger logo */
   height: auto;
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* Reduced margin, relying on header gap */
 }
 
 .auth-title {
   color: #004d99; /* Dark blue from the logo */
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 26px; /* Slightly larger title */
+  font-weight: 700; /* Bolder */
   margin: 0;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
 }
 
 .auth-subtitle {
-  color: #333;
-  font-size: 28px; /* Larger for "Login" text */
-  font-weight: 600;
+  color: #333333; /* Darker text for better contrast */
+  font-size: 30px; /* Prominent for "Sign Up" text */
+  font-weight: 700; /* Bolder */
   margin: 0;
 }
 
@@ -68,31 +70,35 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Space between form groups */
+  gap: 18px; /* Increased space between form groups */
 }
 
 .form-group {
-  position: relative; /* For positioning error messages or icons */
+  position: relative;
   width: 100%;
-  margin-bottom: 10px; /* Adjust spacing between input fields */
+  margin-bottom: 0; /* Handled by gap on .auth-form */
 }
 
 .auth-input {
-  width: calc(100% - 20px); /* Account for padding */
-  padding: 15px 10px;
-  border: 1px solid #e0e0e0; /* Lighter border */
-  border-radius: 10px; /* More rounded input fields */
+  width: 100%; /* Full width within its parent */
+  padding: 16px 15px; /* More padding for a comfortable feel */
+  border: 1px solid #D1D5DB; /* Light grey border */
+  border-radius: 12px; /* More rounded input fields */
   font-size: 16px;
-  outline: none; /* Remove default outline */
-  transition: border-color 0.3s ease;
+  color: #333333;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
 }
 
 .auth-input::placeholder {
-  color: #a0a0a0;
+  color: #6B7280; /* Medium grey placeholder */
+  opacity: 0.8; /* Slightly transparent */
 }
 
 .auth-input:focus {
-  border-color: #007bff; /* Highlight on focus */
+  border-color: #4A90E2; /* Primary blue on focus */
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); /* Subtle focus ring */
 }
 
 .password-input-container {
@@ -100,6 +106,7 @@ body {
   width: 100%;
 }
 
+/* Note: The eye icon for password toggle needs to be implemented in React component (e.g., using an SVG or Font Awesome icon) */
 .password-toggle-icon {
   position: absolute;
   right: 15px;
@@ -107,40 +114,42 @@ body {
   transform: translateY(-50%);
   cursor: pointer;
   color: #888;
-  /* You can use a background image for an eye icon or an SVG directly here */
-  /* For example: background-image: url('path/to/eye-icon.svg'); width: 20px; height: 20px; */
+  font-size: 18px; /* Example size if using an icon font */
+  z-index: 10; /* Ensure it's above the input */
 }
 
 .error-message {
-  color: #ff3333;
+  color: #EF4444; /* Vibrant red for errors */
   font-size: 13px;
-  margin-top: 5px;
+  margin-top: 6px; /* Slightly more space */
   text-align: left;
-  padding-left: 5px; /* Align with input */
+  padding-left: 5px;
+  font-weight: 500;
 }
 
 .sr-only { /* For accessibility */
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
-/* Forgot password link */
+/* Forgot password link - not directly in signup, but kept for consistency if it were */
 .forgot-password-link {
-  text-align: right; /* Align to the right */
+  text-align: right;
   width: 100%;
   font-size: 14px;
-  margin-bottom: 20px; /* Space before the button */
+  margin-top: -10px; /* Pull it up slightly closer to input */
+  margin-bottom: 10px;
 }
 
 .forgot-password-link span {
-  color: #007bff; /* Blue link color */
+  color: #4A90E2; /* Primary blue link color */
   cursor: pointer;
   text-decoration: none;
   transition: text-decoration 0.2s ease;
@@ -153,32 +162,40 @@ body {
 /* Button Styling */
 .auth-button {
   width: 100%;
-  padding: 15px;
-  background-color: #007bff; /* Main button blue */
+  padding: 16px;
+  background: linear-gradient(90deg, #4A90E2 0%, #007bff 100%); /* Gradient button */
   color: white;
   border: none;
-  border-radius: 10px; /* Rounded button corners */
-  font-size: 18px;
+  border-radius: 12px; /* Rounded button corners */
+  font-size: 19px; /* Slightly larger font */
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3); /* Button shadow */
 }
 
 .auth-button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
+  background: linear-gradient(90deg, #007bff 0%, #4A90E2 100%); /* Reverse gradient on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+}
+
+.auth-button:active {
+  transform: translateY(0); /* Press effect */
+  box-shadow: 0 3px 10px rgba(74, 144, 226, 0.2);
 }
 
 /* Footer text */
 .auth-footer-text {
   font-size: 15px;
-  color: #555;
-  margin-top: 20px;
+  color: #555555; /* Darker grey for readability */
+  margin-top: 15px; /* Adjusted margin */
 }
 
 .auth-link {
-  color: #007bff; /* Blue link color */
+  color: #4A90E2; /* Primary blue link color */
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 600; /* Bolder link */
   text-decoration: none;
   transition: text-decoration 0.2s ease;
 }
@@ -187,13 +204,13 @@ body {
   text-decoration: underline;
 }
 
-/* For placing First Name and Last Name on the same line */
+/* For placing First Name and Last Name (and Password/Confirm Password) on the same line */
 .name-group {
   display: flex;
   gap: 15px; /* Space between the two input fields */
   width: 100%;
   flex-wrap: wrap; /* Allows wrapping on smaller screens */
-  margin-bottom: 10px; /* Space below this group, consistent with other form-groups */
+  margin-bottom: 0; /* Handled by auth-form gap */
 }
 
 .name-input-wrapper {
@@ -203,31 +220,55 @@ body {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 480px) {
+@media (max-width: 600px) { /* Adjusted breakpoint for better tablet/mobile experience */
   .auth-card {
-    padding: 30px 20px;
-    max-width: 90%; /* Allow the card to be a bit wider on small screens */
+      padding: 30px 25px; /* Slightly less padding on smaller screens */
+      max-width: 95%; /* Allow the card to be a bit wider on small screens */
+      border-radius: 15px;
   }
 
   .auth-title {
-    font-size: 22px;
+      font-size: 24px;
   }
 
   .auth-subtitle {
-    font-size: 24px;
+      font-size: 28px;
   }
 
   .auth-input, .auth-button {
-    font-size: 15px;
-    padding: 12px 10px;
+      font-size: 16px;
+      padding: 14px 15px;
   }
 
   .name-group {
-    flex-direction: column; /* Stack them vertically on very small screens */
-    gap: 10px; /* Adjust gap when stacked */
+      flex-direction: column; /* Stack them vertically on smaller screens */
+      gap: 15px; /* Adjust gap when stacked */
   }
 
   .name-input-wrapper {
       min-width: 100%; /* Take full width when stacked */
+  }
+}
+
+@media (max-width: 400px) {
+  .auth-card {
+      padding: 25px 20px;
+  }
+
+  .auth-title {
+      font-size: 22px;
+  }
+
+  .auth-subtitle {
+      font-size: 26px;
+  }
+
+  .auth-input, .auth-button {
+      font-size: 15px;
+      padding: 12px 15px;
+  }
+
+  .auth-logo {
+      width: 70px;
   }
 }

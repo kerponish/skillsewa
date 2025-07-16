@@ -5,6 +5,7 @@ import "./Auth.css"; // Ensure you have this CSS file
 
 
 import logo from "../assets/logoskils.png";
+import { auth } from "../Utils/axios";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -12,22 +13,17 @@ const Login = () => {
 
   const onSubmit = async (data) => {
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      });
-
-      const resData = await res.json();
-      if (!res.ok) {
+      const res = await auth.post("/login", data);
+      if (!res.status === 200) {
         alert(resData.error || "Login failed");
         return;
       }
 
-      localStorage.setItem("token", resData.token);
+      localStorage.setItem("token", res.data.token); // Store token in localStorage
       alert("Login successful!");
       navigate("/dashboard"); // Redirect to dashboard
     } catch (err) {
+      console.log(err);
       alert("Something went wrong.");
     }
   };
