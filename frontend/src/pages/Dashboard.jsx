@@ -1,58 +1,57 @@
-
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; 
-import './Dashboard.css'; 
-import pk from "../assets/logoskils.png";
-
-
+import { useNavigate } from 'react-router-dom';
+import pk from "../assets/logoskils.png"; // Assuming this is the correct path to your logo
+import './dashboard.css';
 import Profile from './Profile';
-
 import {
-  FaTachometerAlt, FaEnvelope, FaBriefcase, FaHistory, FaBell,
-  FaUserCircle, FaCog, FaQuestionCircle, FaHeadset, FaSignOutAlt,
-  FaSearch, FaPlusCircle
+  FaTachometerAlt, FaUserCircle, FaHistory, FaUsers, FaTasks,
+  FaHeadset, FaSignOutAlt, FaSearch, FaPlusCircle
 } from 'react-icons/fa';
 
-
 const workers = [
-  { name: 'Pradip Kc', skill: 'Plumber', rating: '4.3 Stars' },
-  { name: 'Ramesh Thapa', skill: 'Electrician', rating: '4.1 Stars' },
-  { name: 'Anthony Gonzales', skill: 'Plumber', rating: '3.9 Stars' },
-  { name: 'Cahaya Dewi', skill: 'Plumber', rating: '3.9 Stars' },
-  { name: 'Yael Amari', skill: 'Carpenter', rating: '3.9 Stars' },
-  { name: 'Lokesh Bam', skill: 'Cleaner', rating: '3.9 Stars' },
-  { name: 'Sita Devi', skill: 'Maid Service', rating: '4.5 Stars' },
-  { name: 'Gopal Sharma', skill: 'Painter', rating: '4.2 Stars' },
-  { name: 'Nabin Rai', skill: 'AC Repair', rating: '4.0 Stars' },
-  { name: 'Priya Gurung', skill: 'Tutor', rating: '4.7 Stars' },
-  { name: 'Karma Sherpa', skill: 'Trekking Guide', rating: '4.8 Stars' },
-  { name: 'Sunita Limbu', skill: 'Beautician', rating: '4.6 Stars' },
-  { name: 'Bikram Thapa', skill: 'Driver', rating: '4.1 Stars' },
-  { name: 'Anil Gupta', skill: 'Web Developer', rating: '4.9 Stars' },
-  { name: 'Deepa Karki', skill: 'Nurse', rating: '4.4 Stars' },
-  { name: 'Rajesh Shah', skill: 'Mechanic', rating: '3.8 Stars' }
+  { name: 'Pradip Kc', skill: 'Plumber', number: '98XXXXXXXX' },
+  { name: 'Ramesh Thapa', skill: 'Electrician', number: '98XXXXXXXX' },
+  { name: 'Anthony Gonzales', skill: 'Plumber', number: '98XXXXXXXX' },
+  { name: 'Cahaya Dewi', skill: 'Plumber', number: '98XXXXXXXX' },
+  { name: 'Yael Amari', skill: 'Carpenter', number: '98XXXXXXXX' },
+  { name: 'Lokesh Bam', skill: 'Cleaner', number: '98XXXXXXXX' },
+  { name: 'Sita Devi', skill: 'Maid Service', number: '98XXXXXXXX' },
+  { name: 'Gopal Sharma', skill: 'Painter', number: '98XXXXXXXX' },
+  { name: 'Nabin Rai', skill: 'AC Repair', number: '98XXXXXXXX' },
+  { name: 'Priya Gurung', skill: 'Tutor', number: '98XXXXXXXX' },
+  { name: 'Karma Sherpa', skill: 'Trekking Guide', number: '98XXXXXXXX' },
+  { name: 'Sunita Limbu', skill: 'Beautician', number: '98XXXXXXXX' },
+  { name: 'Bikram Thapa', skill: 'Driver', number: '98XXXXXXXX' },
+  { name: 'Anil Gupta', skill: 'Web Developer', number: '98XXXXXXXX' },
+  { name: 'Deepa Karki', skill: 'Nurse', number: '98XXXXXXXX' },
+  { name: 'Rajesh Shah', skill: 'Mechanic', number: '98XXXXXXXX' }
 ];
+
+const CURRENT_USER_ID = 2; // This would typically come from authentication context
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const CURRENT_USER_ID = 2; 
 
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const [userInfo, setUserInfo] = useState({
-    name: 'Loading...', // Initial state for header
-    email: ''
-   
+    name: 'Loading...',
+    email: '',
+    avatarChar: 'U'
   });
-    const handleLogout = () => {
-    navigate("/"); }
 
-  // Callback function to update userInfo in Dashboard when Profile fetches/updates data
-  const handleProfileDataUpdateForHeader = (profileData) => {
-    setUserInfo(profileData);
+  const handleLogout = () => {
+    // Implement actual logout logic here (e.g., clear tokens, call API)
+    navigate("/");
   };
 
-  // Optional: Fetch initial user info for the header when Dashboard mounts
-  // This avoids "Loading..." in the header if Profile isn't clicked first
+  const handleProfileDataUpdateForHeader = (profileData) => {
+    setUserInfo({
+      name: `${profileData.first_name} ${profileData.last_name || ''}`,
+      email: profileData.email,
+      avatarChar: profileData.first_name ? profileData.first_name.charAt(0).toUpperCase() : 'U'
+    });
+  };
+
   useEffect(() => {
     const fetchInitialUserInfo = async () => {
       try {
@@ -62,17 +61,17 @@ const Dashboard = () => {
         }
         const data = await response.json();
         setUserInfo({
-            name: `${data.first_name} ${data.last_name || ''}`,
-            email: data.email,
-          
+          name: `${data.first_name} ${data.last_name || ''}`,
+          email: data.email,
+          avatarChar: data.first_name ? data.first_name.charAt(0).toUpperCase() : 'U'
         });
       } catch (err) {
         console.error("Failed to fetch initial user info for header:", err);
-        setUserInfo({ name: 'User', email: 'N/A'}); // Fallback
+        setUserInfo({ name: 'User', email: 'N/A', avatarChar: 'U' }); // Fallback
       }
     };
     fetchInitialUserInfo();
-  }, [CURRENT_USER_ID]); // Fetch once on component mount or if CURRENT_USER_ID changes
+  }, []);
 
   const handleMenuItemClick = (item) => {
     setActiveMenuItem(item);
@@ -82,30 +81,44 @@ const Dashboard = () => {
     if (activeMenuItem === 'dashboard') {
       return (
         <>
-          <div className="service-request-section">
-            <h3 className="section-title">Post a new Service Request</h3>
-            <div className="add-service-card">
-              <FaPlusCircle className="add-icon" />
-              <span>ADD</span>
+          <h2 className="dashboard-overview-title">Dashboard Overview</h2>
+          <div className="dashboard-stats-grid">
+            <div className="dashboard-stat-card">
+              <span className="stat-icon-label">◼ Workers</span>
+              <p className="stat-number">100+</p>
             </div>
-            {/* The user-details-card can now be removed if the Profile page is the primary source of user info */}
-            <div className="user-details-card">
-              <p className="card-title">User Info</p>
-              <p><strong>{userInfo.name}</strong></p>
-              <p>Email: {userInfo.email}</p>
-        
+            <div className="dashboard-stat-card clickable-card">
+              <span className="stat-icon-label">◼ Pending task</span>
+              <p className="stat-action-text">Click here to check your pending task</p>
+            </div>
+            <div className="dashboard-stat-card clickable-card">
+              <span className="stat-icon-label">◼ History</span>
+              <p className="stat-action-text">Click here to check your history</p>
             </div>
           </div>
 
-          <div className="recommended-workers-section">
-            <h3 className="section-title">Recommend Workers</h3>
-            <div className="table-container">
-              <table>
+          <div className="dashboard-middle-section">
+            <div className="dashboard-card add-request-card" onClick={() => console.log('Add or Post a Request clicked')}>
+              <div className="add-request-content">
+                <FaPlusCircle className="add-request-icon" />
+                <div className="add-request-text">Add or Post a Request</div>
+              </div>
+            </div>
+            <div className="dashboard-card quick-profile-card">
+              <span className="stat-icon-label">◼ Quick Profile</span>
+              {/* Content for Quick Profile will go here later if needed */}
+            </div>
+          </div>
+
+          <div className="dashboard-card workers-list-card">
+            <h3>Workers</h3>
+            <div className="dashboard-table-container">
+              <table className="dashboard-table">
                 <thead>
                   <tr>
                     <th>Name</th>
                     <th>Skilled at</th>
-                    <th>Rating</th>
+                    <th>Number</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -113,7 +126,7 @@ const Dashboard = () => {
                     <tr key={index}>
                       <td>{worker.name}</td>
                       <td>{worker.skill}</td>
-                      <td className="rating">{worker.rating}</td>
+                      <td>{worker.number}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -122,73 +135,96 @@ const Dashboard = () => {
           </div>
         </>
       );
-    } else if (activeMenuItem === 'myProfile') {
-      // Render the Profile component when 'My Profile' is active
+    } else if (activeMenuItem === 'profile') { // Renamed from 'myProfile' to 'profile' to match sidebar more closely
       return <Profile userId={CURRENT_USER_ID} onProfileUpdate={handleProfileDataUpdateForHeader} />;
     }
-    // Add other menu items here if needed
+    // You can add more conditions here for other menu items if needed
     return null;
   };
 
   return (
-    <div className="dashboard">
-      <aside className="sidebar">
-        <div className="logo">
-          <img src={pk} alt="Skills Sewa Logo"/>
+    <div className="dashboard-container">
+      {/* Sidebar */}
+      <aside className="dashboard-sidebar">
+        <div className="sidebar-logo-section">
+          <img src={pk} alt="Skills Sewa Logo" />
           <span>Skills Sewa</span>
         </div>
-        <ul className="sidebar-menu">
-          <li className={activeMenuItem === 'dashboard' ? 'active' : ''} onClick={() => handleMenuItemClick('dashboard')}>
-            <FaTachometerAlt className="icon" /> Dashboard
+        <ul className="sidebar-nav-list">
+          <li
+            className={activeMenuItem === 'dashboard' ? 'active-menu-item' : ''}
+            onClick={() => handleMenuItemClick('dashboard')}
+          >
+            <FaTachometerAlt /> Dashboard
           </li>
-          <li><FaEnvelope className="icon" /> Message</li>
-          <li><FaBriefcase className="icon" /> Active Jobs</li>
-          <li><FaHistory className="icon" /> History</li>
-          <li><FaBell className="icon" /> Notifications</li>
-          <div className="sidebar-divider"></div>
-          {/* Note: 'Account' could be a parent for 'My Profile' and 'Settings' */}
-          <li className={activeMenuItem === 'account' ? 'active' : ''} onClick={() => handleMenuItemClick('account')}>
-            <FaUserCircle className="icon" /> Account
+          <li
+            className={activeMenuItem === 'profile' ? 'active-menu-item' : ''}
+            onClick={() => handleMenuItemClick('profile')}
+          >
+            <FaUserCircle /> Profile
           </li>
-          <li className={activeMenuItem === 'myProfile' ? 'active' : ''} onClick={() => handleMenuItemClick('myProfile')}>
-            <FaUserCircle className="icon" /> My Profile
+          <li
+            className={activeMenuItem === 'history' ? 'active-menu-item' : ''}
+            onClick={() => handleMenuItemClick('history')}
+          >
+            <FaHistory /> History
           </li>
-          <li className={activeMenuItem === 'settings' ? 'active' : ''} onClick={() => handleMenuItemClick('settings')}>
-            <FaCog className="icon" /> Settings
+          <li
+            className={activeMenuItem === 'worker' ? 'active-menu-item' : ''}
+            onClick={() => handleMenuItemClick('worker')}
+          >
+            <FaUsers /> Worker
           </li>
-          <div className="sidebar-divider"></div>
-          <li><FaHeadset className="icon" /> Contact Support</li>
-          <li><FaQuestionCircle className="icon" /> Help</li>
-          <li onClick={handleLogout} style={{ cursor: "pointer" }}>
-            <FaSignOutAlt className="icon" /> Log Out
+          <li
+            className={activeMenuItem === 'myTask' ? 'active-menu-item' : ''}
+            onClick={() => handleMenuItemClick('myTask')}
+          >
+            <FaTasks /> My task
+          </li>
+          <li
+            className={activeMenuItem === 'contactUs' ? 'active-menu-item' : ''}
+            onClick={() => handleMenuItemClick('contactUs')}
+          >
+            <FaHeadset /> contact us
           </li>
         </ul>
+        <div className="sidebar-logout" onClick={handleLogout}>
+          <FaSignOutAlt /> Logout
+        </div>
       </aside>
 
-      <div className="content">
-        <header className="header">
-          <div className="header-text">
-            <h2>Welcome, <span>{userInfo.name}</span></h2>
-            <p>Find the right expert in minutes!</p>
+      {/* Main Content */}
+      <div className="dashboard-main">
+        {/* Header */}
+        <header className="dashboard-header">
+          <div className="header-user-info">
+            <div className="user-avatar-header">
+              {userInfo.avatarChar}
+            </div>
+            <div className="user-name-role">
+              <span className="user-name-text">{userInfo.name}</span>
+              <small className="user-role-text">Client</small> {/* Assuming fixed as Client */}
+            </div>
           </div>
-          <div className="search-user-section">
-            <div className="search-bar">
-              <input type="text" placeholder="Search here" />
-              <button><FaSearch /></button>
-            </div>
-            <div className="user-profile">
-              <div className="user-info">
-                <span>{userInfo.name}</span>
-                <small>Client</small>
-              </div>
-              <div className="avatar"></div>
-            </div>
+          <div className="header-search-bar">
+            <input
+              type="text"
+              placeholder="Search"
+              className="search-input"
+            />
+            <FaSearch className="search-icon" />
           </div>
         </header>
 
-        <div className="main-body">
+        {/* Main Body */}
+        <main>
           {renderContent()}
-        </div>
+        </main>
+
+        {/* Footer */}
+        <footer className="dashboard-footer">
+          {/* Content for the footer will go here later */}
+        </footer>
       </div>
     </div>
   );
