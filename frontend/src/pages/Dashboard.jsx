@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import pk from "../assets/logoskils.png"; // Assuming this is the correct path to your logo
 import './dashboard.css';
 import Profile from './Profile';
+import AddPost from './AddPost';
 import {
   FaTachometerAlt, FaUserCircle, FaHistory, FaUsers, FaTasks,
   FaHeadset, FaSignOutAlt, FaSearch, FaPlusCircle
@@ -38,6 +39,7 @@ const Dashboard = () => {
     email: '',
     avatarChar: 'U'
   });
+  const [isAddPostOpen, setIsAddPostOpen] = useState(false);
 
   const handleLogout = () => {
     // Implement actual logout logic here (e.g., clear tokens, call API)
@@ -77,6 +79,18 @@ const Dashboard = () => {
     setActiveMenuItem(item);
   };
 
+  const handleAddPostClick = () => {
+    setIsAddPostOpen(true);
+  };
+  const handleAddPostClose = () => {
+    setIsAddPostOpen(false);
+  };
+  const handleAddPostSubmit = (formData) => {
+    // You can implement actual submit logic here
+    console.log('AddPost submitted:', formData);
+    alert('Request added!');
+  };
+
   const renderContent = () => {
     if (activeMenuItem === 'dashboard') {
       return (
@@ -98,7 +112,7 @@ const Dashboard = () => {
           </div>
 
           <div className="dashboard-middle-section">
-            <div className="dashboard-card add-request-card" onClick={() => console.log('Add or Post a Request clicked')}>
+            <div className="dashboard-card add-request-card" onClick={handleAddPostClick} style={{ cursor: 'pointer' }}>
               <div className="add-request-content">
                 <FaPlusCircle className="add-request-icon" />
                 <div className="add-request-text">Add or Post a Request</div>
@@ -219,6 +233,7 @@ const Dashboard = () => {
         {/* Main Body */}
         <main>
           {renderContent()}
+          <AddPost isOpen={isAddPostOpen} onClose={handleAddPostClose} onSubmit={handleAddPostSubmit} />
         </main>
 
         {/* Footer */}
