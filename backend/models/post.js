@@ -1,7 +1,7 @@
 import { sequelize } from "../config/db.js";
 import { DataTypes } from "sequelize";
 
-const Post = sequelize.define("Request", {
+const Post = sequelize.define("Post", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

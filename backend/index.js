@@ -6,6 +6,7 @@ import cors from "cors";
 import User from "./models/userModel.js";
 import authRoutes from "./routes/authRoutes.js";
 import workerRoutes from "./routes/workerRoutes.js"; // ✅ Added
+import postRoutes from './routes/postRoutes.js';
 
 const app = express();
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/workers", workerRoutes); // ✅ Added
+app.use("/api/posts", postRoutes);
 
 db(); // DB connection
 
