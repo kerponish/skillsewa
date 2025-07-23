@@ -52,3 +52,48 @@ export const login = async (req, res) => {
   }
 };
 
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.userId, {
+      attributes: ['id', 'username', 'firstname', 'secondname', 'email', 'dob']
+    });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({
+      id: user.id,
+      username: user.username,
+      first_name: user.firstname,
+      last_name: user.secondname,
+      email: user.email,
+      date_of_birth: user.dob
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const updateUserProfile = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.params.userId);
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const { firstName, lastName, email, dateOfBirth } = req.body;
+    user.firstname = firstName || user.firstname;
+    user.secondname = lastName || user.secondname;
+    user.email = email || user.email;
+    user.dob = dateOfBirth || user.dob;
+    await user.save();
+    res.json({
+      message: 'Profile updated',
+      user: {
+        id: user.id,
+        username: user.username,
+        first_name: user.firstname,
+        last_name: user.secondname,
+        email: user.email,
+        date_of_birth: user.dob
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+

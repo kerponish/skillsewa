@@ -104,7 +104,7 @@ const Dashboard = () => {
                 <div className="add-request-text">Add or Post a Request</div>
               </div>
             </div>
-            <div className="dashboard-card quick-profile-card">
+            <div className="dashboard-card quick-profile-card" onClick={() => setActiveMenuItem('profile')} style={{ cursor: 'pointer' }}>
               <span className="stat-icon-label">◼ Quick Profile</span>
               {/* Content for Quick Profile will go here later if needed */}
             </div>

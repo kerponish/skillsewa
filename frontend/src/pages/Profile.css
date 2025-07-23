@@ -1,152 +1,367 @@
-/* src/components/Profile.css */
+/* General container for the profile page */
+.profile-container {
+  background: linear-gradient(135deg, #FF69B4 0%, #87CEEB 100%); /* Pink to Blue gradient from image */
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #000; /* Default text color, adjusted per element */
+  font-family: 'Times New Roman', serif; /* Matching font style */
+  padding: 20px; /* Add some padding around the edges */
+  box-sizing: border-box; /* Include padding in element's total width and height */
+}
 
-.my-profile-section {
-    grid-column: 1 / -1; /* Make profile section span full width in grid */
-    background: var(--card-bg); /* Using CSS variables from :root in Dashboard.css */
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-    margin-top: 20px; /* Space from header */
-  }
-  
-  .my-profile-section .section-title {
-      margin-bottom: 25px;
-      font-size: 1.6em; /* Slightly larger title for profile section */
-      color: var(--text-color-dark); /* Ensure text color is inherited/defined */
-  }
-  
-  .profile-card {
-    line-height: 2; /* Spacing for displayed info */
-    color: var(--text-color-dark);
-  }
-  
-  .profile-card p {
-    margin-bottom: 10px;
-    font-size: 1.05em;
-  }
-  
-  .profile-card p strong {
-    min-width: 150px; /* Align labels */
-    display: inline-block;
-  }
-  
-  .profile-card .edit-button {
-    background-color: var(--sidebar-hover);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .profile-card .edit-button:hover {
-    background-color: var(--header-end-gradient);
-  }
-  
-  /* Profile Edit Form */
-  .profile-edit-form .form-group {
-    margin-bottom: 18px;
-    display: flex;
-    flex-direction: column; /* Stack label and input */
-    gap: 8px;
-  }
-  
-  .profile-edit-form label {
-    font-weight: bold;
-    color: var(--text-color-dark);
-    font-size: 0.95em;
-  }
-  
-  .profile-edit-form input[type="text"],
-  .profile-edit-form input[type="email"],
-  .profile-edit-form input[type="tel"],
-  .profile-edit-form input[type="date"] {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1em;
-    color: var(--text-color-dark);
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .profile-edit-form input:focus {
-    outline: none;
-    border-color: var(--sidebar-hover);
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-  }
-  
-  .profile-edit-form .form-actions {
+/* Main Profile Title */
+.profile-main-title {
+  font-size: 4em; /* Large size as in design */
+  font-weight: normal; /* Normal weight, not bold */
+  color: #000; /* Black color */
+  margin-bottom: 40px; /* Space below title */
+  text-align: center;
+}
+
+/* Profile Content Box (optional, if you want a subtle container for form) */
+.profile-content {
+  background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+  border-radius: 15px; /* Subtle rounded corners */
+  padding: 40px 60px; /* Generous padding */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  backdrop-filter: blur(5px); /* Frosted glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  max-width: 500px; /* Max width for the content area */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items inside the content box */
+}
+
+/* Display Mode */
+.profile-data-display {
+  width: 100%; /* Take full width of parent */
+  margin-bottom: 30px; /* Space before buttons */
+}
+
+.profile-data-display .data-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* Space between rows */
+  font-size: 1.5em; /* Larger text for data */
+  color: #000; /* Black text */
+}
+
+.profile-data-display .data-row label {
+  font-weight: normal;
+  width: 160px; /* Fixed width for labels to align inputs */
+  text-align: right;
+  margin-right: 20px;
+}
+
+.profile-data-display .data-row span {
+  flex: 1; /* Take remaining space */
+  border: 1px solid #000; /* Black border for display fields */
+  background-color: #fff; /* White background for display fields */
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: #000; /* Black text for content */
+}
+
+.profile-data-display .dob-row {
+  position: relative; /* For icon positioning */
+}
+
+.profile-data-display .dob-icon-wrapper {
+  position: absolute;
+  left: 20px; /* Adjust as needed */
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff; /* White background for the icon box */
+  border: 1px solid #000;
+  border-radius: 5px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-data-display .dob-icon {
+  font-size: 24px;
+  color: #000;
+}
+
+.profile-data-display .dob-row label {
+    padding-left: 60px; /* Make space for the icon box */
+    width: auto; /* Allow label to shrink */
+}
+
+
+/* Edit Mode Form */
+.profile-edit-form {
+  width: 100%;
+}
+
+.profile-edit-form .form-group {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center; /* Align label and input */
+}
+
+.profile-edit-form label {
+  font-weight: normal;
+  font-size: 1.5em; /* Larger text for labels */
+  color: #000; /* Black text */
+  width: 160px; /* Fixed width for labels to align inputs */
+  text-align: right;
+  margin-right: 20px;
+}
+
+.profile-edit-form input[type="text"],
+.profile-edit-form input[type="email"], /* Added input type email */
+.profile-edit-form input[type="date"] {
+  flex: 1; /* Take remaining space */
+  padding: 8px 15px;
+  border: 1px solid #000; /* Black border */
+  border-radius: 5px;
+  font-size: 1.5em; /* Larger input text */
+  color: #000; /* Black input text */
+  background-color: #fff; /* White background */
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.profile-edit-form input:focus {
+  border-color: #555; /* Darker border on focus */
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow on focus */
+}
+
+/* DOB input specific styling */
+.profile-edit-form .dob-group {
+    position: relative;
+    padding-left: 60px; /* Make space for the icon */
+}
+
+.profile-edit-form .dob-input-icon {
+    position: absolute;
+    left: 20px; /* Align with the icon in display mode */
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #000;
+    z-index: 1; /* Ensure icon is above input */
+    background-color: #fff; /* Match background for the icon box */
+    border: 1px solid #000;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.profile-edit-form .dob-group label {
+    padding-left: 0; /* Reset padding for label inside dob-group */
+}
+
+/* Action buttons */
+.profile-actions, .form-action-buttons {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  gap: 20px; /* Space between buttons */
+  width: 100%;
+  align-items: center; /* Center buttons */
+}
+
+.edit-profile-btn,
+.change-password-btn,
+.save-btn,
+.cancel-btn {
+  padding: 10px 25px; /* Adjust padding */
+  border-radius: 10px; /* Slightly more rounded */
+  cursor: pointer;
+  font-size: 1.5em; /* Larger font size for buttons */
+  font-weight: bold; /* Bold text */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center text and icon */
+  gap: 10px;
+  width: 280px; /* Fixed width for buttons */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Consistent shadow */
+  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+}
+
+/* EDIT button specific styles */
+.edit-profile-btn {
+  background-color: #fff; /* White background */
+  color: #000; /* Black text */
+  border: 2px solid #000; /* Black border */
+  padding-top: 5px; /* Adjust padding to match visual */
+  padding-bottom: 5px;
+}
+
+.edit-profile-btn .edit-icon {
+  font-size: 24px; /* Icon size */
+  color: #000; /* Black icon */
+}
+
+.edit-profile-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Change password button specific styles */
+.change-password-btn {
+  background-color: #4CAF50; /* Green background */
+  color: #fff; /* White text */
+  border: none;
+  font-size: 1.5em; /* Match EDIT button font size */
+}
+
+.change-password-btn .lock-icon {
+  font-size: 24px; /* Icon size */
+  color: #fff; /* White icon */
+}
+
+.change-password-btn:hover {
+  background-color: #45a049; /* Darker green on hover */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Save and Cancel buttons in edit mode */
+.form-action-buttons {
+    flex-direction: row; /* Keep save/cancel side-by-side */
+    justify-content: center; /* Center them */
+    width: auto; /* Auto width */
     margin-top: 30px;
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end; /* Align buttons to the right */
-  }
-  
-  .profile-edit-form .save-button,
-  .profile-edit-form .cancel-button {
-    border: none;
-    padding: 12px 25px;
+}
+
+.save-btn, .cancel-btn {
+    width: 140px; /* Fixed width for save/cancel */
+    font-size: 1.2em; /* Slightly smaller than main buttons */
+    padding: 8px 15px;
     border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background-color 0.3s ease;
+    box-shadow: none; /* No shadow for these */
+}
+
+.save-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
+}
+
+.cancel-btn {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+}
+
+.cancel-btn:hover {
+    background-color: #da190b;
+}
+
+
+/* Loading and Error messages */
+.loading-message, .error-message {
+  color: #000;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+.error-message {
+  color: #c00;
+  font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 10px;
+    justify-content: flex-start; /* Align content to top on smaller screens */
   }
-  
-  .profile-edit-form .save-button {
-    background-color: #28a745; /* Green for Save */
-    color: white;
+
+  .profile-main-title {
+    font-size: 3em;
+    margin-bottom: 20px;
   }
-  
-  .profile-edit-form .save-button:hover {
-    background-color: #218838;
+
+  .profile-content {
+    padding: 20px 30px;
+    max-width: 95%;
   }
-  
-  .profile-edit-form .cancel-button {
-    background-color: #dc3545; /* Red for Cancel */
-    color: white;
+
+  .profile-data-display .data-row,
+  .profile-edit-form .form-group {
+    flex-direction: column; /* Stack label and input vertically */
+    align-items: flex-start; /* Align text to start */
+    margin-bottom: 15px;
   }
-  
-  .profile-edit-form .cancel-button:hover {
-    background-color: #c82333;
+
+  .profile-data-display .data-row label,
+  .profile-edit-form label {
+    width: 100%; /* Full width for labels */
+    text-align: left; /* Align labels left */
+    margin-right: 0;
+    margin-bottom: 5px; /* Space between label and input */
+    font-size: 1.2em; /* Adjust label font size */
   }
-  
-  .error-message {
-    color: #dc3545;
-    margin-top: 15px;
-    font-weight: bold;
+
+  .profile-data-display .data-row span,
+  .profile-edit-form input {
+    width: 100%; /* Full width for inputs/display fields */
+    font-size: 1.2em;
   }
-  
-  /* Responsive adjustments for Profile component */
-  @media (max-width: 768px) {
-      .my-profile-section {
-          padding: 20px;
-          margin-top: 0; /* No margin on smaller screens if part of a single column layout */
-      }
-  
-      .profile-card p strong {
-          min-width: unset;
-          display: block;
-          margin-bottom: 5px;
-      }
-  
-      .profile-edit-form .form-actions {
-          flex-direction: column;
-          gap: 10px;
-      }
-  
-      .profile-edit-form .save-button,
-      .profile-edit-form .cancel-button {
-          width: 100%;
-          justify-content: center;
-      }
+
+  .profile-data-display .dob-row label,
+  .profile-edit-form .dob-group label {
+      padding-left: 0; /* Reset padding */
   }
+
+  .profile-data-display .dob-icon-wrapper,
+  .profile-edit-form .dob-input-icon {
+      position: static; /* Remove absolute positioning */
+      transform: none;
+      margin-bottom: 10px; /* Space it out */
+  }
+
+
+  .profile-actions, .form-action-buttons {
+    gap: 15px;
+  }
+
+  .edit-profile-btn,
+  .change-password-btn,
+  .save-btn,
+  .cancel-btn {
+    width: 100%; /* Full width buttons */
+    font-size: 1.3em;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-main-title {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+  }
+  .profile-content {
+    padding: 15px 20px;
+  }
+  .profile-data-display .data-row,
+  .profile-edit-form .form-group {
+    font-size: 1.1em;
+  }
+  .profile-data-display .data-row label,
+  .profile-edit-form label {
+    font-size: 1.1em;
+  }
+  .profile-data-display .data-row span,
+  .profile-edit-form input {
+    font-size: 1.1em;
+  }
+  .edit-profile-btn,
+  .change-password-btn,
+  .save-btn,
+  .cancel-btn {
+    font-size: 1.1em;
+  }
+}
