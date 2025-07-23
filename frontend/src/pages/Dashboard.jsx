@@ -9,29 +9,14 @@ import {
   FaHeadset, FaSignOutAlt, FaSearch, FaPlusCircle
 } from 'react-icons/fa';
 
-const workers = [
-  { name: 'Pradip Kc', skill: 'Plumber', number: '98XXXXXXXX' },
-  { name: 'Ramesh Thapa', skill: 'Electrician', number: '98XXXXXXXX' },
-  { name: 'Anthony Gonzales', skill: 'Plumber', number: '98XXXXXXXX' },
-  { name: 'Cahaya Dewi', skill: 'Plumber', number: '98XXXXXXXX' },
-  { name: 'Yael Amari', skill: 'Carpenter', number: '98XXXXXXXX' },
-  { name: 'Lokesh Bam', skill: 'Cleaner', number: '98XXXXXXXX' },
-  { name: 'Sita Devi', skill: 'Maid Service', number: '98XXXXXXXX' },
-  { name: 'Gopal Sharma', skill: 'Painter', number: '98XXXXXXXX' },
-  { name: 'Nabin Rai', skill: 'AC Repair', number: '98XXXXXXXX' },
-  { name: 'Priya Gurung', skill: 'Tutor', number: '98XXXXXXXX' },
-  { name: 'Karma Sherpa', skill: 'Trekking Guide', number: '98XXXXXXXX' },
-  { name: 'Sunita Limbu', skill: 'Beautician', number: '98XXXXXXXX' },
-  { name: 'Bikram Thapa', skill: 'Driver', number: '98XXXXXXXX' },
-  { name: 'Anil Gupta', skill: 'Web Developer', number: '98XXXXXXXX' },
-  { name: 'Deepa Karki', skill: 'Nurse', number: '98XXXXXXXX' },
-  { name: 'Rajesh Shah', skill: 'Mechanic', number: '98XXXXXXXX' }
-];
-
-const CURRENT_USER_ID = 2; // This would typically come from authentication context
-
 const Dashboard = () => {
   const navigate = useNavigate();
+
+  const [workers, setWorkers] = useState([]);
+  const [workersLoading, setWorkersLoading] = useState(true);
+  const [workersError, setWorkersError] = useState(null);
+
+  const CURRENT_USER_ID = 2; // This would typically come from authentication context
 
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const [userInfo, setUserInfo] = useState({
@@ -75,6 +60,24 @@ const Dashboard = () => {
     fetchInitialUserInfo();
   }, []);
 
+  useEffect(() => {
+    const fetchWorkers = async () => {
+      setWorkersLoading(true);
+      setWorkersError(null);
+      try {
+        const response = await fetch('http://localhost:5000/api/workers/');
+        if (!response.ok) throw new Error('Failed to fetch workers');
+        const data = await response.json();
+        setWorkers(data);
+      } catch (err) {
+        setWorkersError('Could not load workers.');
+      } finally {
+        setWorkersLoading(false);
+      }
+    };
+    fetchWorkers();
+  }, []);
+
   const handleMenuItemClick = (item) => {
     setActiveMenuItem(item);
   };
@@ -99,7 +102,7 @@ const Dashboard = () => {
           <div className="dashboard-stats-grid">
             <div className="dashboard-stat-card">
               <span className="stat-icon-label">◼ Workers</span>
-              <p className="stat-number">100+</p>
+              <p className="stat-number">{workersLoading ? '...' : workers.length}</p>
             </div>
             <div className="dashboard-stat-card clickable-card">
               <span className="stat-icon-label">◼ Pending task</span>
@@ -136,13 +139,21 @@ const Dashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {workers.map((worker, index) => (
-                    <tr key={index}>
-                      <td>{worker.name}</td>
-                      <td>{worker.skill}</td>
-                      <td>{worker.number}</td>
-                    </tr>
-                  ))}
+                  {workersLoading ? (
+                    <tr><td colSpan="3">Loading...</td></tr>
+                  ) : workersError ? (
+                    <tr><td colSpan="3">{workersError}</td></tr>
+                  ) : workers.length === 0 ? (
+                    <tr><td colSpan="3">No workers found.</td></tr>
+                  ) : (
+                    workers.map((worker, index) => (
+                      <tr key={worker.id || index}>
+                        <td>{worker.name || worker.fullName || worker.username || '-'}</td>
+                        <td>{worker.skill || worker.skills || '-'}</td>
+                        <td>{worker.number || worker.phone || '-'}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </table>
             </div>

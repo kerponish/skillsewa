@@ -162,9 +162,9 @@
 .profile-actions, .form-action-buttons {
   display: flex;
   flex-direction: column; /* Stack buttons vertically */
-  gap: 20px; /* Space between buttons */
+  gap: 20px; 
   width: 100%;
-  align-items: center; /* Center buttons */
+  align-items: center; 
 }
 
 .edit-profile-btn,
@@ -270,6 +270,121 @@
 .error-message {
   color: #c00;
   font-weight: bold;
+}
+
+/* --- EditProfile Modal Styles (from EditProfile.css) --- */
+.edit-profile-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44, 62, 80, 0.35);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-profile-modal-content {
+  background: #2e3b56;
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 6px 32px rgba(44, 62, 80, 0.18);
+  padding: 36px 32px 28px 32px;
+  min-width: 320px;
+  max-width: 95vw;
+  width: 400px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.edit-profile-modal-content h2 {
+  margin-bottom: 12px;
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #bb67b3;
+  text-align: center;
+}
+
+.edit-profile-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.edit-profile-form-group label {
+  font-weight: 600;
+  color: #bb67b3;
+  font-size: 1em;
+}
+
+.edit-profile-form-group input[type="text"],
+.edit-profile-form-group input[type="date"] {
+  padding: 10px 14px;
+  border: 1px solid #b06ab3;
+  border-radius: 8px;
+  font-size: 1em;
+  color: #2e3b56;
+  background: #f9fbfd;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.edit-profile-form-group input:focus {
+  outline: none;
+  border-color: #4567b4;
+  box-shadow: 0 0 0 2px rgba(176, 106, 179, 0.15);
+}
+
+.edit-profile-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.save-btn, .cancel-btn {
+  border: none;
+  padding: 12px 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.save-btn {
+  background: #28a745;
+  color: #fff;
+}
+.save-btn:hover {
+  background: #218838;
+}
+.cancel-btn {
+  background: #dc3545;
+  color: #fff;
+}
+.cancel-btn:hover {
+  background: #c82333;
+}
+
+/* Error message override for modal */
+.edit-profile-modal-content .error-message {
+  color: #ffb3b3;
+  margin-top: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .edit-profile-modal-content {
+    padding: 18px 6px 14px 6px;
+    min-width: 0;
+    width: 98vw;
+  }
 }
 
 /* Responsive adjustments */

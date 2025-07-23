@@ -4,6 +4,98 @@ import {
   FaPencilAlt, FaLock, FaCalendarAlt, FaEdit, FaSave, FaTimes, FaUser
 } from 'react-icons/fa';
 
+const EditProfile = ({ userId, firstName, lastName, dateOfBirth, onClose, onProfileUpdated }) => {
+  const [formData, setFormData] = useState({
+    firstName: firstName || '',
+    lastName: lastName || '',
+    dateOfBirth: dateOfBirth ? dateOfBirth.slice(0, 10) : ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`http://localhost:5000/api/auth/profile/${userId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          dateOfBirth: formData.dateOfBirth
+        })
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      const result = await response.json();
+      onProfileUpdated({
+        firstName: result.user.first_name,
+        lastName: result.user.last_name,
+        dateOfBirth: result.user.date_of_birth
+      });
+    } catch (err) {
+      setError(err.message || 'Failed to update profile.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="edit-profile-modal-overlay">
+      <div className="edit-profile-modal-content">
+        <h2>Edit Profile</h2>
+        {error && <p className="error-message">{error}</p>}
+        <div className="edit-profile-form-group">
+          <label htmlFor="firstName">First Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="edit-profile-form-group">
+          <label htmlFor="lastName">Second Name:</label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="edit-profile-form-group">
+          <label htmlFor="dateOfBirth">Date of Birth:</label>
+          <input
+            type="date"
+            id="dateOfBirth"
+            name="dateOfBirth"
+            value={formData.dateOfBirth}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="edit-profile-actions">
+          <button className="save-btn" onClick={handleSave} disabled={loading}>
+            <FaSave /> {loading ? 'Saving...' : 'Save'}
+          </button>
+          <button className="cancel-btn" onClick={onClose} disabled={loading}>
+            <FaTimes /> Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Profile = ({ userId, onProfileUpdate }) => {
   const [userProfileData, setUserProfileData] = useState({
     username: '',
@@ -13,7 +105,6 @@ const Profile = ({ userId, onProfileUpdate }) => {
     dateOfBirth: ''
   });
   const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [editFormData, setEditFormData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -31,13 +122,6 @@ const Profile = ({ userId, onProfileUpdate }) => {
         firstName: data.first_name,
         lastName: data.last_name,
         email: data.email, // Populate email from API
-        dateOfBirth: data.date_of_birth
-      });
-      setEditFormData({
-        username: data.username || '',
-        firstName: data.first_name,
-        lastName: data.last_name,
-        email: data.email, // Populate email for edit form
         dateOfBirth: data.date_of_birth
       });
 
@@ -66,81 +150,10 @@ const Profile = ({ userId, onProfileUpdate }) => {
 
   const handleEditClick = () => {
     setIsEditingProfile(true);
-    setEditFormData({
-      username: userProfileData.username,
-      firstName: userProfileData.firstName,
-      lastName: userProfileData.lastName,
-      email: userProfileData.email, // Add email to edit form state
-      dateOfBirth: userProfileData.dateOfBirth
-    });
   };
 
   const handleCancelEdit = () => {
     setIsEditingProfile(false);
-    setEditFormData({
-      username: userProfileData.username,
-      firstName: userProfileData.firstName,
-      lastName: userProfileData.lastName,
-      email: userProfileData.email, // Revert email on cancel
-      dateOfBirth: userProfileData.dateOfBirth
-    });
-  };
-
-  const handleProfileFormChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSaveProfile = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(`http://localhost:5000/api/auth/profile/${userId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          first_name: editFormData.firstName,
-          last_name: editFormData.lastName,
-          email: editFormData.email, // Send email to backend
-          username: editFormData.username,
-          date_of_birth: editFormData.dateOfBirth
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      setUserProfileData({
-        username: result.user.username || '',
-        firstName: result.user.first_name,
-        lastName: result.user.last_name,
-        email: result.user.email, // Update email from backend response
-        dateOfBirth: result.user.date_of_birth
-      });
-
-      // Notify parent (Dashboard) about the updated user info for the header
-      if (onProfileUpdate) {
-        onProfileUpdate({
-          first_name: result.user.first_name,
-          last_name: result.user.last_name,
-          email: result.user.email,
-        });
-      }
-
-      setIsEditingProfile(false);
-      alert('Profile updated successfully!');
-    } catch (err) {
-      console.error("Failed to save profile:", err);
-      setError(`Error saving profile: ${err.message || 'Please try again.'}`);
-      alert(`Error saving profile: ${err.message || 'Please try again.'}`);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleChangePasswordClick = () => {
@@ -188,69 +201,33 @@ const Profile = ({ userId, onProfileUpdate }) => {
                 </button>
               </div>
             </>
-          ) : (
-            <form className="profile-edit-form" onSubmit={(e) => e.preventDefault()}>
-              <div className="form-group">
-                <label htmlFor="username">Username :</label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={editFormData.username}
-                  onChange={handleProfileFormChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="firstName">First Name :</label>
-                <input
-                  type="text"
-                  id="firstName"
-                  name="firstName"
-                  value={editFormData.firstName}
-                  onChange={handleProfileFormChange}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="lastName">Second Name :</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={editFormData.lastName}
-                  onChange={handleProfileFormChange}
-                />
-              </div>
-              <div className="form-group"> {/* New Email Edit Form Group */}
-                <label htmlFor="email">Email :</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={editFormData.email}
-                  onChange={handleProfileFormChange}
-                />
-              </div>
-              <div className="form-group dob-group">
-                <label htmlFor="dateOfBirth">DOB:</label>
-                <input
-                  type="date"
-                  id="dateOfBirth"
-                  name="dateOfBirth"
-                  value={editFormData.dateOfBirth ? editFormData.dateOfBirth.slice(0, 10) : ''}
-                  onChange={handleProfileFormChange}
-                />
-              </div>
-              <div className="form-action-buttons">
-                <button type="button" className="save-btn" onClick={handleSaveProfile} disabled={loading}>
-                  <FaSave /> {loading ? 'Saving...' : 'Save'}
-                </button>
-                <button type="button" className="cancel-btn" onClick={handleCancelEdit} disabled={loading}>
-                  <FaTimes /> Cancel
-                </button>
-              </div>
-            </form>
-          )}
+          ) : null}
         </div>
+      )}
+      {isEditingProfile && (
+        <EditProfile
+          userId={userId}
+          firstName={userProfileData.firstName}
+          lastName={userProfileData.lastName}
+          dateOfBirth={userProfileData.dateOfBirth}
+          onClose={handleCancelEdit}
+          onProfileUpdated={(updated) => {
+            setUserProfileData(prev => ({
+              ...prev,
+              firstName: updated.firstName,
+              lastName: updated.lastName,
+              dateOfBirth: updated.dateOfBirth
+            }));
+            if (onProfileUpdate) {
+              onProfileUpdate({
+                first_name: updated.firstName,
+                last_name: updated.lastName,
+                email: userProfileData.email,
+              });
+            }
+            setIsEditingProfile(false);
+          }}
+        />
       )}
     </div>
   );
