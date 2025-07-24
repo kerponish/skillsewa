@@ -4,6 +4,8 @@ import pk from "../assets/logoskils.png"; // Assuming this is the correct path t
 import './dashboard.css';
 import Profile from './Profile';
 import AddPost from './AddPost';
+import Task from './Task';
+import Workers from './Workers';
 import {
   FaTachometerAlt, FaUserCircle, FaHistory, FaUsers, FaTasks,
   FaHeadset, FaSignOutAlt, FaSearch, FaPlusCircle
@@ -16,7 +18,7 @@ const Dashboard = () => {
   const [workersLoading, setWorkersLoading] = useState(true);
   const [workersError, setWorkersError] = useState(null);
 
-  const CURRENT_USER_ID = 2; // This would typically come from authentication context
+  const CURRENT_USER_ID = localStorage.getItem("userId");
 
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const [userInfo, setUserInfo] = useState({
@@ -42,7 +44,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchInitialUserInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/profile/${CURRENT_USER_ID}`);
+        const response = await fetch(`http://localhost:5000/api/auth/profile/${CURRENT_USER_ID}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -162,6 +164,10 @@ const Dashboard = () => {
       );
     } else if (activeMenuItem === 'profile') { // Renamed from 'myProfile' to 'profile' to match sidebar more closely
       return <Profile userId={CURRENT_USER_ID} onProfileUpdate={handleProfileDataUpdateForHeader} />;
+    } else if (activeMenuItem === 'myTask') {
+      return <Task userId={CURRENT_USER_ID} />;
+    } else if (activeMenuItem === 'worker') {
+      return <Workers />;
     }
     // You can add more conditions here for other menu items if needed
     return null;

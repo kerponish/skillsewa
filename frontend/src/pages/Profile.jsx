@@ -96,7 +96,9 @@ const EditProfile = ({ userId, firstName, lastName, dateOfBirth, onClose, onProf
   );
 };
 
-const Profile = ({ userId, onProfileUpdate }) => {
+const Profile = ({ userId: propUserId, onProfileUpdate }) => {
+  // Use prop if provided, otherwise get from localStorage
+  const userId = propUserId || localStorage.getItem('userId');
   const [userProfileData, setUserProfileData] = useState({
     username: '',
     firstName: '',

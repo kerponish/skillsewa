@@ -14,6 +14,8 @@ const AddPost = ({ isOpen, onClose, onSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Get the current userId from localStorage
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     if (isOpen) {
@@ -47,14 +49,21 @@ const AddPost = ({ isOpen, onClose, onSubmit }) => {
     }
 
     try {
-     
-      console.log("Submitting form data:", formData);
-      await new Promise(resolve => setTimeout(resolve, 1000)); 
-
-     
-      onSubmit(formData);
-      alert("Request added successfully!");
-      onClose(); 
+      // Prepare the post data
+      const postData = {
+        ...formData,
+        requestedBy: userId,
+        status: 'pending'
+      };
+      const response = await fetch('http://localhost:5000/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postData)
+      });
+      if (!response.ok) throw new Error('Failed to add request');
+      const newPost = await response.json();
+      if (onSubmit) onSubmit(newPost.data); // Pass the new post data up
+      onClose();
     } catch (err) {
       console.error("Error submitting request:", err);
       setError("Failed to add request. Please try again.");

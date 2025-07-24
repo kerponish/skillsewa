@@ -1,0 +1,72 @@
+/* Container styling similar to Task/Profile */
+.workers-container {
+  background: linear-gradient(135deg, #FF69B4 0%, #87CEEB 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  color: #000;
+  font-family: 'Times New Roman', serif;
+  padding: 30px 10px;
+  box-sizing: border-box;
+}
+
+.workers-main-title {
+  font-size: 3em;
+  font-weight: normal;
+  color: #000;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.workers-list {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.worker-card {
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(44,62,80,0.12);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left: 8px solid #b06ab3;
+}
+
+.worker-info-row {
+  display: flex;
+  gap: 10px;
+  font-size: 1.1em;
+}
+.worker-label {
+  font-weight: 600;
+  color: #b06ab3;
+}
+
+.loading-message, .error-message, .no-workers-message {
+  color: #c00;
+  font-size: 1.2em;
+  margin-top: 20px;
+  text-align: center;
+}
+.no-workers-message {
+  color: #333;
+}
+
+@media (max-width: 700px) {
+  .workers-main-title {
+    font-size: 2em;
+  }
+  .workers-list {
+    max-width: 98vw;
+  }
+  .worker-card {
+    padding: 18px 8px;
+  }
+} 
