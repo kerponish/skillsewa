@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './Task.css';
+import { useUser } from '../UserContext';
 
-const Task = ({ userId }) => {
+const Task = ({ userId: propUserId }) => {
+  const { user } = useUser();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState('all'); // all, pending, completed
+
+  // Use prop if provided, otherwise get from context
+  const userId = propUserId || (user && user.userId);
 
   useEffect(() => {
     const fetchTasks = async () => {

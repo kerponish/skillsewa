@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css"; // Ensure you have this CSS file
@@ -6,25 +6,55 @@ import "./Auth.css"; // Ensure you have this CSS file
 
 import logo from "../assets/logoskils.png";
 import { auth } from "../Utils/axios";
+import { useUser } from "../UserContext";
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const { setUser } = useUser();
+  const [isAdminLogin, setIsAdminLogin] = useState(false);
 
   const onSubmit = async (data) => {
     try {
-      const res = await auth.post("/login", data);
-      if (!res.status === 200) {
-        alert(resData.error || "Login failed");
+      // Prepare login data based on login type
+      const loginData = isAdminLogin 
+        ? { username: data.username, password: data.password }
+        : { email: data.email, password: data.password };
+
+      console.log('Sending login data:', loginData);
+
+      const res = await auth.post("/login", loginData);
+      console.log('Login response:', res.data);
+      
+      if (res.status !== 200) {
+        alert(res.data.error || "Login failed");
         return;
       }
-
-      localStorage.setItem("token", res.data.token); // Store token in localStorage
+      // Store user info in context
+      setUser({ 
+        userId: res.data.userId, 
+        username: res.data.username,
+        token: res.data.token,
+        role: res.data.role
+      });
+      // Optionally, store token in localStorage for auth headers
+      localStorage.setItem("token", res.data.token);
       alert("Login successful!");
-      navigate("/dashboard"); // Redirect to dashboard
+      
+      // Redirect based on role
+      if (res.data.role === 'admin') {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } catch (err) {
-      console.log(err);
-      alert("Something went wrong.");
+      console.error('Login error:', err);
+      if (err.response) {
+        console.error('Error response:', err.response.data);
+        alert(err.response.data.error || "Login failed");
+      } else {
+        alert("Something went wrong.");
+      }
     }
   };
 
@@ -39,15 +69,45 @@ const Login = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-          <div className="form-group">
-            <input
-              type="email"
-              {...register("email", { required: "Email is required" })}
-              placeholder="Email"
-              className="auth-input"
-            />
-            {errors.email && <p className="error-message">{errors.email.message}</p>}
+          {/* Login Type Toggle */}
+          <div className="login-type-toggle">
+            <button 
+              type="button"
+              className={`toggle-btn ${!isAdminLogin ? 'active' : ''}`}
+              onClick={() => setIsAdminLogin(false)}
+            >
+              Client Login
+            </button>
+            <button 
+              type="button"
+              className={`toggle-btn ${isAdminLogin ? 'active' : ''}`}
+              onClick={() => setIsAdminLogin(true)}
+            >
+              Admin Login
+            </button>
           </div>
+
+          {isAdminLogin ? (
+            <div className="form-group">
+              <input
+                type="text"
+                {...register("username", { required: "Username is required" })}
+                placeholder="Username"
+                className="auth-input"
+              />
+              {errors.username && <p className="error-message">{errors.username.message}</p>}
+            </div>
+          ) : (
+            <div className="form-group">
+              <input
+                type="email"
+                {...register("email", { required: "Email is required" })}
+                placeholder="Email"
+                className="auth-input"
+              />
+              {errors.email && <p className="error-message">{errors.email.message}</p>}
+            </div>
+          )}
 
           <div className="form-group">
             <div className="password-input-container">

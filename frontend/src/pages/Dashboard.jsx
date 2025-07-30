@@ -7,18 +7,21 @@ import AddPost from './AddPost';
 import Task from './Task';
 import Workers from './Workers';
 import {
-  FaTachometerAlt, FaUserCircle, FaHistory, FaUsers, FaTasks,
+  FaTachometerAlt, FaUserCircle, FaUsers, FaTasks,
   FaHeadset, FaSignOutAlt, FaSearch, FaPlusCircle
 } from 'react-icons/fa';
+import { useUser } from '../UserContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const [workers, setWorkers] = useState([]);
   const [workersLoading, setWorkersLoading] = useState(true);
   const [workersError, setWorkersError] = useState(null);
 
-  const CURRENT_USER_ID = localStorage.getItem("userId");
+  const CURRENT_USER_ID = (user && user.userId);
+  const CURRENT_USERNAME = (user && user.username);
 
   const [activeMenuItem, setActiveMenuItem] = useState('dashboard');
   const [userInfo, setUserInfo] = useState({
@@ -44,7 +47,16 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchInitialUserInfo = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/auth/profile/${CURRENT_USER_ID}`);
+        // First try to fetch by username if available, otherwise by userId
+        let response;
+        if (CURRENT_USERNAME) {
+          response = await fetch(`http://localhost:5000/api/auth/profile/username/${CURRENT_USERNAME}`);
+        } else if (CURRENT_USER_ID) {
+          response = await fetch(`http://localhost:5000/api/auth/profile/${CURRENT_USER_ID}`);
+        } else {
+          throw new Error('No user ID or username available');
+        }
+        
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -60,7 +72,7 @@ const Dashboard = () => {
       }
     };
     fetchInitialUserInfo();
-  }, []);
+  }, [CURRENT_USER_ID, CURRENT_USERNAME]);
 
   useEffect(() => {
     const fetchWorkers = async () => {
@@ -110,10 +122,7 @@ const Dashboard = () => {
               <span className="stat-icon-label">◼ Pending task</span>
               <p className="stat-action-text">Click here to check your pending task</p>
             </div>
-            <div className="dashboard-stat-card clickable-card">
-              <span className="stat-icon-label">◼ History</span>
-              <p className="stat-action-text">Click here to check your history</p>
-            </div>
+
           </div>
 
           <div className="dashboard-middle-section">
@@ -175,6 +184,12 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
+      {/* Bento Grid Background Elements */}
+      <div className="bento-element-1"></div>
+      <div className="bento-element-2"></div>
+      <div className="bento-element-3"></div>
+      <div className="bento-element-4"></div>
+      
       {/* Sidebar */}
       <aside className="dashboard-sidebar">
         <div className="sidebar-logo-section">
@@ -194,12 +209,7 @@ const Dashboard = () => {
           >
             <FaUserCircle /> Profile
           </li>
-          <li
-            className={activeMenuItem === 'history' ? 'active-menu-item' : ''}
-            onClick={() => handleMenuItemClick('history')}
-          >
-            <FaHistory /> History
-          </li>
+
           <li
             className={activeMenuItem === 'worker' ? 'active-menu-item' : ''}
             onClick={() => handleMenuItemClick('worker')}

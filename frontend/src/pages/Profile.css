@@ -1,39 +1,87 @@
 /* General container for the profile page */
 .profile-container {
-  background: linear-gradient(135deg, #FF69B4 0%, #87CEEB 100%); /* Pink to Blue gradient from image */
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
   height: 100vh; /* Full viewport height */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #000; /* Default text color, adjusted per element */
-  font-family: 'Times New Roman', serif; /* Matching font style */
+  color: #fff; /* White text color */
+  font-family: 'Roboto', sans-serif; /* Modern font */
   padding: 20px; /* Add some padding around the edges */
   box-sizing: border-box; /* Include padding in element's total width and height */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Bento Grid Background for Profile */
+.profile-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(30, 58, 138, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(147, 197, 253, 0.15) 0%, transparent 50%);
+  z-index: 0;
+}
+
+.profile-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  z-index: 0;
+  animation: bentoFloat 20s ease-in-out infinite;
+}
+
+@keyframes bentoFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.5deg);
+    opacity: 0.5;
+  }
 }
 
 /* Main Profile Title */
 .profile-main-title {
-  font-size: 4em; /* Large size as in design */
-  font-weight: normal; /* Normal weight, not bold */
-  color: #000; /* Black color */
+  font-size: 3.5em; /* Large size as in design */
+  font-weight: 700; /* Bold weight for modern look */
+  color: #fff; /* White color */
   margin-bottom: 40px; /* Space below title */
   text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 5;
 }
 
 /* Profile Content Box (optional, if you want a subtle container for form) */
 .profile-content {
-  background: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
-  border-radius: 15px; /* Subtle rounded corners */
+  background: rgba(0, 0, 0, 0.25); /* Dark transparent background */
+  border-radius: 20px; /* Modern rounded corners */
   padding: 40px 60px; /* Generous padding */
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Soft shadow */
-  backdrop-filter: blur(5px); /* Frosted glass effect */
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+  backdrop-filter: blur(20px); /* Enhanced frosted glass effect */
+  border: 1px solid rgba(255, 255, 255, 0.15);
   width: 100%;
   max-width: 500px; /* Max width for the content area */
   display: flex;
   flex-direction: column;
   align-items: center; /* Center items inside the content box */
+  position: relative;
+  z-index: 5;
 }
 
 /* Display Mode */
@@ -47,23 +95,25 @@
   align-items: center;
   margin-bottom: 20px; /* Space between rows */
   font-size: 1.5em; /* Larger text for data */
-  color: #000; /* Black text */
+  color: #fff; /* White text */
 }
 
 .profile-data-display .data-row label {
-  font-weight: normal;
+  font-weight: 600;
   width: 160px; /* Fixed width for labels to align inputs */
   text-align: right;
   margin-right: 20px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .profile-data-display .data-row span {
   flex: 1; /* Take remaining space */
-  border: 1px solid #000; /* Black border for display fields */
-  background-color: #fff; /* White background for display fields */
-  padding: 8px 15px;
-  border-radius: 5px;
-  color: #000; /* Black text for content */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* White border for display fields */
+  background-color: rgba(255, 255, 255, 0.1); /* Transparent background for display fields */
+  padding: 12px 15px;
+  border-radius: 8px;
+  color: #fff; /* White text for content */
+  backdrop-filter: blur(10px);
 }
 
 .profile-data-display .dob-row {
@@ -75,18 +125,19 @@
   left: 20px; /* Adjust as needed */
   top: 50%;
   transform: translateY(-50%);
-  background-color: #fff; /* White background for the icon box */
-  border: 1px solid #000;
-  border-radius: 5px;
-  padding: 5px;
+  background-color: rgba(59, 130, 246, 0.3); /* Blue background for the icon box */
+  border: 1px solid rgba(59, 130, 246, 0.5);
+  border-radius: 8px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(10px);
 }
 
 .profile-data-display .dob-icon {
   font-size: 24px;
-  color: #000;
+  color: #fff;
 }
 
 .profile-data-display .dob-row label {
@@ -107,9 +158,9 @@
 }
 
 .profile-edit-form label {
-  font-weight: normal;
+  font-weight: 600;
   font-size: 1.5em; /* Larger text for labels */
-  color: #000; /* Black text */
+  color: rgba(255, 255, 255, 0.9); /* White text */
   width: 160px; /* Fixed width for labels to align inputs */
   text-align: right;
   margin-right: 20px;
@@ -119,19 +170,21 @@
 .profile-edit-form input[type="email"], /* Added input type email */
 .profile-edit-form input[type="date"] {
   flex: 1; /* Take remaining space */
-  padding: 8px 15px;
-  border: 1px solid #000; /* Black border */
-  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2); /* White border */
+  border-radius: 8px;
   font-size: 1.5em; /* Larger input text */
-  color: #000; /* Black input text */
-  background-color: #fff; /* White background */
+  color: #fff; /* White input text */
+  background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
   outline: none;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .profile-edit-form input:focus {
-  border-color: #555; /* Darker border on focus */
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Subtle shadow on focus */
+  border-color: rgba(59, 130, 246, 0.5); /* Blue border on focus */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); /* Blue glow on focus */
+  background-color: rgba(255, 255, 255, 0.15);
 }
 
 /* DOB input specific styling */
@@ -146,12 +199,13 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 24px;
-    color: #000;
+    color: #fff;
     z-index: 1; /* Ensure icon is above input */
-    background-color: #fff; /* Match background for the icon box */
-    border: 1px solid #000;
-    border-radius: 5px;
-    padding: 5px;
+    background-color: rgba(59, 130, 246, 0.3); /* Blue background for the icon box */
+    border: 1px solid rgba(59, 130, 246, 0.5);
+    border-radius: 8px;
+    padding: 8px;
+    backdrop-filter: blur(10px);
 }
 
 .profile-edit-form .dob-group label {
@@ -171,44 +225,47 @@
 .change-password-btn,
 .save-btn,
 .cancel-btn {
-  padding: 10px 25px; /* Adjust padding */
-  border-radius: 10px; /* Slightly more rounded */
+  padding: 12px 25px; /* Adjust padding */
+  border-radius: 12px; /* Modern rounded corners */
   cursor: pointer;
   font-size: 1.5em; /* Larger font size for buttons */
-  font-weight: bold; /* Bold text */
+  font-weight: 600; /* Semi-bold text */
   display: flex;
   align-items: center;
   justify-content: center; /* Center text and icon */
   gap: 10px;
   width: 280px; /* Fixed width for buttons */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Consistent shadow */
-  transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 /* EDIT button specific styles */
 .edit-profile-btn {
-  background-color: #fff; /* White background */
-  color: #000; /* Black text */
-  border: 2px solid #000; /* Black border */
-  padding-top: 5px; /* Adjust padding to match visual */
-  padding-bottom: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff; /* White text */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding-top: 12px; /* Adjust padding to match visual */
+  padding-bottom: 12px;
 }
 
 .edit-profile-btn .edit-icon {
   font-size: 24px; /* Icon size */
-  color: #000; /* Black icon */
+  color: #fff; /* White icon */
 }
 
 .edit-profile-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 /* Change password button specific styles */
 .change-password-btn {
-  background-color: #4CAF50; /* Green background */
+  background: rgba(59, 130, 246, 0.3); /* Blue background */
   color: #fff; /* White text */
-  border: none;
+  border: 1px solid rgba(59, 130, 246, 0.5);
   font-size: 1.5em; /* Match EDIT button font size */
 }
 
@@ -218,9 +275,10 @@
 }
 
 .change-password-btn:hover {
-  background-color: #45a049; /* Darker green on hover */
+  background: rgba(59, 130, 246, 0.5); /* Darker blue on hover */
   transform: translateY(-3px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.7);
 }
 
 /* Save and Cancel buttons in edit mode */
@@ -234,49 +292,55 @@
 .save-btn, .cancel-btn {
     width: 140px; /* Fixed width for save/cancel */
     font-size: 1.2em; /* Slightly smaller than main buttons */
-    padding: 8px 15px;
-    border-radius: 8px;
-    box-shadow: none; /* No shadow for these */
+    padding: 10px 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .save-btn {
-    background-color: #4CAF50;
+    background: rgba(34, 197, 94, 0.3);
     color: #fff;
-    border: none;
+    border: 1px solid rgba(34, 197, 94, 0.5);
 }
 
 .save-btn:hover {
-    background-color: #45a049;
+    background: rgba(34, 197, 94, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .cancel-btn {
-    background-color: #f44336;
+    background: rgba(239, 68, 68, 0.3);
     color: #fff;
-    border: none;
+    border: 1px solid rgba(239, 68, 68, 0.5);
 }
 
 .cancel-btn:hover {
-    background-color: #da190b;
+    background: rgba(239, 68, 68, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 
 /* Loading and Error messages */
 .loading-message, .error-message {
-  color: #000;
+  color: #fff;
   font-size: 1.2em;
   margin-top: 20px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .error-message {
-  color: #c00;
-  font-weight: bold;
+  color: #fca5a5;
+  font-weight: 600;
 }
 
 /* --- EditProfile Modal Styles (from EditProfile.css) --- */
 .edit-profile-modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(44, 62, 80, 0.35);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -284,10 +348,11 @@
 }
 
 .edit-profile-modal-content {
-  background: #2e3b56;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
   color: #fff;
-  border-radius: 14px;
-  box-shadow: 0 6px 32px rgba(44, 62, 80, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   padding: 36px 32px 28px 32px;
   min-width: 320px;
   max-width: 95vw;
@@ -296,14 +361,16 @@
   display: flex;
   flex-direction: column;
   gap: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .edit-profile-modal-content h2 {
   margin-bottom: 12px;
   font-size: 1.6em;
   font-weight: 700;
-  color: #bb67b3;
+  color: #fff;
   text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .edit-profile-form-group {
@@ -315,25 +382,27 @@
 
 .edit-profile-form-group label {
   font-weight: 600;
-  color: #bb67b3;
+  color: rgba(255, 255, 255, 0.9);
   font-size: 1em;
 }
 
 .edit-profile-form-group input[type="text"],
 .edit-profile-form-group input[type="date"] {
-  padding: 10px 14px;
-  border: 1px solid #b06ab3;
-  border-radius: 8px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
   font-size: 1em;
-  color: #2e3b56;
-  background: #f9fbfd;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
 .edit-profile-form-group input:focus {
   outline: none;
-  border-color: #4567b4;
-  box-shadow: 0 0 0 2px rgba(176, 106, 179, 0.15);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .edit-profile-actions {
@@ -357,26 +426,33 @@
 }
 
 .save-btn {
-  background: #28a745;
+  background: rgba(34, 197, 94, 0.3);
   color: #fff;
+  border: 1px solid rgba(34, 197, 94, 0.5);
 }
 .save-btn:hover {
-  background: #218838;
+  background: rgba(34, 197, 94, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 .cancel-btn {
-  background: #dc3545;
+  background: rgba(239, 68, 68, 0.3);
   color: #fff;
+  border: 1px solid rgba(239, 68, 68, 0.5);
 }
 .cancel-btn:hover {
-  background: #c82333;
+  background: rgba(239, 68, 68, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* Error message override for modal */
 .edit-profile-modal-content .error-message {
-  color: #ffb3b3;
+  color: #fca5a5;
   margin-top: 8px;
-  font-weight: bold;
+  font-weight: 600;
   text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 600px) {

@@ -14,7 +14,7 @@ export const sequelize = new Sequelize(
  
 export const db = () => {
     try {
-        sequelize.sync({ alter: true });
+        sequelize.sync({ force: false }); // Changed from alter: true to force: false
         console.log("database connected successfully");
     } catch (e) {
         console.error("fail to connect database successfully", e);

@@ -3,9 +3,23 @@ import Post from '../models/post.js';
 // Create a new post/request
 export const createPost = async (req, res) => {
   try {
+    console.log('Creating post with data:', req.body);
+    
+    // Validate required fields
+    const { title, description, price, skillsRequired, location, requestedBy } = req.body;
+    if (!title || !description || !price || !skillsRequired || !location || !requestedBy) {
+      return res.status(400).json({ 
+        error: 'Missing required fields',
+        required: ['title', 'description', 'price', 'skillsRequired', 'location', 'requestedBy'],
+        received: Object.keys(req.body)
+      });
+    }
+
     const post = await Post.create(req.body);
+    console.log('Post created successfully:', post.id);
     res.status(201).json({ message: 'Post created', data: post });
   } catch (err) {
+    console.error('Error creating post:', err);
     res.status(500).json({ error: err.message });
   }
 };

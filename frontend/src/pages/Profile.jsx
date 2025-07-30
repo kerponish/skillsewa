@@ -3,6 +3,7 @@ import './Profile.css';
 import {
   FaPencilAlt, FaLock, FaCalendarAlt, FaEdit, FaSave, FaTimes, FaUser
 } from 'react-icons/fa';
+import { useUser } from '../UserContext';
 
 const EditProfile = ({ userId, firstName, lastName, dateOfBirth, onClose, onProfileUpdated }) => {
   const [formData, setFormData] = useState({
@@ -97,8 +98,11 @@ const EditProfile = ({ userId, firstName, lastName, dateOfBirth, onClose, onProf
 };
 
 const Profile = ({ userId: propUserId, onProfileUpdate }) => {
-  // Use prop if provided, otherwise get from localStorage
-  const userId = propUserId || localStorage.getItem('userId');
+  const { user } = useUser();
+  // Use prop if provided, otherwise get from context
+  const userId = propUserId || (user && user.userId);
+  const username = user && user.username;
+  
   const [userProfileData, setUserProfileData] = useState({
     username: '',
     firstName: '',
@@ -114,7 +118,16 @@ const Profile = ({ userId: propUserId, onProfileUpdate }) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/profile/${userId}`);
+      // First try to fetch by username if available, otherwise by userId
+      let response;
+      if (username) {
+        response = await fetch(`http://localhost:5000/api/auth/profile/username/${username}`);
+      } else if (userId) {
+        response = await fetch(`http://localhost:5000/api/auth/profile/${userId}`);
+      } else {
+        throw new Error('No user ID or username available');
+      }
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -145,10 +158,10 @@ const Profile = ({ userId: propUserId, onProfileUpdate }) => {
   };
 
   useEffect(() => {
-    if (userId) {
+    if (userId || username) {
       fetchUserProfile();
     }
-  }, [userId]);
+  }, [userId, username]);
 
   const handleEditClick = () => {
     setIsEditingProfile(true);

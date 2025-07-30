@@ -36,6 +36,11 @@ const User = sequelize.define("User", {
   otp: {
     type: DataTypes.INTEGER,
   },
+  role: {
+    type: DataTypes.ENUM('user', 'admin'),
+    allowNull: false,
+    defaultValue: 'user',
+  },
 });
  
 export default User;

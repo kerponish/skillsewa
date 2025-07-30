@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import './AddPost.css';
 import { FaPlus, FaTimes } from 'react-icons/fa'; 
+import { useUser } from '../UserContext';
 
 const AddPost = ({ isOpen, onClose, onSubmit }) => {
+  const { user } = useUser();
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -14,8 +16,8 @@ const AddPost = ({ isOpen, onClose, onSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Get the current userId from localStorage
-  const userId = localStorage.getItem('userId');
+  // Get the current userId from context
+  const userId = user && user.userId;
 
   useEffect(() => {
     if (isOpen) {
@@ -41,6 +43,13 @@ const AddPost = ({ isOpen, onClose, onSubmit }) => {
     setLoading(true);
     setError(null);
 
+    // Check if userId is available
+    if (!userId) {
+      setError("User not authenticated. Please login again.");
+      setLoading(false);
+      return;
+    }
+
     // Basic validation
     if (!formData.title || !formData.description || !formData.price || !formData.skillsRequired || !formData.location) {
       setError("All fields are required.");
@@ -55,18 +64,28 @@ const AddPost = ({ isOpen, onClose, onSubmit }) => {
         requestedBy: userId,
         status: 'pending'
       };
+      
+      console.log('Submitting post data:', postData);
+      
       const response = await fetch('http://localhost:5000/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postData)
       });
-      if (!response.ok) throw new Error('Failed to add request');
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to add request');
+      }
+      
       const newPost = await response.json();
+      console.log('Post created successfully:', newPost);
+      
       if (onSubmit) onSubmit(newPost.data); // Pass the new post data up
       onClose();
     } catch (err) {
       console.error("Error submitting request:", err);
-      setError("Failed to add request. Please try again.");
+      setError(err.message || "Failed to add request. Please try again.");
     } finally {
       setLoading(false);
     }

@@ -73,6 +73,39 @@ body {
   gap: 18px; /* Increased space between form groups */
 }
 
+/* Login Type Toggle */
+.login-type-toggle {
+  display: flex;
+  background: #f3f4f6;
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 10px;
+}
+
+.toggle-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn.active {
+  background: #4A90E2;
+  color: white;
+  box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+}
+
+.toggle-btn:hover:not(.active) {
+  background: #e5e7eb;
+  color: #374151;
+}
+
 .form-group {
   position: relative;
   width: 100%;
