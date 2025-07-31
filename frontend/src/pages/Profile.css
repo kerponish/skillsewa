@@ -1,21 +1,187 @@
-/* General container for the profile page */
+/* Profile Container with Dark Purple Background */
 .profile-container {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
-  height: 100vh; /* Full viewport height */
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #fff; /* White text color */
-  font-family: 'Roboto', sans-serif; /* Modern font */
-  padding: 20px; /* Add some padding around the edges */
-  box-sizing: border-box; /* Include padding in element's total width and height */
+  color: #fff;
+  font-family: 'Roboto', sans-serif;
+  padding: 20px;
+  box-sizing: border-box;
   position: relative;
   overflow: hidden;
 }
 
-/* Bento Grid Background for Profile */
-.profile-container::before {
+/* Profile Main Title */
+.profile-main-title {
+  font-size: 3.5em;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 40px;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 5;
+}
+
+/* Profile Content Box */
+.profile-content {
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 40px 60px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 5;
+}
+
+/* Profile Data Display */
+.profile-data-display {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+/* Data Row */
+.data-row {
+  display: flex;
+  align-items: center;
+  font-size: 1.3em;
+  color: #fff;
+}
+
+.data-row label {
+  font-weight: 600;
+  color: #fff;
+  min-width: 140px;
+  text-align: right;
+  margin-right: 20px;
+}
+
+.data-row span {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  font-weight: 500;
+}
+
+/* Profile Actions */
+.profile-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+/* Edit Profile Button */
+.edit-profile-btn {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 15px 40px;
+  font-size: 1.2em;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.edit-profile-btn:hover {
+  background: #6d28d9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.edit-icon {
+  font-size: 1.1em;
+}
+
+/* Change Password Button */
+.change-password-btn {
+  background: #7c3aed;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 40px;
+  font-size: 1em;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+}
+
+.change-password-btn:hover {
+  background: #6d28d9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.lock-icon {
+  font-size: 1em;
+}
+
+/* Loading and Error Messages */
+.loading-message, .error-message {
+  color: #fff;
+  font-size: 1.2em;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 5;
+}
+
+.error-message {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Edit Profile Modal Styles */
+.edit-profile-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  font-family: 'Roboto', sans-serif;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-profile-modal-overlay::before {
   content: '';
   position: absolute;
   top: 0;
@@ -23,562 +189,200 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(30, 58, 138, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(147, 197, 253, 0.15) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(30, 27, 75, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(147, 51, 234, 0.15) 0%, transparent 50%);
   z-index: 0;
-}
-
-.profile-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  z-index: 0;
-  animation: bentoFloat 20s ease-in-out infinite;
-}
-
-@keyframes bentoFloat {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateY(-10px) rotate(0.5deg);
-    opacity: 0.5;
-  }
-}
-
-/* Main Profile Title */
-.profile-main-title {
-  font-size: 3.5em; /* Large size as in design */
-  font-weight: 700; /* Bold weight for modern look */
-  color: #fff; /* White color */
-  margin-bottom: 40px; /* Space below title */
-  text-align: center;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 5;
-}
-
-/* Profile Content Box (optional, if you want a subtle container for form) */
-.profile-content {
-  background: rgba(0, 0, 0, 0.25); /* Dark transparent background */
-  border-radius: 20px; /* Modern rounded corners */
-  padding: 40px 60px; /* Generous padding */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
-  backdrop-filter: blur(20px); /* Enhanced frosted glass effect */
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  width: 100%;
-  max-width: 500px; /* Max width for the content area */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center items inside the content box */
-  position: relative;
-  z-index: 5;
-}
-
-/* Display Mode */
-.profile-data-display {
-  width: 100%; /* Take full width of parent */
-  margin-bottom: 30px; /* Space before buttons */
-}
-
-.profile-data-display .data-row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px; /* Space between rows */
-  font-size: 1.5em; /* Larger text for data */
-  color: #fff; /* White text */
-}
-
-.profile-data-display .data-row label {
-  font-weight: 600;
-  width: 160px; /* Fixed width for labels to align inputs */
-  text-align: right;
-  margin-right: 20px;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.profile-data-display .data-row span {
-  flex: 1; /* Take remaining space */
-  border: 1px solid rgba(255, 255, 255, 0.2); /* White border for display fields */
-  background-color: rgba(255, 255, 255, 0.1); /* Transparent background for display fields */
-  padding: 12px 15px;
-  border-radius: 8px;
-  color: #fff; /* White text for content */
-  backdrop-filter: blur(10px);
-}
-
-.profile-data-display .dob-row {
-  position: relative; /* For icon positioning */
-}
-
-.profile-data-display .dob-icon-wrapper {
-  position: absolute;
-  left: 20px; /* Adjust as needed */
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(59, 130, 246, 0.3); /* Blue background for the icon box */
-  border: 1px solid rgba(59, 130, 246, 0.5);
-  border-radius: 8px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(10px);
-}
-
-.profile-data-display .dob-icon {
-  font-size: 24px;
-  color: #fff;
-}
-
-.profile-data-display .dob-row label {
-    padding-left: 60px; /* Make space for the icon box */
-    width: auto; /* Allow label to shrink */
-}
-
-
-/* Edit Mode Form */
-.profile-edit-form {
-  width: 100%;
-}
-
-.profile-edit-form .form-group {
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center; /* Align label and input */
-}
-
-.profile-edit-form label {
-  font-weight: 600;
-  font-size: 1.5em; /* Larger text for labels */
-  color: rgba(255, 255, 255, 0.9); /* White text */
-  width: 160px; /* Fixed width for labels to align inputs */
-  text-align: right;
-  margin-right: 20px;
-}
-
-.profile-edit-form input[type="text"],
-.profile-edit-form input[type="email"], /* Added input type email */
-.profile-edit-form input[type="date"] {
-  flex: 1; /* Take remaining space */
-  padding: 12px 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2); /* White border */
-  border-radius: 8px;
-  font-size: 1.5em; /* Larger input text */
-  color: #fff; /* White input text */
-  background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
-  outline: none;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-.profile-edit-form input:focus {
-  border-color: rgba(59, 130, 246, 0.5); /* Blue border on focus */
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2); /* Blue glow on focus */
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* DOB input specific styling */
-.profile-edit-form .dob-group {
-    position: relative;
-    padding-left: 60px; /* Make space for the icon */
-}
-
-.profile-edit-form .dob-input-icon {
-    position: absolute;
-    left: 20px; /* Align with the icon in display mode */
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 24px;
-    color: #fff;
-    z-index: 1; /* Ensure icon is above input */
-    background-color: rgba(59, 130, 246, 0.3); /* Blue background for the icon box */
-    border: 1px solid rgba(59, 130, 246, 0.5);
-    border-radius: 8px;
-    padding: 8px;
-    backdrop-filter: blur(10px);
-}
-
-.profile-edit-form .dob-group label {
-    padding-left: 0; /* Reset padding for label inside dob-group */
-}
-
-/* Action buttons */
-.profile-actions, .form-action-buttons {
-  display: flex;
-  flex-direction: column; /* Stack buttons vertically */
-  gap: 20px; 
-  width: 100%;
-  align-items: center; 
-}
-
-.edit-profile-btn,
-.change-password-btn,
-.save-btn,
-.cancel-btn {
-  padding: 12px 25px; /* Adjust padding */
-  border-radius: 12px; /* Modern rounded corners */
-  cursor: pointer;
-  font-size: 1.5em; /* Larger font size for buttons */
-  font-weight: 600; /* Semi-bold text */
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Center text and icon */
-  gap: 10px;
-  width: 280px; /* Fixed width for buttons */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-}
-
-/* EDIT button specific styles */
-.edit-profile-btn {
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff; /* White text */
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding-top: 12px; /* Adjust padding to match visual */
-  padding-bottom: 12px;
-}
-
-.edit-profile-btn .edit-icon {
-  font-size: 24px; /* Icon size */
-  color: #fff; /* White icon */
-}
-
-.edit-profile-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-  background: rgba(255, 255, 255, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-/* Change password button specific styles */
-.change-password-btn {
-  background: rgba(59, 130, 246, 0.3); /* Blue background */
-  color: #fff; /* White text */
-  border: 1px solid rgba(59, 130, 246, 0.5);
-  font-size: 1.5em; /* Match EDIT button font size */
-}
-
-.change-password-btn .lock-icon {
-  font-size: 24px; /* Icon size */
-  color: #fff; /* White icon */
-}
-
-.change-password-btn:hover {
-  background: rgba(59, 130, 246, 0.5); /* Darker blue on hover */
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(59, 130, 246, 0.7);
-}
-
-/* Save and Cancel buttons in edit mode */
-.form-action-buttons {
-    flex-direction: row; /* Keep save/cancel side-by-side */
-    justify-content: center; /* Center them */
-    width: auto; /* Auto width */
-    margin-top: 30px;
-}
-
-.save-btn, .cancel-btn {
-    width: 140px; /* Fixed width for save/cancel */
-    font-size: 1.2em; /* Slightly smaller than main buttons */
-    padding: 10px 15px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.save-btn {
-    background: rgba(34, 197, 94, 0.3);
-    color: #fff;
-    border: 1px solid rgba(34, 197, 94, 0.5);
-}
-
-.save-btn:hover {
-    background: rgba(34, 197, 94, 0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-.cancel-btn {
-    background: rgba(239, 68, 68, 0.3);
-    color: #fff;
-    border: 1px solid rgba(239, 68, 68, 0.5);
-}
-
-.cancel-btn:hover {
-    background: rgba(239, 68, 68, 0.5);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-}
-
-
-/* Loading and Error messages */
-.loading-message, .error-message {
-  color: #fff;
-  font-size: 1.2em;
-  margin-top: 20px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-}
-
-.error-message {
-  color: #fca5a5;
-  font-weight: 600;
-}
-
-/* Availability Badge */
-.availability-badge {
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 1.1em;
-  font-weight: 600;
-  text-transform: capitalize;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-}
-
-.availability-badge.available {
-  background: rgba(59, 130, 246, 0.3);
-  color: #3b82f6;
-  border: 1px solid rgba(59, 130, 246, 0.5);
-}
-
-.availability-badge.unavailable {
-  background: rgba(251, 191, 36, 0.3);
-  color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.5);
-}
-
-/* --- EditProfile Modal Styles (from EditProfile.css) --- */
-.edit-profile-modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .edit-profile-modal-content {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(20px);
-  color: #fff;
   border-radius: 20px;
+  padding: 40px 60px;
+  width: 90%;
+  max-width: 500px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  padding: 36px 32px 28px 32px;
-  min-width: 320px;
-  max-width: 95vw;
-  width: 400px;
-  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.15);
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  align-items: center;
+  position: relative;
+  z-index: 5;
 }
 
 .edit-profile-modal-content h2 {
-  margin-bottom: 12px;
-  font-size: 1.6em;
+  font-size: 2.5em;
   font-weight: 700;
   color: #fff;
+  margin-bottom: 30px;
   text-align: center;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .edit-profile-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin-bottom: 12px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .edit-profile-form-group label {
+  display: block;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1em;
+  color: #fff;
+  margin-bottom: 8px;
+  font-size: 1.1em;
 }
 
-.edit-profile-form-group input[type="text"],
-.edit-profile-form-group input[type="date"] {
-  padding: 12px 14px;
+.edit-profile-form-group input {
+  width: 100%;
+  padding: 15px 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
-  font-size: 1em;
+  border-radius: 8px;
+  font-size: 1.1em;
   color: #fff;
   background: rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
   backdrop-filter: blur(10px);
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
 }
 
 .edit-profile-form-group input:focus {
-  outline: none;
-  border-color: rgba(59, 130, 246, 0.5);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  border-color: rgba(124, 58, 237, 0.8);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
   background: rgba(255, 255, 255, 0.15);
 }
 
 .edit-profile-actions {
   display: flex;
-  gap: 16px;
-  justify-content: flex-end;
-  margin-top: 18px;
+  gap: 15px;
+  margin-top: 30px;
+  width: 100%;
 }
 
 .save-btn, .cancel-btn {
+  flex: 1;
+  padding: 12px 20px;
   border: none;
-  padding: 12px 28px;
   border-radius: 8px;
+  font-size: 1.1em;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 1em;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
-  font-weight: 600;
-  transition: background 0.3s;
 }
 
 .save-btn {
-  background: rgba(34, 197, 94, 0.3);
+  background: #7c3aed;
   color: #fff;
-  border: 1px solid rgba(34, 197, 94, 0.5);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
 }
+
 .save-btn:hover {
-  background: rgba(34, 197, 94, 0.5);
+  background: #6d28d9;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
 }
+
 .cancel-btn {
   background: rgba(239, 68, 68, 0.3);
-  color: #fff;
+  color: #ef4444;
   border: 1px solid rgba(239, 68, 68, 0.5);
+  backdrop-filter: blur(10px);
 }
+
 .cancel-btn:hover {
   background: rgba(239, 68, 68, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* Error message override for modal */
-.edit-profile-modal-content .error-message {
-  color: #fca5a5;
-  margin-top: 8px;
-  font-weight: 600;
-  text-align: center;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+.save-btn:disabled, .cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
-@media (max-width: 600px) {
-  .edit-profile-modal-content {
-    padding: 18px 6px 14px 6px;
-    min-width: 0;
-    width: 98vw;
-  }
-}
-
-/* Responsive adjustments */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .profile-container {
-    padding: 10px;
-    justify-content: flex-start; /* Align content to top on smaller screens */
+    padding: 15px;
   }
 
   .profile-main-title {
-    font-size: 3em;
-    margin-bottom: 20px;
+    font-size: 2.8em;
+    margin-bottom: 30px;
   }
 
   .profile-content {
-    padding: 20px 30px;
+    padding: 30px 40px;
     max-width: 95%;
   }
 
-  .profile-data-display .data-row,
-  .profile-edit-form .form-group {
-    flex-direction: column; /* Stack label and input vertically */
-    align-items: flex-start; /* Align text to start */
-    margin-bottom: 15px;
+  .data-row {
+    font-size: 1.1em;
   }
 
-  .profile-data-display .data-row label,
-  .profile-edit-form label {
-    width: 100%; /* Full width for labels */
-    text-align: left; /* Align labels left */
-    margin-right: 0;
-    margin-bottom: 5px; /* Space between label and input */
-    font-size: 1.2em; /* Adjust label font size */
+  .data-row label {
+    min-width: 120px;
+    font-size: 1em;
   }
 
-  .profile-data-display .data-row span,
-  .profile-edit-form input {
-    width: 100%; /* Full width for inputs/display fields */
-    font-size: 1.2em;
+  .edit-profile-btn, .change-password-btn {
+    font-size: 1.1em;
+    padding: 12px 30px;
   }
 
-  .profile-data-display .dob-row label,
-  .profile-edit-form .dob-group label {
-      padding-left: 0; /* Reset padding */
+  .edit-profile-modal-content {
+    padding: 30px 40px;
+    max-width: 95%;
   }
 
-  .profile-data-display .dob-icon-wrapper,
-  .profile-edit-form .dob-input-icon {
-      position: static; /* Remove absolute positioning */
-      transform: none;
-      margin-bottom: 10px; /* Space it out */
-  }
-
-
-  .profile-actions, .form-action-buttons {
-    gap: 15px;
-  }
-
-  .edit-profile-btn,
-  .change-password-btn,
-  .save-btn,
-  .cancel-btn {
-    width: 100%; /* Full width buttons */
-    font-size: 1.3em;
-    padding: 10px;
+  .edit-profile-modal-content h2 {
+    font-size: 2.2em;
   }
 }
 
 @media (max-width: 480px) {
   .profile-main-title {
-    font-size: 2.5em;
-    margin-bottom: 15px;
+    font-size: 2.2em;
+    margin-bottom: 25px;
   }
+
   .profile-content {
-    padding: 15px 20px;
+    padding: 25px 30px;
   }
-  .profile-data-display .data-row,
-  .profile-edit-form .form-group {
-    font-size: 1.1em;
+
+  .data-row {
+    font-size: 1em;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
-  .profile-data-display .data-row label,
-  .profile-edit-form label {
-    font-size: 1.1em;
+
+  .data-row label {
+    min-width: auto;
+    text-align: left;
+    margin-right: 0;
   }
-  .profile-data-display .data-row span,
-  .profile-edit-form input {
-    font-size: 1.1em;
+
+  .data-row span {
+    width: 100%;
+    font-size: 0.95em;
   }
-  .edit-profile-btn,
-  .change-password-btn,
-  .save-btn,
-  .cancel-btn {
-    font-size: 1.1em;
+
+  .edit-profile-btn, .change-password-btn {
+    font-size: 1em;
+    padding: 10px 25px;
+  }
+
+  .edit-profile-modal-content {
+    padding: 25px 30px;
+  }
+
+  .edit-profile-modal-content h2 {
+    font-size: 1.8em;
   }
 }

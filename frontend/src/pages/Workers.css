@@ -1,283 +1,118 @@
-/* General container for the workers page */
+/* Outer wrapper for the whole page */
 .workers-container {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #1e40af 100%);
-  height: 100vh; /* Full viewport height */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #fff; /* White text color */
-  font-family: 'Roboto', sans-serif; /* Modern font */
-  padding: 20px; /* Add some padding around the edges */
-  box-sizing: border-box; /* Include padding in element's total width and height */
-  position: relative;
-  overflow: hidden;
+  padding: 30px;
+  background-color: #1e3a8a; /* Dark blue background */
+  min-height: 100vh;
+  box-sizing: border-box;
+  color: #fff;
+  overflow-y: auto;
 }
 
-
-
-/* Bento Grid Background for Workers */
-.workers-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(30, 58, 138, 0.3) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(147, 197, 253, 0.15) 0%, transparent 50%);
-  z-index: 0;
-}
-
-.workers-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  z-index: 0;
-  animation: bentoFloat 20s ease-in-out infinite;
-}
-
-@keyframes bentoFloat {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateY(-10px) rotate(0.5deg);
-    opacity: 0.5;
-  }
-}
-
-/* Main Workers Title */
-.workers-main-title {
-  font-size: 3.5em; /* Large size as in design */
-  font-weight: 700; /* Bold weight for modern look */
-  color: #fff; /* White color */
-  margin-bottom: 40px; /* Space below title */
-  text-align: center;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 5;
-}
-
-/* Workers Content Box */
+/* Centered content area */
 .workers-content {
-  background: rgba(0, 0, 0, 0.25); /* Dark transparent background */
-  border-radius: 20px; /* Modern rounded corners */
-  padding: 40px 60px; /* Generous padding */
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
-  backdrop-filter: blur(20px); /* Enhanced frosted glass effect */
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  max-width: 1200px;
+  margin: 0 auto;
   width: 100%;
-  max-width: 600px; /* Max width for the content area */
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center items inside the content box */
-  position: relative;
-  z-index: 5;
 }
 
-/* Workers List */
+/* Workers grid list */
 .workers-list {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
 }
 
-/* Worker Card */
+/* Card for each worker */
 .worker-card {
-  background: rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  padding: 28px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.3s ease;
-  width: 100%;
+  background-color: #f3f4f6; /* Light card background */
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: #1f2937; /* Dark text */
+  border: 2px solid transparent;
 }
 
+.worker-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+  border-color: #8b5cf6;
+}
 
-
-/* Worker Title Row */
+/* Header row with name and badge */
 .worker-title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 1.5em; /* Larger font size */
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: #fff;
+  margin-bottom: 12px;
 }
 
 .worker-name {
-  flex: 1;
-  margin-right: 20px;
-}
-
-/* Availability Badge */
-.availability-badge {
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 1.1em; /* Larger font size */
+  font-size: 18px;
   font-weight: 600;
-  text-transform: capitalize;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
 }
 
-.availability-badge.available {
-  background: rgba(59, 130, 246, 0.3);
-  color: #3b82f6;
-  border: 1px solid rgba(59, 130, 246, 0.5);
+/* Availability badge styling */
+.availability-badge {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
 }
 
-.availability-badge.unavailable {
-  background: rgba(251, 191, 36, 0.3);
-  color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.5);
+.available {
+  background-color: #10b981;
+  color: white;
 }
 
-/* Worker Details Row */
+.unavailable {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* Info rows */
 .worker-details-row {
   display: flex;
-  gap: 15px;
-  font-size: 1.3em; /* Larger font size */
-  color: #fff;
-  align-items: center;
+  justify-content: space-between;
+  margin: 6px 0;
+  font-size: 14px;
 }
 
 .worker-label {
-  font-weight: 600;
-  color: #fff;
-  min-width: 140px; /* Fixed width for labels */
-  text-align: right;
+  font-weight: 500;
+  color: #374151;
 }
 
-.worker-details-row span:last-child {
-  flex: 1;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  color: #fff;
-}
-
-/* Loading and Error messages */
-.loading-message, .error-message, .no-workers-message {
-  color: #000;
-  font-size: 1.2em;
-  margin-top: 20px;
-  text-align: center;
-}
-
+/* Messages */
+.loading-message,
+.error-message,
 .no-workers-message {
-  color: #666;
+  text-align: center;
+  font-size: 16px;
+  margin-top: 30px;
+  font-weight: 500;
 }
 
 .error-message {
-  color: #d32f2f;
-  font-weight: 600;
+  color: #f87171;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .workers-container {
-    padding: 10px;
-    justify-content: flex-start; /* Align content to top on smaller screens */
-  }
+.no-workers-message {
+  color: #facc15;
+}
 
-  .workers-main-title {
-    font-size: 3em;
-    margin-bottom: 20px;
-  }
-
-  .workers-content {
-    padding: 20px 30px;
-    max-width: 95%;
-  }
-
-  .worker-card {
-    padding: 20px 15px;
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .worker-details-row {
+    flex-direction: column;
+    gap: 4px;
   }
 
   .worker-title-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-  }
-
-  .worker-name {
-    margin-right: 0;
-    font-size: 1.3em;
-  }
-
-  .availability-badge {
-    align-self: flex-end;
-    font-size: 1em;
-  }
-
-  .worker-details-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .worker-label {
-    min-width: auto;
-    text-align: left;
-    font-size: 1.1em;
-  }
-
-  .worker-details-row span:last-child {
-    width: 100%;
-    font-size: 1.1em;
+    gap: 6px;
   }
 }
-
-@media (max-width: 480px) {
-  .workers-main-title {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-  }
-  
-  .workers-content {
-    padding: 15px 20px;
-  }
-  
-  .worker-card {
-    padding: 15px 10px;
-  }
-  
-  .worker-title-row {
-    font-size: 1.2em;
-  }
-  
-  .worker-details-row {
-    font-size: 1.1em;
-  }
-  
-  .worker-label {
-    font-size: 1em;
-  }
-  
-  .worker-details-row span:last-child {
-    font-size: 1em;
-  }
-} 
