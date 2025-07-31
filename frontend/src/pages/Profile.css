@@ -1,7 +1,7 @@
 /* Profile Container with Dark Purple Background */
 .profile-container {
   background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%);
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,9 +12,37 @@
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
 }
 
-/* Profile Main Title */
+/* Interactive Background Animation */
+.profile-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(30, 27, 75, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(147, 51, 234, 0.15) 0%, transparent 50%);
+  z-index: 0;
+  animation: backgroundPulse 8s ease-in-out infinite;
+}
+
+@keyframes backgroundPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+/* Profile Main Title with Animation */
 .profile-main-title {
   font-size: 3.5em;
   font-weight: 700;
@@ -24,9 +52,27 @@
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 5;
+  animation: titleSlideIn 0.8s ease-out;
+  transition: all 0.3s ease;
 }
 
-/* Profile Content Box */
+.profile-main-title:hover {
+  transform: scale(1.05);
+  text-shadow: 0 4px 20px rgba(124, 58, 237, 0.5);
+}
+
+@keyframes titleSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Profile Content Box with Enhanced Glassmorphism */
 .profile-content {
   background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(20px);
@@ -41,9 +87,28 @@
   align-items: center;
   position: relative;
   z-index: 5;
+  animation: contentFadeIn 1s ease-out 0.3s both;
+  transition: all 0.3s ease;
 }
 
-/* Profile Data Display */
+.profile-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(124, 58, 237, 0.3);
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Profile Data Display with Staggered Animation */
 .profile-data-display {
   width: 100%;
   display: flex;
@@ -52,12 +117,39 @@
   margin-bottom: 40px;
 }
 
-/* Data Row */
+/* Data Row with Interactive Hover */
 .data-row {
   display: flex;
   align-items: center;
   font-size: 1.3em;
   color: #fff;
+  padding: 15px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  animation: rowSlideIn 0.6s ease-out both;
+}
+
+.data-row:nth-child(1) { animation-delay: 0.4s; }
+.data-row:nth-child(2) { animation-delay: 0.5s; }
+.data-row:nth-child(3) { animation-delay: 0.6s; }
+.data-row:nth-child(4) { animation-delay: 0.7s; }
+.data-row:nth-child(5) { animation-delay: 0.8s; }
+
+.data-row:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(10px);
+  border-radius: 15px;
+}
+
+@keyframes rowSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .data-row label {
@@ -66,6 +158,12 @@
   min-width: 140px;
   text-align: right;
   margin-right: 20px;
+  transition: all 0.3s ease;
+}
+
+.data-row:hover label {
+  color: rgba(124, 58, 237, 0.9);
+  transform: scale(1.05);
 }
 
 .data-row span {
@@ -77,18 +175,37 @@
   backdrop-filter: blur(10px);
   color: #fff;
   font-weight: 500;
+  transition: all 0.3s ease;
 }
 
-/* Profile Actions */
+.data-row:hover span {
+  background: rgba(124, 58, 237, 0.2);
+  border-color: rgba(124, 58, 237, 0.5);
+  transform: scale(1.02);
+}
+
+/* Profile Actions with Enhanced Buttons */
 .profile-actions {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
+  animation: actionsSlideUp 0.8s ease-out 1s both;
 }
 
-/* Edit Profile Button */
+@keyframes actionsSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Edit Profile Button with Enhanced Interactions */
 .edit-profile-btn {
   background: #7c3aed;
   color: #fff;
@@ -106,19 +223,45 @@
   width: 100%;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.edit-profile-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .edit-profile-btn:hover {
   background: #6d28d9;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+}
+
+.edit-profile-btn:hover::before {
+  left: 100%;
+}
+
+.edit-profile-btn:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
 .edit-icon {
   font-size: 1.1em;
+  transition: transform 0.3s ease;
 }
 
-/* Change Password Button */
+.edit-profile-btn:hover .edit-icon {
+  transform: rotate(15deg);
+}
+
+/* Change Password Button with Enhanced Interactions */
 .change-password-btn {
   background: #7c3aed;
   color: #fff;
@@ -136,19 +279,45 @@
   width: 100%;
   justify-content: center;
   box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.change-password-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .change-password-btn:hover {
   background: #6d28d9;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+}
+
+.change-password-btn:hover::before {
+  left: 100%;
+}
+
+.change-password-btn:active {
+  transform: translateY(-1px) scale(0.98);
 }
 
 .lock-icon {
   font-size: 1em;
+  transition: transform 0.3s ease;
 }
 
-/* Loading and Error Messages */
+.change-password-btn:hover .lock-icon {
+  transform: scale(1.2);
+}
+
+/* Loading and Error Messages with Animation */
 .loading-message, .error-message {
   color: #fff;
   font-size: 1.2em;
@@ -156,14 +325,31 @@
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   position: relative;
   z-index: 5;
+  animation: messageFadeIn 0.5s ease-out;
+}
+
+@keyframes messageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .error-message {
   color: #ef4444;
   font-weight: 600;
+  background: rgba(239, 68, 68, 0.2);
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  backdrop-filter: blur(10px);
 }
 
-/* Edit Profile Modal Styles */
+/* Edit Profile Modal Styles with Enhanced Animations */
 .edit-profile-modal-overlay {
   position: fixed;
   top: 0;
@@ -179,6 +365,16 @@
   color: #fff;
   position: relative;
   overflow: hidden;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .edit-profile-modal-overlay::before {
@@ -193,6 +389,7 @@
     radial-gradient(circle at 80% 20%, rgba(30, 27, 75, 0.3) 0%, transparent 50%),
     radial-gradient(circle at 40% 40%, rgba(147, 51, 234, 0.15) 0%, transparent 50%);
   z-index: 0;
+  animation: backgroundPulse 6s ease-in-out infinite;
 }
 
 .edit-profile-modal-content {
@@ -209,6 +406,18 @@
   align-items: center;
   position: relative;
   z-index: 5;
+  animation: modalSlideIn 0.4s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .edit-profile-modal-content h2 {
@@ -218,11 +427,28 @@
   margin-bottom: 30px;
   text-align: center;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: titleSlideIn 0.6s ease-out 0.2s both;
 }
 
 .edit-profile-form-group {
   width: 100%;
   margin-bottom: 20px;
+  animation: formGroupSlideIn 0.5s ease-out both;
+}
+
+.edit-profile-form-group:nth-child(2) { animation-delay: 0.3s; }
+.edit-profile-form-group:nth-child(3) { animation-delay: 0.4s; }
+.edit-profile-form-group:nth-child(4) { animation-delay: 0.5s; }
+
+@keyframes formGroupSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .edit-profile-form-group label {
@@ -231,6 +457,11 @@
   color: #fff;
   margin-bottom: 8px;
   font-size: 1.1em;
+  transition: all 0.3s ease;
+}
+
+.edit-profile-form-group:hover label {
+  color: rgba(124, 58, 237, 0.9);
 }
 
 .edit-profile-form-group input {
@@ -251,6 +482,7 @@
   border-color: rgba(124, 58, 237, 0.8);
   box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
   background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.02);
 }
 
 .edit-profile-actions {
@@ -258,6 +490,7 @@
   gap: 15px;
   margin-top: 30px;
   width: 100%;
+  animation: actionsSlideUp 0.6s ease-out 0.6s both;
 }
 
 .save-btn, .cancel-btn {
@@ -273,6 +506,19 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.save-btn::before, .cancel-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
 }
 
 .save-btn {
@@ -283,8 +529,12 @@
 
 .save-btn:hover {
   background: #6d28d9;
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
   box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+}
+
+.save-btn:hover::before {
+  left: 100%;
 }
 
 .cancel-btn {
@@ -296,7 +546,11 @@
 
 .cancel-btn:hover {
   background: rgba(239, 68, 68, 0.5);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.cancel-btn:hover::before {
+  left: 100%;
 }
 
 .save-btn:disabled, .cancel-btn:disabled {
@@ -305,10 +559,94 @@
   transform: none;
 }
 
-/* Responsive Adjustments */
+/* Password Input Container */
+.password-input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-container input {
+  width: 100%;
+  padding: 15px 20px;
+  padding-right: 50px; /* Space for the toggle button */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-size: 1.1em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.password-input-container input:focus {
+  border-color: rgba(124, 58, 237, 0.8);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.02);
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.password-toggle-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.password-toggle-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Success Message */
+.success-message {
+  color: #10b981;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+  background: rgba(16, 185, 129, 0.2);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  backdrop-filter: blur(10px);
+  animation: successSlideIn 0.5s ease-out;
+}
+
+@keyframes successSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced Responsive Design */
 @media (max-width: 768px) {
   .profile-container {
     padding: 15px;
+    min-height: 100vh;
   }
 
   .profile-main-title {
@@ -319,10 +657,12 @@
   .profile-content {
     padding: 30px 40px;
     max-width: 95%;
+    margin: 0 10px;
   }
 
   .data-row {
     font-size: 1.1em;
+    padding: 12px;
   }
 
   .data-row label {
@@ -338,6 +678,7 @@
   .edit-profile-modal-content {
     padding: 30px 40px;
     max-width: 95%;
+    margin: 0 10px;
   }
 
   .edit-profile-modal-content h2 {
@@ -360,17 +701,20 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+    padding: 10px;
   }
 
   .data-row label {
     min-width: auto;
     text-align: left;
     margin-right: 0;
+    font-size: 0.9em;
   }
 
   .data-row span {
     width: 100%;
     font-size: 0.95em;
+    padding: 10px 15px;
   }
 
   .edit-profile-btn, .change-password-btn {
@@ -384,5 +728,74 @@
 
   .edit-profile-modal-content h2 {
     font-size: 1.8em;
+  }
+
+  .edit-profile-form-group input {
+    font-size: 1em;
+    padding: 12px 15px;
+  }
+
+  .save-btn, .cancel-btn {
+    font-size: 1em;
+    padding: 10px 15px;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .data-row:hover {
+    transform: none;
+  }
+  
+  .edit-profile-btn:hover,
+  .change-password-btn:hover,
+  .save-btn:hover,
+  .cancel-btn:hover {
+    transform: none;
+  }
+  
+  .edit-profile-btn:active,
+  .change-password-btn:active,
+  .save-btn:active,
+  .cancel-btn:active {
+    transform: scale(0.98);
+  }
+}
+
+/* Enhanced Responsive Design for Password Fields */
+@media (max-width: 768px) {
+  .password-input-container input {
+    font-size: 1em;
+    padding: 12px 15px;
+    padding-right: 45px;
+  }
+  
+  .password-toggle-btn {
+    right: 8px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .password-input-container input {
+    font-size: 0.95em;
+    padding: 10px 12px;
+    padding-right: 40px;
+  }
+  
+  .password-toggle-btn {
+    right: 6px;
+    padding: 3px;
+  }
+}
+
+/* Touch Device Optimizations for Password Fields */
+@media (hover: none) and (pointer: coarse) {
+  .password-toggle-btn:hover {
+    transform: translateY(-50%);
+  }
+  
+  .password-toggle-btn:active {
+    transform: translateY(-50%) scale(0.9);
   }
 }

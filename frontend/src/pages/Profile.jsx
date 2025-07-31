@@ -4,6 +4,7 @@ import {
   FaPencilAlt, FaLock, FaCalendarAlt, FaEdit, FaSave, FaTimes, FaUser
 } from 'react-icons/fa';
 import { useUser } from '../UserContext';
+import ChangePassword from './ChangePassword';
 
 const EditProfile = ({ userId, firstName, lastName, dateOfBirth, onClose, onProfileUpdated }) => {
   const [formData, setFormData] = useState({
@@ -111,6 +112,7 @@ const Profile = ({ userId: propUserId, onProfileUpdate }) => {
     dateOfBirth: ''
   });
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -172,8 +174,16 @@ const Profile = ({ userId: propUserId, onProfileUpdate }) => {
   };
 
   const handleChangePasswordClick = () => {
-    console.log("Change password clicked!");
-    alert("Change password functionality will be implemented here!");
+    setIsChangingPassword(true);
+  };
+
+  const handleCancelChangePassword = () => {
+    setIsChangingPassword(false);
+  };
+
+  const handlePasswordChanged = () => {
+    setIsChangingPassword(false);
+    // You can add any additional logic here, like showing a success message
   };
 
   return (
@@ -183,7 +193,7 @@ const Profile = ({ userId: propUserId, onProfileUpdate }) => {
       {error && <p className="error-message">{error}</p>}
       {!loading && !error && (
         <div className="profile-content">
-          {!isEditingProfile ? (
+          {!isEditingProfile && !isChangingPassword ? (
             <>
               <div className="profile-data-display">
                 <div className="data-row">
@@ -242,6 +252,13 @@ const Profile = ({ userId: propUserId, onProfileUpdate }) => {
             }
             setIsEditingProfile(false);
           }}
+        />
+      )}
+      {isChangingPassword && (
+        <ChangePassword
+          userId={userId}
+          onClose={handleCancelChangePassword}
+          onPasswordChanged={handlePasswordChanged}
         />
       )}
     </div>

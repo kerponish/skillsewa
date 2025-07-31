@@ -262,11 +262,6 @@ const Dashboard = () => {
           {renderContent()}
           <AddPost isOpen={isAddPostOpen} onClose={handleAddPostClose} onSubmit={handleAddPostSubmit} />
         </main>
-
-        {/* Footer */}
-        <footer className="dashboard-footer">
-          {/* Content for the footer will go here later */}
-        </footer>
       </div>
     </div>
   );
