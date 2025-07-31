@@ -14,6 +14,8 @@
   overflow: hidden;
 }
 
+
+
 /* Bento Grid Background for Workers */
 .workers-container::before {
   content: '';
@@ -76,7 +78,7 @@
   backdrop-filter: blur(20px); /* Enhanced frosted glass effect */
   border: 1px solid rgba(255, 255, 255, 0.15);
   width: 100%;
-  max-width: 800px; /* Max width for the content area */
+  max-width: 600px; /* Max width for the content area */
   display: flex;
   flex-direction: column;
   align-items: center; /* Center items inside the content box */
@@ -89,9 +91,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  position: relative;
-  z-index: 5;
+  gap: 20px;
 }
 
 /* Worker Card */
@@ -106,14 +106,10 @@
   gap: 15px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   transition: all 0.3s ease;
+  width: 100%;
 }
 
-.worker-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-}
+
 
 /* Worker Title Row */
 .worker-title-row {
@@ -138,6 +134,8 @@
   font-size: 1.1em; /* Larger font size */
   font-weight: 600;
   text-transform: capitalize;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
@@ -166,7 +164,7 @@
 
 .worker-label {
   font-weight: 600;
-  color: #000;
+  color: #fff;
   min-width: 140px; /* Fixed width for labels */
   text-align: right;
 }
@@ -178,25 +176,23 @@
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  color: #fff;
 }
 
 /* Loading and Error messages */
 .loading-message, .error-message, .no-workers-message {
-  color: #fff;
-  font-size: 1.5em; /* Larger font size */
+  color: #000;
+  font-size: 1.2em;
   margin-top: 20px;
   text-align: center;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-  position: relative;
-  z-index: 5;
 }
 
 .no-workers-message {
-  color: rgba(255, 255, 255, 0.8);
+  color: #666;
 }
 
 .error-message {
-  color: #fca5a5;
+  color: #d32f2f;
   font-weight: 600;
 }
 

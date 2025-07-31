@@ -28,7 +28,6 @@ const Workers = () => {
 
   return (
     <div className="workers-container">
-      <h1 className="workers-main-title">All Workers</h1>
       <div className="workers-content">
         {loading && <p className="loading-message">Loading workers...</p>}
         {error && <p className="error-message">{error}</p>}
