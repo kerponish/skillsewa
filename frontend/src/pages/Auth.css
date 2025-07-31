@@ -1,38 +1,37 @@
 /* General Body and Container Styling */
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif; /* Using Inter for a modern look */
-  background: linear-gradient(135deg, #F8F9FA 0%, #E0E7EB 100%); /* Subtle gradient background */
-  display: flex;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #e0f2fe 0%, #f3e8ff 100%);
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow: hidden; /* Prevent scrollbars if content is slightly larger than viewport */
+  overflow: hidden;
 }
 
 .auth-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full viewport height */
-  width: 100%; /* Take full width to center content */
+  height: 100vh;
+  width: 100%;
   padding: 20px;
   box-sizing: border-box;
 }
 
 .auth-card {
-  background-color: #FFFFFF; /* Clean white background for the card */
-  border-radius: 20px; /* Generous rounded corners */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* More pronounced, softer shadow */
-  padding: 40px;
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 50px 40px;
   width: 100%;
-  max-width: 420px; /* Slightly adjusted max-width for a balanced look */
+  max-width: 450px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 25px; /* Increased space between sections */
-  transition: transform 0.3s ease-in-out; /* Smooth transition for potential hover effects */
+  gap: 30px;
 }
 
 /* Header Styling */
@@ -45,24 +44,27 @@ body {
 }
 
 .auth-logo {
-  width: 90px; /* Slightly larger logo */
+  width: 100px; /* Larger logo */
   height: auto;
-  margin-bottom: 8px; /* Reduced margin, relying on header gap */
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .auth-title {
-  color: #004d99; /* Dark blue from the logo */
-  font-size: 26px; /* Slightly larger title */
-  font-weight: 700; /* Bolder */
+  color: #1f2937;
+  font-size: 24px;
+  font-weight: 700;
   margin: 0;
-  letter-spacing: 1.2px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .auth-subtitle {
-  color: #333333; /* Darker text for better contrast */
-  font-size: 30px; /* Prominent for "Sign Up" text */
-  font-weight: 700; /* Bolder */
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 400;
   margin: 0;
+  margin-top: 8px;
 }
 
 /* Form Styling */
@@ -77,28 +79,28 @@ body {
 .login-type-toggle {
   display: flex;
   background: #f3f4f6;
-  border-radius: 12px;
-  padding: 4px;
-  margin-bottom: 10px;
+  border-radius: 10px;
+  padding: 3px;
+  margin-bottom: 25px;
+  width: 100%;
 }
 
 .toggle-btn {
   flex: 1;
-  padding: 12px 16px;
+  padding: 10px 14px;
   border: none;
   background: transparent;
   border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 13px;
+  font-weight: 500;
   color: #6b7280;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .toggle-btn.active {
-  background: #4A90E2;
+  background: #8b5cf6;
   color: white;
-  box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
 }
 
 .toggle-btn:hover:not(.active) {
@@ -113,25 +115,56 @@ body {
 }
 
 .auth-input {
-  width: 100%; /* Full width within its parent */
-  padding: 16px 15px; /* More padding for a comfortable feel */
-  border: 1px solid #D1D5DB; /* Light grey border */
-  border-radius: 12px; /* More rounded input fields */
-  font-size: 16px;
-  color: #333333;
+  width: 100%;
+  padding: 14px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 15px;
+  color: #1f2937;
   outline: none;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  background: #ffffff;
 }
 
 .auth-input::placeholder {
-  color: #6B7280; /* Medium grey placeholder */
-  opacity: 0.8; /* Slightly transparent */
+  color: #9ca3af;
 }
 
 .auth-input:focus {
-  border-color: #4A90E2; /* Primary blue on focus */
-  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2); /* Subtle focus ring */
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1);
+}
+
+/* Input with icons */
+.input-with-icon {
+  position: relative;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #9ca3af;
+  font-size: 16px;
+  z-index: 2;
+}
+
+.input-with-icon .auth-input {
+  padding-left: 45px;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #9ca3af;
+  font-size: 16px;
+  z-index: 2;
 }
 
 .password-input-container {
@@ -195,27 +228,32 @@ body {
 /* Button Styling */
 .auth-button {
   width: 100%;
-  padding: 16px;
-  background: linear-gradient(90deg, #4A90E2 0%, #007bff 100%); /* Gradient button */
-  color: white;
-  border: none;
-  border-radius: 12px; /* Rounded button corners */
-  font-size: 19px; /* Slightly larger font */
-  font-weight: 600;
+  padding: 14px;
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3); /* Button shadow */
+  transition: all 0.2s ease;
 }
 
 .auth-button:hover {
-  background: linear-gradient(90deg, #007bff 0%, #4A90E2 100%); /* Reverse gradient on hover */
-  transform: translateY(-2px); /* Slight lift effect */
-  box-shadow: 0 8px 20px rgba(74, 144, 226, 0.4);
+  background: #f9fafb;
+  border-color: #d1d5db;
 }
 
-.auth-button:active {
-  transform: translateY(0); /* Press effect */
-  box-shadow: 0 3px 10px rgba(74, 144, 226, 0.2);
+/* Purple button for sign up */
+.auth-button.purple {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+}
+
+.auth-button.purple:hover {
+  background: #7c3aed;
+  border-color: #7c3aed;
 }
 
 /* Footer text */
@@ -253,11 +291,40 @@ body {
 }
 
 /* Responsive Adjustments */
-@media (max-width: 600px) { /* Adjusted breakpoint for better tablet/mobile experience */
+@media (max-width: 768px) { /* Adjusted breakpoint for better tablet/mobile experience */
   .auth-card {
-      padding: 30px 25px; /* Slightly less padding on smaller screens */
-      max-width: 95%; /* Allow the card to be a bit wider on small screens */
-      border-radius: 15px;
+      padding: 40px 30px; /* Adjusted padding for mobile */
+      max-width: 90%; /* Allow the card to be wider on mobile */
+      border-radius: 20px;
+  }
+
+  .auth-title {
+      font-size: 28px;
+  }
+
+  .auth-subtitle {
+      font-size: 32px;
+  }
+
+  .auth-input, .auth-button {
+      font-size: 16px;
+      padding: 16px 18px;
+  }
+
+  .name-group {
+      flex-direction: column; /* Stack them vertically on smaller screens */
+      gap: 15px; /* Adjust gap when stacked */
+  }
+
+  .name-input-wrapper {
+      min-width: 100%; /* Take full width when stacked */
+  }
+}
+
+@media (max-width: 600px) {
+  .auth-card {
+      padding: 35px 25px;
+      max-width: 95%;
   }
 
   .auth-title {
@@ -269,17 +336,8 @@ body {
   }
 
   .auth-input, .auth-button {
-      font-size: 16px;
-      padding: 14px 15px;
-  }
-
-  .name-group {
-      flex-direction: column; /* Stack them vertically on smaller screens */
-      gap: 15px; /* Adjust gap when stacked */
-  }
-
-  .name-input-wrapper {
-      min-width: 100%; /* Take full width when stacked */
+      font-size: 15px;
+      padding: 14px 16px;
   }
 }
 

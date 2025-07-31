@@ -1,42 +1,76 @@
 import React, { useState, useEffect } from 'react';
 import { useUser } from '../UserContext';
 import { useNavigate } from 'react-router-dom';
+import AdminSidebar from '../components/admin/AdminSidebar';
+import AdminDashboard from '../components/admin/AdminDashboard';
+import ManageTasks from '../components/admin/ManageTasks';
+import ManageWorkers from '../components/admin/ManageWorkers';
+import ManageUsers from '../components/admin/ManageUsers';
 import './Admin.css';
 
 const Admin = () => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
+  const [activeMenu, setActiveMenu] = useState('dashboard');
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalWorkers: 0,
+    totalTasks: 0
+  });
   const [tasks, setTasks] = useState([]);
   const [workers, setWorkers] = useState([]);
-  const [stats, setStats] = useState({});
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [selectedWorker, setSelectedWorker] = useState('');
-  const [showAssignModal, setShowAssignModal] = useState(false);
+  const [editingWorker, setEditingWorker] = useState(null);
+  const [showAddWorker, setShowAddWorker] = useState(false);
+  const [editForm, setEditForm] = useState({
+    skills: '',
+    experience: '',
+    hourlyRate: '',
+    availability: ''
+  });
+  const [newWorkerForm, setNewWorkerForm] = useState({
+    firstname: '',
+    secondname: '',
+    email: '',
+    phone: '',
+    skills: '',
+    location: '',
+    hourlyRate: '',
+    username: '',
+    password: ''
+  });
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
       navigate('/login');
       return;
     }
-    fetchData();
+    fetchDashboardData();
   }, [user, navigate]);
 
-  const fetchData = async () => {
+  const fetchDashboardData = async () => {
     try {
-      const [tasksRes, workersRes, statsRes] = await Promise.all([
+      const [tasksRes, workersRes, usersRes, statsRes] = await Promise.all([
         fetch('http://localhost:5000/api/admin/tasks'),
         fetch('http://localhost:5000/api/admin/workers'),
+        fetch('http://localhost:5000/api/admin/users'),
         fetch('http://localhost:5000/api/admin/stats')
       ]);
 
       const tasksData = await tasksRes.json();
       const workersData = await workersRes.json();
+      const usersData = await usersRes.json();
       const statsData = await statsRes.json();
 
       setTasks(tasksData);
       setWorkers(workersData);
-      setStats(statsData);
+      setUsers(usersData);
+      setStats({
+        totalUsers: statsData.totalUsers || usersData.length,
+        totalWorkers: statsData.totalWorkers || workersData.length,
+        totalTasks: statsData.totalTasks || tasksData.length
+      });
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -44,57 +78,182 @@ const Admin = () => {
     }
   };
 
-  const handleAssignWorker = async () => {
-    if (!selectedTask || !selectedWorker) return;
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
 
+  const handleEditWorker = (worker) => {
+    setEditingWorker(worker);
+    setEditForm({
+      skills: worker.skills || '',
+      experience: worker.experience || '',
+      hourlyRate: worker.hourlyRate || '',
+      availability: worker.availability || ''
+    });
+  };
+
+  const handleUpdateWorker = async (workerId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/admin/workers/${workerId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(editForm)
+      });
+
+      if (response.ok) {
+        // Update the worker in the local state
+        setWorkers(workers.map(worker => 
+          worker.id === workerId 
+            ? { ...worker, ...editForm }
+            : worker
+        ));
+        setEditingWorker(null);
+        setEditForm({
+          skills: '',
+          experience: '',
+          hourlyRate: '',
+          availability: ''
+        });
+        alert('Worker updated successfully!');
+      } else {
+        alert('Failed to update worker');
+      }
+    } catch (error) {
+      console.error('Error updating worker:', error);
+      alert('Error updating worker');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingWorker(null);
+    setEditForm({
+      skills: '',
+      experience: '',
+      hourlyRate: '',
+      availability: ''
+    });
+  };
+
+  const handleAddWorker = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/admin/workers', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(newWorkerForm)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setWorkers([...workers, result.worker]);
+        setShowAddWorker(false);
+        setNewWorkerForm({
+          firstname: '',
+          secondname: '',
+          email: '',
+          phone: '',
+          skills: '',
+          location: '',
+          hourlyRate: '',
+          username: '',
+          password: ''
+        });
+        alert('Worker added successfully!');
+      } else {
+        alert('Failed to add worker');
+      }
+    } catch (error) {
+      console.error('Error adding worker:', error);
+      alert('Error adding worker');
+    }
+  };
+
+  const handleCancelAdd = () => {
+    setShowAddWorker(false);
+    setNewWorkerForm({
+      firstname: '',
+      secondname: '',
+      email: '',
+      phone: '',
+      skills: '',
+      location: '',
+      hourlyRate: '',
+      username: '',
+      password: ''
+    });
+  };
+
+  const handleAssignWorker = async (taskId, workerId) => {
     try {
       const response = await fetch('http://localhost:5000/api/admin/assign-worker', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({
-          taskId: selectedTask.id,
-          workerId: selectedWorker
-        })
+        body: JSON.stringify({ taskId, workerId })
       });
 
       if (response.ok) {
+        const result = await response.json();
+        // Update the task in the local state
+        const assignedWorker = workers.find(w => w.id === workerId);
+        setTasks(tasks.map(task => 
+          task.id === taskId 
+            ? { 
+                ...task, 
+                assignedTo: workerId, 
+                assignedWorker: assignedWorker,
+                status: 'assigned' 
+              }
+            : task
+        ));
         alert('Worker assigned successfully!');
-        setShowAssignModal(false);
-        setSelectedTask(null);
-        setSelectedWorker('');
-        fetchData(); // Refresh data
       } else {
         const error = await response.json();
         alert(error.error || 'Failed to assign worker');
       }
     } catch (error) {
       console.error('Error assigning worker:', error);
-      alert('Failed to assign worker');
+      alert('Error assigning worker');
     }
   };
 
-  const handleUpdateStatus = async (taskId, newStatus) => {
+  const handleUpdateTaskStatus = async (taskId, status) => {
     try {
       const response = await fetch(`http://localhost:5000/api/admin/tasks/${taskId}/status`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({ status: newStatus })
+        body: JSON.stringify({ status })
       });
 
       if (response.ok) {
+        const result = await response.json();
+        // Update the task in the local state
+        setTasks(tasks.map(task => 
+          task.id === taskId 
+            ? { ...task, status }
+            : task
+        ));
         alert('Task status updated successfully!');
-        fetchData(); // Refresh data
       } else {
         const error = await response.json();
-        alert(error.error || 'Failed to update status');
+        alert(error.error || 'Failed to update task status');
       }
     } catch (error) {
-      console.error('Error updating status:', error);
-      alert('Failed to update status');
+      console.error('Error updating task status:', error);
+      alert('Error updating task status');
     }
   };
 
@@ -108,148 +267,78 @@ const Admin = () => {
     }
   };
 
+  const renderDashboard = () => (
+    <AdminDashboard 
+      stats={stats} 
+      tasks={tasks} 
+      getStatusColor={getStatusColor} 
+    />
+  );
+
+  const renderManageTasks = () => (
+    <ManageTasks 
+      tasks={tasks} 
+      workers={workers}
+      getStatusColor={getStatusColor}
+      onAssignWorker={handleAssignWorker}
+      onUpdateStatus={handleUpdateTaskStatus}
+    />
+  );
+
+  const renderWorkers = () => (
+    <ManageWorkers 
+      workers={workers}
+      editingWorker={editingWorker}
+      showAddWorker={showAddWorker}
+      editForm={editForm}
+      newWorkerForm={newWorkerForm}
+      setShowAddWorker={setShowAddWorker}
+      setEditForm={setEditForm}
+      setNewWorkerForm={setNewWorkerForm}
+      handleEditWorker={handleEditWorker}
+      handleUpdateWorker={handleUpdateWorker}
+      handleCancelEdit={handleCancelEdit}
+      handleAddWorker={handleAddWorker}
+      handleCancelAdd={handleCancelAdd}
+    />
+  );
+
+  const renderUsers = () => (
+    <ManageUsers users={users} />
+  );
+
+  const renderContent = () => {
+    switch (activeMenu) {
+      case 'dashboard':
+        return renderDashboard();
+      case 'manage-tasks':
+        return renderManageTasks();
+      case 'workers':
+        return renderWorkers();
+      case 'users':
+        return renderUsers();
+      default:
+        return renderDashboard();
+    }
+  };
+
   if (loading) {
     return <div className="admin-loading">Loading...</div>;
   }
 
   return (
     <div className="admin-container">
-      {/* Bento Grid Background Elements */}
-      <div className="bento-element-1"></div>
-      <div className="bento-element-2"></div>
-      <div className="bento-element-3"></div>
-      <div className="bento-element-4"></div>
+      {/* Sidebar */}
+      <AdminSidebar 
+        activeMenu={activeMenu}
+        setActiveMenu={setActiveMenu}
+        handleLogout={handleLogout}
+      />
 
-      <div className="admin-header">
-        <h1 className="admin-title">Admin Dashboard</h1>
-        <p className="admin-subtitle">Manage Tasks & Workers</p>
+      {/* Main Content */}
+      <div className="admin-content">
+        {renderContent()}
       </div>
-
-      {/* Stats Cards */}
-      <div className="admin-stats">
-        <div className="stat-card">
-          <h3>Total Tasks</h3>
-          <p>{stats.totalTasks || 0}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Pending</h3>
-          <p>{stats.pendingTasks || 0}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Assigned</h3>
-          <p>{stats.assignedTasks || 0}</p>
-        </div>
-        <div className="stat-card">
-          <h3>In Progress</h3>
-          <p>{stats.doingTasks || 0}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Completed</h3>
-          <p>{stats.completedTasks || 0}</p>
-        </div>
-        <div className="stat-card">
-          <h3>Total Workers</h3>
-          <p>{stats.totalWorkers || 0}</p>
-        </div>
-      </div>
-
-      {/* Tasks Section */}
-      <div className="admin-section">
-        <h2 className="section-title">All Tasks</h2>
-        <div className="tasks-grid">
-          {tasks.map((task) => (
-            <div key={task.id} className="task-card">
-              <div className="task-header">
-                <h3>{task.title}</h3>
-                <span className={`status-badge ${getStatusColor(task.status)}`}>
-                  {task.status}
-                </span>
-              </div>
-              <p className="task-description">{task.description}</p>
-              <div className="task-details">
-                <p><strong>Price:</strong> ${task.price}</p>
-                <p><strong>Skills:</strong> {task.skillsRequired}</p>
-                <p><strong>Location:</strong> {task.location}</p>
-                <p><strong>Requested by:</strong> {task.requester?.firstname} {task.requester?.secondname}</p>
-                {task.assignedWorker && (
-                  <p><strong>Assigned to:</strong> {task.assignedWorker.firstname} {task.assignedWorker.secondname}</p>
-                )}
-              </div>
-              <div className="task-actions">
-                <button 
-                  className="assign-btn"
-                  onClick={() => {
-                    setSelectedTask(task);
-                    setShowAssignModal(true);
-                  }}
-                >
-                  Assign Worker
-                </button>
-                <div className="status-actions">
-                  <button 
-                    className="status-btn"
-                    onClick={() => handleUpdateStatus(task.id, 'pending')}
-                    disabled={task.status === 'pending'}
-                  >
-                    Pending
-                  </button>
-                  <button 
-                    className="status-btn"
-                    onClick={() => handleUpdateStatus(task.id, 'assigned')}
-                    disabled={task.status === 'assigned'}
-                  >
-                    Assigned
-                  </button>
-                  <button 
-                    className="status-btn"
-                    onClick={() => handleUpdateStatus(task.id, 'doing')}
-                    disabled={task.status === 'doing'}
-                  >
-                    Doing
-                  </button>
-                  <button 
-                    className="status-btn"
-                    onClick={() => handleUpdateStatus(task.id, 'completed')}
-                    disabled={task.status === 'completed'}
-                  >
-                    Completed
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Assign Worker Modal */}
-      {showAssignModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <h3>Assign Worker to Task</h3>
-            <p><strong>Task:</strong> {selectedTask?.title}</p>
-            <select 
-              value={selectedWorker} 
-              onChange={(e) => setSelectedWorker(e.target.value)}
-              className="worker-select"
-            >
-              <option value="">Select a worker</option>
-              {workers.map((worker) => (
-                <option key={worker.id} value={worker.id}>
-                  {worker.User?.firstname} {worker.User?.secondname} - {worker.skills}
-                </option>
-              ))}
-            </select>
-            <div className="modal-actions">
-              <button onClick={handleAssignWorker} className="confirm-btn">
-                Assign Worker
-              </button>
-              <button onClick={() => setShowAssignModal(false)} className="cancel-btn">
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

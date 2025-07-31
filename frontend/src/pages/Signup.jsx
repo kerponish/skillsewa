@@ -35,65 +35,77 @@ const Signup = () => {
     <div className="auth-wrapper">
       <div className="auth-card">
         <div className="auth-header">
-          <img src={logo} alt="Skills Sewa Logo" className="auth-logo" />
-          <h1 className="auth-title">SKILLS SEWA</h1>
-          <h2 className="auth-subtitle">Sign Up</h2>
+          <h1 className="auth-title">CREATE ACCOUNT</h1>
+          <h2 className="auth-subtitle">Join our community</h2>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
 
           {/* Username Field */}
           <div className="form-group">
-            <input
-              type="text"
-              {...register("username", { required: "Username is required" })}
-              placeholder="Username"
-              className="auth-input"
-            />
+            <div className="input-with-icon">
+              <span className="input-icon">👤</span>
+              <input
+                type="text"
+                {...register("username", { required: "Username is required" })}
+                placeholder="Username here"
+                className="auth-input"
+              />
+            </div>
             {errors.username && <p className="error-message">{errors.username.message}</p>}
           </div>
 
           {/* First Name and Last Name on the same line */}
           <div className="name-group">
             <div className="form-group name-input-wrapper">
-              <input
-                {...register("firstname", { required: "First name is required" })}
-                placeholder="First Name"
-                className="auth-input"
-              />
+              <div className="input-with-icon">
+                <span className="input-icon">👤</span>
+                <input
+                  {...register("firstname", { required: "First name is required" })}
+                  placeholder="First Name"
+                  className="auth-input"
+                />
+              </div>
               {errors.firstname && <p className="error-message">{errors.firstname.message}</p>}
             </div>
 
             <div className="form-group name-input-wrapper">
-              <input
-                {...register("secondname", { required: "Last name is required" })}
-                placeholder="Last Name"
-                className="auth-input"
-              />
+              <div className="input-with-icon">
+                <span className="input-icon">👤</span>
+                <input
+                  {...register("secondname", { required: "Last name is required" })}
+                  placeholder="Last Name"
+                  className="auth-input"
+                />
+              </div>
               {errors.secondname && <p className="error-message">{errors.secondname.message}</p>}
             </div>
           </div>
 
           <div className="form-group">
-            <input
-              type="email"
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  message: "Invalid email address"
-                }
-              })}
-              placeholder="Email"
-              className="auth-input"
-            />
+            <div className="input-with-icon">
+              <span className="input-icon">📧</span>
+              <input
+                type="email"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address"
+                  }
+                })}
+                placeholder="Email here"
+                className="auth-input"
+              />
+            </div>
             {errors.email && <p className="error-message">{errors.email.message}</p>}
           </div>
 
           {/* Password and Confirm Password on the same line */}
           <div className="name-group">
             <div className="form-group name-input-wrapper">
-              <div className="password-input-container">
+              <div className="input-with-icon">
+                <span className="input-icon">🔒</span>
                 <input
                   type="password"
                   {...register("password", {
@@ -103,43 +115,52 @@ const Signup = () => {
                   placeholder="Password"
                   className="auth-input"
                 />
-                <span className="password-toggle-icon"></span>
+                <span className="password-toggle-icon">👁️</span>
               </div>
               {errors.password && <p className="error-message">{errors.password.message}</p>}
             </div>
 
             <div className="form-group name-input-wrapper">
-              <input
-                type="password"
-                {...register("confirmPassword", {
-                  required: "Please confirm your password",
-                  validate: value => value === password || "Passwords do not match"
-                })}
-                placeholder="Confirm Password"
-                className="auth-input"
-              />
+              <div className="input-with-icon">
+                <span className="input-icon">🔒</span>
+                <input
+                  type="password"
+                  {...register("confirmPassword", {
+                    required: "Please confirm your password",
+                    validate: value => value === password || "Passwords do not match"
+                  })}
+                  placeholder="Confirm Password"
+                  className="auth-input"
+                />
+                <span className="password-toggle-icon">👁️</span>
+              </div>
               {errors.confirmPassword && <p className="error-message">{errors.confirmPassword.message}</p>}
             </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="dob" className="sr-only">Date of Birth</label>
-            <input
-              type="date"
-              id="dob"
-              {...register("dob", { required: "Date of birth is required" })}
-              className="auth-input"
-              title="Date of Birth"
-            />
+            <div className="input-with-icon">
+              <span className="input-icon">📅</span>
+              <input
+                type="date"
+                id="dob"
+                {...register("dob", { required: "Date of birth is required" })}
+                className="auth-input"
+                title="Date of Birth"
+              />
+            </div>
             {errors.dob && <p className="error-message">{errors.dob.message}</p>}
           </div>
 
-          <button type="submit" className="auth-button">Register</button>
+          <div style={{ display: 'flex', gap: '15px', width: '100%' }}>
+            <button type="submit" className="auth-button purple">
+              Register
+            </button>
+            <button type="button" className="auth-button" onClick={() => navigate('/login')}>
+              Login
+            </button>
+          </div>
         </form>
-
-        <p className="auth-footer-text">
-          Already have an account? <span className="auth-link" onClick={() => navigate("/login")}>Login</span>
-        </p>
       </div>
     </div>
   );

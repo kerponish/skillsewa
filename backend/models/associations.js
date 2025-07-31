@@ -7,27 +7,29 @@ User.hasMany(Post, {
   foreignKey: 'requestedBy', 
   as: 'requester' 
 });
-User.hasMany(Post, { 
-  foreignKey: 'assignedTo', 
-  as: 'assignedWorker' 
-});
 
 // Post associations
 Post.belongsTo(User, { 
   foreignKey: 'requestedBy', 
   as: 'requester' 
 });
-Post.belongsTo(User, { 
-  foreignKey: 'assignedTo', 
-  as: 'assignedWorker' 
-});
 
-// Worker associations
+// Worker associations with User
 Worker.belongsTo(User, { 
   foreignKey: 'userId' 
 });
 User.hasOne(Worker, { 
   foreignKey: 'userId' 
+});
+
+// Post associations with Worker for assignment
+Post.belongsTo(Worker, { 
+  foreignKey: 'assignedTo', 
+  as: 'assignedWorker' 
+});
+Worker.hasMany(Post, { 
+  foreignKey: 'assignedTo', 
+  as: 'assignedPosts' 
 });
 
 export { User, Post, Worker }; 

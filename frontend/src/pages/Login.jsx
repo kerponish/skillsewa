@@ -62,10 +62,8 @@ const Login = () => {
     <div className="auth-wrapper"> {/* Wrapper for the whole card */}
       <div className="auth-card">
         <div className="auth-header">
-          {/* Logo Section */}
-          <img src={logo} alt="Skills Sewa Logo" className="auth-logo" />
-          <h1 className="auth-title">SKILLS SEWA</h1>
-          <h2 className="auth-subtitle">Login</h2>
+          <h1 className="auth-title">WELCOME BACK!</h1>
+          <h2 className="auth-subtitle">Login to your account</h2>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
@@ -89,36 +87,42 @@ const Login = () => {
 
           {isAdminLogin ? (
             <div className="form-group">
-              <input
-                type="text"
-                {...register("username", { required: "Username is required" })}
-                placeholder="Username"
-                className="auth-input"
-              />
+              <div className="input-with-icon">
+                <span className="input-icon">👤</span>
+                <input
+                  type="text"
+                  {...register("username", { required: "Username is required" })}
+                  placeholder="Username here"
+                  className="auth-input"
+                />
+              </div>
               {errors.username && <p className="error-message">{errors.username.message}</p>}
             </div>
           ) : (
             <div className="form-group">
-              <input
-                type="email"
-                {...register("email", { required: "Email is required" })}
-                placeholder="Email"
-                className="auth-input"
-              />
+              <div className="input-with-icon">
+                <span className="input-icon">👤</span>
+                <input
+                  type="email"
+                  {...register("email", { required: "Email is required" })}
+                  placeholder="Email here"
+                  className="auth-input"
+                />
+              </div>
               {errors.email && <p className="error-message">{errors.email.message}</p>}
             </div>
           )}
 
           <div className="form-group">
-            <div className="password-input-container">
+            <div className="input-with-icon">
+              <span className="input-icon">🔒</span>
               <input
                 type="password"
                 {...register("password", { required: "Password is required" })}
                 placeholder="Password"
                 className="auth-input"
               />
-              {/* This is a placeholder for the eye icon, you might use an actual icon library like FontAwesome */}
-              <span className="password-toggle-icon"></span>
+              <span className="password-toggle-icon">👁️</span>
             </div>
             {errors.password && <p className="error-message">{errors.password.message}</p>}
           </div>
@@ -127,12 +131,17 @@ const Login = () => {
             <span onClick={() => navigate("/forgot-password")}>Forgot password?</span>
           </div>
 
-          <button type="submit" className="auth-button">Login</button>
+          <div style={{ display: 'flex', gap: '15px', width: '100%' }}>
+            <button type="submit" className="auth-button">
+              Login
+            </button>
+            <button type="button" className="auth-button purple" onClick={() => navigate('/signup')}>
+              Sign Up
+            </button>
+          </div>
         </form>
 
-        <p className="auth-footer-text">
-          Don't have an account? <span className="auth-link" onClick={() => navigate("/signup")}>Sign Up</span>
-        </p>
+
       </div>
     </div>
   );

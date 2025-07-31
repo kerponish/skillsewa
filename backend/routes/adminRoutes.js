@@ -2,9 +2,12 @@ import express from "express";
 import { 
   getAllTasks, 
   getAllWorkers, 
+  getAllUsers,
   assignWorkerToTask, 
   updateTaskStatus, 
-  getAdminStats 
+  getAdminStats,
+  updateWorker,
+  createWorker 
 } from "../controllers/adminController.js";
 
 const router = express.Router();
@@ -18,10 +21,19 @@ router.get("/tasks", getAllTasks);
 // Get all workers
 router.get("/workers", getAllWorkers);
 
+// Get all users
+router.get("/users", getAllUsers);
+
 // Assign worker to task
 router.post("/assign-worker", assignWorkerToTask);
 
 // Update task status
 router.put("/tasks/:taskId/status", updateTaskStatus);
+
+// Update worker information
+router.put("/workers/:workerId", updateWorker);
+
+// Create new worker
+router.post("/workers", createWorker);
 
 export default router; 

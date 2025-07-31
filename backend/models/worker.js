@@ -7,23 +7,30 @@ const Worker = sequelize.define("Worker", {
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
-    type: DataTypes.STRING,
+  userId: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  skill: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  contact: {
+  skills: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   experience: {
     type: DataTypes.STRING,
+    allowNull: true,
+  },
+  hourlyRate: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
   },
   location: {
     type: DataTypes.STRING,
+    allowNull: false,
+  },
+  availability: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: 'available',
   },
 });
 
