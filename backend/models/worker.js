@@ -7,9 +7,21 @@ const Worker = sequelize.define("Worker", {
     primaryKey: true,
     autoIncrement: true,
   },
-  userId: {
-    type: DataTypes.INTEGER,
+  firstname: {
+    type: DataTypes.STRING,
     allowNull: false,
+  },
+  secondname: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   skills: {
     type: DataTypes.STRING,

@@ -17,6 +17,7 @@ const Workers = () => {
         setWorkers(data);
       } catch (err) {
         setError('Could not load workers.');
+        console.error('Error fetching workers:', err);
       } finally {
         setLoading(false);
       }
@@ -38,22 +39,34 @@ const Workers = () => {
               <div className="worker-card" key={worker.id}>
                 <div className="worker-info-row">
                   <span className="worker-label">Name:</span>
-                  <span>{worker.name || worker.fullName || worker.username || '-'}</span>
+                  <span>{worker.firstname} {worker.secondname}</span>
                 </div>
                 <div className="worker-info-row">
-                  <span className="worker-label">Skill:</span>
-                  <span>{worker.skill || worker.skills || '-'}</span>
+                  <span className="worker-label">Skills:</span>
+                  <span>{worker.skills || 'N/A'}</span>
                 </div>
                 <div className="worker-info-row">
-                  <span className="worker-label">Number:</span>
-                  <span>{worker.number || worker.phone || '-'}</span>
+                  <span className="worker-label">Experience:</span>
+                  <span>{worker.experience || 'N/A'}</span>
                 </div>
-                {worker.location && (
-                  <div className="worker-info-row">
-                    <span className="worker-label">Location:</span>
-                    <span>{worker.location}</span>
-                  </div>
-                )}
+                <div className="worker-info-row">
+                  <span className="worker-label">Hourly Rate:</span>
+                  <span>${worker.hourlyRate || 'N/A'}</span>
+                </div>
+                <div className="worker-info-row">
+                  <span className="worker-label">Location:</span>
+                  <span>{worker.location || 'N/A'}</span>
+                </div>
+                <div className="worker-info-row">
+                  <span className="worker-label">Availability:</span>
+                  <span className={`availability-badge ${worker.availability === 'available' ? 'available' : 'unavailable'}`}>
+                    {worker.availability || 'N/A'}
+                  </span>
+                </div>
+                <div className="worker-info-row">
+                  <span className="worker-label">Contact:</span>
+                  <span>{worker.email || 'N/A'}</span>
+                </div>
               </div>
             ))
           )}

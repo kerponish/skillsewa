@@ -60,7 +60,7 @@ const ManageTasks = ({ tasks, getStatusColor, workers, onAssignWorker, onUpdateS
 
   const getAssignedWorkerName = (task) => {
     if (!task.assignedWorker) return 'Not assigned';
-    return `${task.assignedWorker.User.firstname} ${task.assignedWorker.User.secondname}`;
+    return `${task.assignedWorker.firstname} ${task.assignedWorker.secondname}`;
   };
 
   return (
@@ -130,11 +130,11 @@ const ManageTasks = ({ tasks, getStatusColor, workers, onAssignWorker, onUpdateS
                   className="form-select"
                 >
                   <option value="">Choose a worker...</option>
-                  {getAvailableWorkers().map(worker => (
-                    <option key={worker.id} value={worker.id}>
-                      {worker.User.firstname} {worker.User.secondname} - {worker.skills} (${worker.hourlyRate}/hr)
-                    </option>
-                  ))}
+                                     {getAvailableWorkers().map(worker => (
+                     <option key={worker.id} value={worker.id}>
+                       {worker.firstname} {worker.secondname} - {worker.skills} (${worker.hourlyRate}/hr)
+                     </option>
+                   ))}
                 </select>
               </div>
             </div>

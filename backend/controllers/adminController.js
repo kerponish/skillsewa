@@ -15,13 +15,7 @@ export const getAllTasks = async (req, res) => {
         },
         {
           model: Worker,
-          as: 'assignedWorker',
-          include: [
-            {
-              model: User,
-              attributes: ['id', 'username', 'firstname', 'secondname', 'email']
-            }
-          ]
+          as: 'assignedWorker'
         }
       ],
       order: [['createdAt', 'DESC']]
@@ -37,15 +31,7 @@ export const getAllTasks = async (req, res) => {
 // Get all workers
 export const getAllWorkers = async (req, res) => {
   try {
-    const workers = await Worker.findAll({
-      include: [
-        {
-          model: User,
-          attributes: ['id', 'username', 'firstname', 'secondname', 'email']
-        }
-      ]
-    });
-    
+    const workers = await Worker.findAll();
     res.json(workers);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -167,19 +153,9 @@ export const updateWorker = async (req, res) => {
     
     await worker.update(updateData);
     
-    // Fetch updated worker with user data
-    const updatedWorker = await Worker.findByPk(workerId, {
-      include: [
-        {
-          model: User,
-          attributes: ['id', 'username', 'firstname', 'secondname', 'email']
-        }
-      ]
-    });
-    
     res.json({ 
       message: 'Worker updated successfully',
-      worker: updatedWorker 
+      worker: worker 
     });
   } catch (err) {
     console.error('Error updating worker:', err);
@@ -197,63 +173,24 @@ export const createWorker = async (req, res) => {
       phone,
       skills,
       location,
-      hourlyRate,
-      username,
-      password
+      hourlyRate
     } = req.body;
 
-    // Check if user already exists
-    const existingUser = await User.findOne({
-      where: { 
-        $or: [
-          { email: email },
-          { username: username }
-        ]
-      }
-    });
-
-    if (existingUser) {
-      return res.status(400).json({ 
-        error: 'User with this email or username already exists' 
-      });
-    }
-
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user first
-    const user = await User.create({
-      username,
-      email,
+    // Create worker profile directly without User account
+    const worker = await Worker.create({
       firstname,
       secondname,
+      email,
       phone,
-      password: hashedPassword,
-      role: 'worker'
-    });
-
-    // Create worker profile
-    const worker = await Worker.create({
-      userId: user.id,
       skills,
       location,
       hourlyRate: parseFloat(hourlyRate),
       availability: 'available'
     });
 
-    // Fetch the complete worker data with user info
-    const completeWorker = await Worker.findByPk(worker.id, {
-      include: [
-        {
-          model: User,
-          attributes: ['id', 'username', 'firstname', 'secondname', 'email', 'phone']
-        }
-      ]
-    });
-
     res.status(201).json({
       message: 'Worker created successfully',
-      worker: completeWorker
+      worker: worker
     });
   } catch (err) {
     console.error('Error creating worker:', err);

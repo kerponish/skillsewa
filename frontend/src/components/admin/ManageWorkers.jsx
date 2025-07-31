@@ -73,26 +73,7 @@ const ManageWorkers = ({
                 />
               </div>
             </div>
-            <div className="form-row">
-              <div className="edit-form-group">
-                <label>Username:</label>
-                <input
-                  type="text"
-                  value={newWorkerForm.username}
-                  onChange={(e) => setNewWorkerForm({...newWorkerForm, username: e.target.value})}
-                  placeholder="Username"
-                />
-              </div>
-              <div className="edit-form-group">
-                <label>Password:</label>
-                <input
-                  type="password"
-                  value={newWorkerForm.password}
-                  onChange={(e) => setNewWorkerForm({...newWorkerForm, password: e.target.value})}
-                  placeholder="Password"
-                />
-              </div>
-            </div>
+
             <div className="form-row">
               <div className="edit-form-group">
                 <label>Skills:</label>
@@ -146,7 +127,7 @@ const ManageWorkers = ({
             {editingWorker?.id === worker.id ? (
               // Edit Mode
               <div className="worker-edit-form">
-                <h3>{worker.User?.firstname} {worker.User?.secondname}</h3>
+                <h3>{worker.firstname} {worker.secondname}</h3>
                 <div className="edit-form-group">
                   <label>Skills:</label>
                   <input
@@ -204,13 +185,13 @@ const ManageWorkers = ({
             ) : (
               // View Mode
               <div className="worker-info">
-                <h3>{worker.User?.firstname} {worker.User?.secondname}</h3>
+                <h3>{worker.firstname} {worker.secondname}</h3>
                 <p><strong>Skills:</strong> {worker.skills || 'Not specified'}</p>
                 <p><strong>Experience:</strong> {worker.experience || 'Not specified'}</p>
                 <p><strong>Hourly Rate:</strong> ${worker.hourlyRate || 'Not specified'}</p>
                 <p><strong>Availability:</strong> {worker.availability || 'Not specified'}</p>
-                <p><strong>Email:</strong> {worker.User?.email}</p>
-                <p><strong>Phone:</strong> {worker.User?.phone || 'Not specified'}</p>
+                <p><strong>Email:</strong> {worker.email}</p>
+                <p><strong>Phone:</strong> {worker.phone || 'Not specified'}</p>
                 <div className="worker-actions">
                   <button 
                     className="action-btn edit-btn"
@@ -220,7 +201,7 @@ const ManageWorkers = ({
                   </button>
                   <button 
                     className="action-btn view-btn"
-                    onClick={() => alert(`Viewing details for ${worker.User?.firstname} ${worker.User?.secondname}`)}
+                    onClick={() => alert(`Viewing details for ${worker.firstname} ${worker.secondname}`)}
                   >
                     View Details
                   </button>

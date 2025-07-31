@@ -36,9 +36,7 @@ const Admin = () => {
     phone: '',
     skills: '',
     location: '',
-    hourlyRate: '',
-    username: '',
-    password: ''
+    hourlyRate: ''
   });
 
   useEffect(() => {
@@ -51,11 +49,17 @@ const Admin = () => {
 
   const fetchDashboardData = async () => {
     try {
+      const token = localStorage.getItem('token');
+      const headers = {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+
       const [tasksRes, workersRes, usersRes, statsRes] = await Promise.all([
-        fetch('http://localhost:5000/api/admin/tasks'),
-        fetch('http://localhost:5000/api/admin/workers'),
-        fetch('http://localhost:5000/api/admin/users'),
-        fetch('http://localhost:5000/api/admin/stats')
+        fetch('http://localhost:5000/api/admin/tasks', { headers }),
+        fetch('http://localhost:5000/api/admin/workers', { headers }),
+        fetch('http://localhost:5000/api/admin/users', { headers }),
+        fetch('http://localhost:5000/api/admin/stats', { headers })
       ]);
 
       const tasksData = await tasksRes.json();
@@ -162,9 +166,7 @@ const Admin = () => {
           phone: '',
           skills: '',
           location: '',
-          hourlyRate: '',
-          username: '',
-          password: ''
+          hourlyRate: ''
         });
         alert('Worker added successfully!');
       } else {
@@ -185,9 +187,7 @@ const Admin = () => {
       phone: '',
       skills: '',
       location: '',
-      hourlyRate: '',
-      username: '',
-      password: ''
+      hourlyRate: ''
     });
   };
 

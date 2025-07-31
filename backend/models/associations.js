@@ -14,14 +14,6 @@ Post.belongsTo(User, {
   as: 'requester' 
 });
 
-// Worker associations with User
-Worker.belongsTo(User, { 
-  foreignKey: 'userId' 
-});
-User.hasOne(Worker, { 
-  foreignKey: 'userId' 
-});
-
 // Post associations with Worker for assignment
 Post.belongsTo(Worker, { 
   foreignKey: 'assignedTo', 

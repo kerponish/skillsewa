@@ -9,8 +9,12 @@ import {
   updateWorker,
   createWorker 
 } from "../controllers/adminController.js";
+import { requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
+
+// Apply admin authentication to all routes
+router.use(requireAdmin);
 
 // Admin dashboard stats
 router.get("/stats", getAdminStats);
