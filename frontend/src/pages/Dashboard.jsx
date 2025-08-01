@@ -6,6 +6,7 @@ import Profile from './Profile';
 import AddPost from './AddPost';
 import Task from './Task';
 import Workers from './Workers';
+import ContactUs from './ContactUs';
 import {
   FaTachometerAlt, FaUserCircle, FaUsers, FaTasks,
   FaHeadset, FaSignOutAlt, FaSearch, FaPlusCircle
@@ -159,9 +160,9 @@ const Dashboard = () => {
                   ) : (
                     workers.map((worker, index) => (
                       <tr key={worker.id || index}>
-                        <td>{worker.name || worker.fullName || worker.username || '-'}</td>
-                        <td>{worker.skill || worker.skills || '-'}</td>
-                        <td>{worker.number || worker.phone || '-'}</td>
+                        <td>{worker.firstname && worker.secondname ? `${worker.firstname} ${worker.secondname}` : worker.firstname || worker.secondname || '-'}</td>
+                        <td>{worker.skills || '-'}</td>
+                        <td>{worker.phone || '-'}</td>
                       </tr>
                     ))
                   )}
@@ -177,6 +178,8 @@ const Dashboard = () => {
       return <Task userId={CURRENT_USER_ID} />;
     } else if (activeMenuItem === 'worker') {
       return <Workers />;
+    } else if (activeMenuItem === 'contactUs') {
+      return <ContactUs />;
     }
     // You can add more conditions here for other menu items if needed
     return null;

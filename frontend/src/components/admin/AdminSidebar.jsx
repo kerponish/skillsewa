@@ -1,9 +1,13 @@
 import React from 'react';
 import './AdminSidebar.css';
 
-const AdminSidebar = ({ activeMenu, setActiveMenu, handleLogout }) => {
+const AdminSidebar = ({ activeMenu, setActiveMenu, handleLogout, sidebarOpen, toggleSidebar }) => {
   return (
-    <div className="admin-sidebar">
+    <div className={`admin-sidebar ${sidebarOpen ? 'sidebar-open' : 'sidebar-closed'}`}>
+      <div className="sidebar-toggle-btn" onClick={toggleSidebar}>
+        <span className="toggle-icon">{sidebarOpen ? '◀' : '▶'}</span>
+      </div>
+      
       <div className="sidebar-logo">
         <div className="logo-icon">🤝</div>
         <h2 className="logo-text">SKILLS SEWA</h2>

@@ -14,7 +14,8 @@ const ManageWorkers = ({
   handleUpdateWorker,
   handleCancelEdit,
   handleAddWorker,
-  handleCancelAdd
+  handleCancelAdd,
+  handleDeleteWorker
 }) => {
   return (
     <div className="admin-main-content">
@@ -204,6 +205,12 @@ const ManageWorkers = ({
                     onClick={() => alert(`Viewing details for ${worker.firstname} ${worker.secondname}`)}
                   >
                     View Details
+                  </button>
+                  <button 
+                    className="action-btn delete-btn"
+                    onClick={() => handleDeleteWorker(worker.id)}
+                  >
+                    Delete Worker
                   </button>
                 </div>
               </div>

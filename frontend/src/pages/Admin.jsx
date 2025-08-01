@@ -12,6 +12,7 @@ const Admin = () => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState('dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const [stats, setStats] = useState({
     totalUsers: 0,
     totalWorkers: 0,
@@ -87,6 +88,10 @@ const Admin = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
     navigate('/login');
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
   };
 
   const handleEditWorker = (worker) => {
@@ -189,6 +194,34 @@ const Admin = () => {
       location: '',
       hourlyRate: ''
     });
+  };
+
+  const handleDeleteWorker = async (workerId) => {
+    if (!window.confirm('Are you sure you want to delete this worker? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/workers/${workerId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (response.ok) {
+        // Remove the worker from the local state
+        setWorkers(workers.filter(worker => worker.id !== workerId));
+        alert('Worker deleted successfully!');
+      } else {
+        const error = await response.json();
+        alert(error.message || 'Failed to delete worker');
+      }
+    } catch (error) {
+      console.error('Error deleting worker:', error);
+      alert('Error deleting worker');
+    }
   };
 
   const handleAssignWorker = async (taskId, workerId) => {
@@ -300,6 +333,7 @@ const Admin = () => {
       handleCancelEdit={handleCancelEdit}
       handleAddWorker={handleAddWorker}
       handleCancelAdd={handleCancelAdd}
+      handleDeleteWorker={handleDeleteWorker}
     />
   );
 
@@ -333,6 +367,8 @@ const Admin = () => {
         activeMenu={activeMenu}
         setActiveMenu={setActiveMenu}
         handleLogout={handleLogout}
+        sidebarOpen={sidebarOpen}
+        toggleSidebar={toggleSidebar}
       />
 
       {/* Main Content */}
